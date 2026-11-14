@@ -181,14 +181,17 @@
     if ((m = s.match(/^(\d*)([½⅓⅔¼¾⅛⅕])$/))) return (m[1] ? +m[1] : 0) + VULGAR[m[2]];
     return parseFloat(s);
   }
+  const MEASURED = /^(cups?|c|tsps?|teaspoons?|tbsps?|tablespoons?|tbs|tblsps?|oz|ounces?|lbs?|pounds?|pinch(es)?|handfuls?|dash(es)?|drops?)$/;
   function fmt(n, unit) {
     if (!isFinite(n) || n <= 0) return "";
     const u = (unit || "").toLowerCase();
     if (/^(g|grams?|ml|millilit(re|er)s?)$/.test(u)) {
-      const step = n >= 100 ? 10 : 5;
+      const step = n >= 500 ? 50 : n >= 100 ? 10 : 5;
       return String(Math.max(step, Math.round(n / step) * step));
     }
     if (/^(kg|l|lit(re|er)s?)$/.test(u)) return String(Math.round(n * 10) / 10);
+    // things you count (onions, cloves, eggs, pods, cans): no "4¾ onions"
+    if (!MEASURED.test(u)) n = n < 1 ? Math.max(0.25, Math.round(n * 4) / 4) : n < 3 ? Math.round(n * 2) / 2 : Math.round(n);
     const whole = Math.floor(n + 1e-9);
     const frac = n - whole;
     const opts = [[0, ""], [0.25, "¼"], [1 / 3, "⅓"], [0.5, "½"], [2 / 3, "⅔"], [0.75, "¾"], [1, ""]];
@@ -209,7 +212,7 @@
       const unit = (rest.match(/^\s*([a-zA-Z]+)/) || [])[1];
       const a = fmt(num(m[1]) * factor, unit);
       const b = m[2] ? fmt(num(m[2]) * factor, unit) : "";
-      const top = num(m[2] || m[1]) * factor;
+      const top = num(b || a) || 0; // the rounded amount decides "onion" vs "onions"
       let fixed = rest.replace(/^(\s*)(cup|can|tin|clove|slice|piece|stick|bunch)(e?s)?\b/i, (all, sp, u) => sp + u + (top > 1.01 ? (/h$/i.test(u) ? "es" : "s") : ""));
       // count nouns: "1 onion" x2 -> "2 onions", "2 onions" x0.5 -> "1 onion"
       fixed = fixed.replace(/^(\s+(?:(?:small|medium|large|big|ripe|red|green|white|whole|very ripe)\s+)?)([a-z]+)\b/i, (all, pre, w) => {
