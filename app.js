@@ -628,6 +628,11 @@
     toast(plural(items.length, "item") + " added to your shopping list");
   }
   function shopText() { return "Shopping list\n" + S.shop.map((s) => "• " + s.label).join("\n"); }
+  // WhatsApp message: a checklist you can tick off while ordering
+  function whatsAppText() {
+    const d = new Date().toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+    return `🛒 Shopping list (${d})\n\n` + S.shop.map((s) => "☐ " + s.label).join("\n") + `\n\n${plural(S.shop.length, "item")} · from My Kitchen`;
+  }
 
   // ---------- grocery stores (opens the store's own search; you add to cart and check out there) ----------
   const STORES = {
@@ -669,6 +674,8 @@
     $("#shopModeBtn").hidden = !S.shop.length;
     $("#shopModeBtn").textContent = `Shop my list at ${store().name}`;
     $("#shopShare").textContent = navigator.share ? "Share list" : "Copy list";
+    // wa.me opens WhatsApp with the text ready; you pick the chat (yourself, family, a shop)
+    $("#shopWhatsApp").href = "https://wa.me/?text=" + encodeURIComponent(whatsAppText());
   }
   // step-by-step: one item at a time
   function openShopMode() {
