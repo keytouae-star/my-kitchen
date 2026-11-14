@@ -1,11 +1,31 @@
 {
-  "version": 1,
+  "version": 2,
   "updated": "2026-11-15",
   "recipes": [
     {
-      "id": "shakshuka", "name": "Shakshuka", "cuisine": "Middle Eastern", "minutes": 25, "serves": 2, "diet": "veg", "equipment": ["stove"],
-      "need": ["1 onion, chopped", "2 cloves garlic, sliced", "4 tomatoes or 1 can chopped tomatoes", "4 eggs", "1 tsp cumin", "1 tsp paprika"],
-      "extra": ["1 bell pepper, sliced", "50 g feta, crumbled", "a handful of parsley", "flatbread, to serve"],
+      "id": "shakshuka",
+      "name": "Shakshuka",
+      "cuisine": "Middle Eastern",
+      "minutes": 25,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "1 onion, chopped",
+        "2 cloves garlic, sliced",
+        "4 tomatoes or 1 can chopped tomatoes",
+        "4 eggs",
+        "1 tsp cumin",
+        "1 tsp paprika"
+      ],
+      "extra": [
+        "1 bell pepper, sliced",
+        "50 g feta, crumbled",
+        "a handful of parsley",
+        "flatbread, to serve"
+      ],
       "steps": [
         "Heat 2 tbsp oil in a wide pan over medium heat. Add the onion (and pepper) and cook 5 minutes until soft.",
         "Add the garlic, cumin and paprika and stir for 1 minute.",
@@ -16,9 +36,27 @@
       "tip": "If the sauce gets too thick before the eggs go in, add a splash of water."
     },
     {
-      "id": "hummus", "name": "Hummus", "cuisine": "Middle Eastern", "minutes": 10, "serves": 4, "diet": "vegan", "equipment": ["blender"],
-      "need": ["1 can chickpeas, drained (keep the liquid)", "3 tbsp tahini", "1 lemon, juiced", "1 clove garlic"],
-      "extra": ["½ tsp cumin", "a pinch of paprika, to finish", "a little parsley, to finish", "flatbread, to serve"],
+      "id": "hummus",
+      "name": "Hummus",
+      "cuisine": "Middle Eastern",
+      "minutes": 10,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "blender"
+      ],
+      "need": [
+        "1 can chickpeas, drained (keep the liquid)",
+        "3 tbsp tahini",
+        "1 lemon, juiced",
+        "1 clove garlic"
+      ],
+      "extra": [
+        "½ tsp cumin",
+        "a pinch of paprika, to finish",
+        "a little parsley, to finish",
+        "flatbread, to serve"
+      ],
       "steps": [
         "Put the chickpeas, tahini, lemon juice, garlic, cumin and ½ tsp salt in the blender.",
         "Blend for 1 minute, adding 3–4 tbsp of the chickpea liquid or cold water, until very smooth.",
@@ -28,9 +66,29 @@
       "tip": "For extra smooth hummus, blend for a full 3 minutes and use ice-cold water."
     },
     {
-      "id": "lentil_soup", "name": "Lentil soup (Shorbat adas)", "cuisine": "Middle Eastern", "minutes": 35, "serves": 4, "diet": "vegan", "equipment": ["stove"],
-      "need": ["1 cup red lentils, rinsed", "1 onion, chopped", "1 carrot, chopped", "2 cloves garlic", "1½ tsp cumin"],
-      "extra": ["1 potato, diced", "1 stock cube", "½ tsp turmeric", "1 lemon, in wedges", "toasted flatbread, to serve"],
+      "id": "lentil_soup",
+      "name": "Lentil soup (Shorbat adas)",
+      "cuisine": "Middle Eastern",
+      "minutes": 35,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "1 cup red lentils, rinsed",
+        "1 onion, chopped",
+        "1 carrot, chopped",
+        "2 cloves garlic",
+        "1½ tsp cumin"
+      ],
+      "extra": [
+        "1 potato, diced",
+        "1 stock cube",
+        "½ tsp turmeric",
+        "1 lemon, in wedges",
+        "toasted flatbread, to serve"
+      ],
       "steps": [
         "Heat 2 tbsp oil in a pot. Cook the onion, carrot (and potato) for 5 minutes.",
         "Add the garlic, cumin and turmeric and stir for 1 minute.",
@@ -38,12 +96,36 @@
         "Blend until smooth, or whisk hard if you have no blender. Add salt to taste.",
         "Serve with lemon wedges and toasted bread."
       ],
-      "tip": "Thick soup? Add hot water a little at a time."
+      "tip": "Thick soup? Add hot water a little at a time.",
+      "pressure": "Fry the onion, carrot, garlic and spices in the pot. Add the lentils, potato, stock cube and 5 cups water. Cook 8 minutes at high pressure, let the pressure drop by itself (about 10 minutes), then blend. Never fill the pot more than half full."
     },
     {
-      "id": "shawarma_wraps", "name": "Chicken shawarma wraps", "cuisine": "Middle Eastern", "minutes": 35, "serves": 4, "diet": "meat", "equipment": ["stove|oven|airfryer"],
-      "need": ["500 g chicken thighs or breast, in strips", "3 tbsp yogurt", "3 cloves garlic, crushed", "1 lemon", "1 tsp cumin", "1 tsp paprika", "4 flatbreads or tortillas"],
-      "extra": ["½ tsp turmeric", "¼ tsp cinnamon", "1 cucumber, sliced", "2 tomatoes, sliced", "lettuce", "3 tbsp tahini or mayonnaise, for the sauce"],
+      "id": "shawarma_wraps",
+      "name": "Chicken shawarma wraps",
+      "cuisine": "Middle Eastern",
+      "minutes": 35,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove|oven|airfryer"
+      ],
+      "need": [
+        "500 g chicken thighs or breast, in strips",
+        "3 tbsp yogurt",
+        "3 cloves garlic, crushed",
+        "1 lemon",
+        "1 tsp cumin",
+        "1 tsp paprika",
+        "4 flatbreads or tortillas"
+      ],
+      "extra": [
+        "½ tsp turmeric",
+        "¼ tsp cinnamon",
+        "1 cucumber, sliced",
+        "2 tomatoes, sliced",
+        "lettuce",
+        "3 tbsp tahini or mayonnaise, for the sauce"
+      ],
       "steps": [
         "Mix the yogurt, 2 cloves of the garlic, the juice of half the lemon, the spices, 1 tbsp oil and ½ tsp salt. Stir in the chicken and leave 10 minutes (or overnight in the fridge).",
         "Cook the chicken: in a hot pan with a little oil for 8 minutes, turning, until charred at the edges. Air fryer: 200°C for 12 minutes, shaking halfway. Oven: 220°C for 20 minutes.",
@@ -53,9 +135,28 @@
       "tip": "Thighs stay juicier than breast."
     },
     {
-      "id": "kofta", "name": "Kofta skewers", "cuisine": "Middle Eastern", "minutes": 25, "serves": 4, "diet": "meat", "equipment": ["stove|oven|airfryer"],
-      "need": ["500 g minced beef or minced lamb", "1 small onion, grated", "a big handful of parsley, finely chopped", "1 tsp cumin"],
-      "extra": ["1 tsp paprika", "1 tsp baharat", "flatbread, to serve", "yogurt, to serve", "1 cucumber, to serve"],
+      "id": "kofta",
+      "name": "Kofta skewers",
+      "cuisine": "Middle Eastern",
+      "minutes": 25,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove|oven|airfryer"
+      ],
+      "need": [
+        "500 g minced beef or minced lamb",
+        "1 small onion, grated",
+        "a big handful of parsley, finely chopped",
+        "1 tsp cumin"
+      ],
+      "extra": [
+        "1 tsp paprika",
+        "1 tsp baharat",
+        "flatbread, to serve",
+        "yogurt, to serve",
+        "1 cucumber, to serve"
+      ],
       "steps": [
         "Squeeze the grated onion to drain its juice. Mix it with the meat, parsley, spices and 1 tsp salt. Knead for 2 minutes.",
         "Shape into 12 fingers with wet hands.",
@@ -65,9 +166,25 @@
       "tip": "Chill the shaped kofta 15 minutes if they feel soft; they hold together better."
     },
     {
-      "id": "mujaddara", "name": "Mujaddara (lentils and rice)", "cuisine": "Middle Eastern", "minutes": 45, "serves": 4, "diet": "vegan", "equipment": ["stove"],
-      "need": ["1 cup brown or green lentils", "1 cup rice", "3 onions, thinly sliced", "1 tsp cumin"],
-      "extra": ["yogurt, to serve", "a salad of cucumber or tomato, to serve"],
+      "id": "mujaddara",
+      "name": "Mujaddara (lentils and rice)",
+      "cuisine": "Middle Eastern",
+      "minutes": 45,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "1 cup brown or green lentils",
+        "1 cup rice",
+        "3 onions, thinly sliced",
+        "1 tsp cumin"
+      ],
+      "extra": [
+        "yogurt, to serve",
+        "a salad of cucumber or tomato, to serve"
+      ],
       "steps": [
         "Cover the lentils with water and boil for 15 minutes until almost tender. Drain.",
         "Meanwhile fry the onions in 4 tbsp oil over medium heat for 20 minutes, stirring, until deep brown. Lift out half for the top.",
@@ -75,12 +192,34 @@
         "Add the lentils, 2 cups water and 1 tsp salt. Cover and cook on low for 15 minutes.",
         "Rest 5 minutes off the heat, fluff with a fork and top with the crispy onions."
       ],
-      "tip": "Don't rush the onions: their dark colour is the flavour of the dish. Red lentils go mushy here."
+      "tip": "Don't rush the onions: their dark colour is the flavour of the dish. Red lentils go mushy here.",
+      "pressure": "Cook the brown or green lentils in 3 cups water for 8 minutes at high pressure instead of boiling them for 15. Release the pressure, drain, and carry on from step 3."
     },
     {
-      "id": "fattoush", "name": "Fattoush salad", "cuisine": "Middle Eastern", "minutes": 15, "serves": 4, "diet": "vegan", "equipment": ["stove|oven|airfryer"],
-      "need": ["2 flatbreads, torn into pieces", "2 cucumbers, chopped", "3 tomatoes, chopped", "lettuce, chopped", "1 lemon, juiced"],
-      "extra": ["4 spring onions, sliced", "a handful of mint", "a handful of parsley", "1 tsp sumac", "1 tbsp pomegranate molasses", "1 bell pepper, chopped"],
+      "id": "fattoush",
+      "name": "Fattoush salad",
+      "cuisine": "Middle Eastern",
+      "minutes": 15,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove|oven|airfryer"
+      ],
+      "need": [
+        "2 flatbreads, torn into pieces",
+        "2 cucumbers, chopped",
+        "3 tomatoes, chopped",
+        "lettuce, chopped",
+        "1 lemon, juiced"
+      ],
+      "extra": [
+        "4 spring onions, sliced",
+        "a handful of mint",
+        "a handful of parsley",
+        "1 tsp sumac",
+        "1 tbsp pomegranate molasses",
+        "1 bell pepper, chopped"
+      ],
       "steps": [
         "Toss the bread pieces with 1 tbsp oil. Toast in a pan for 5 minutes, or air fry at 180°C for 5 minutes, until crisp.",
         "Put all the vegetables and herbs in a big bowl.",
@@ -90,9 +229,28 @@
       "tip": "Add the bread at the last minute so it stays crunchy."
     },
     {
-      "id": "foul", "name": "Foul medames", "cuisine": "Middle Eastern", "minutes": 10, "serves": 2, "diet": "vegan", "equipment": ["stove"],
-      "need": ["1 can fava beans", "1 clove garlic, crushed", "1 lemon, juiced", "1 tsp cumin"],
-      "extra": ["1 tomato, diced", "a little parsley", "1 green chili, chopped", "1 tbsp tahini", "flatbread, to serve"],
+      "id": "foul",
+      "name": "Foul medames",
+      "cuisine": "Middle Eastern",
+      "minutes": 10,
+      "serves": 2,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "1 can fava beans",
+        "1 clove garlic, crushed",
+        "1 lemon, juiced",
+        "1 tsp cumin"
+      ],
+      "extra": [
+        "1 tomato, diced",
+        "a little parsley",
+        "1 green chili, chopped",
+        "1 tbsp tahini",
+        "flatbread, to serve"
+      ],
       "steps": [
         "Warm the beans with their liquid in a small pot for 5 minutes.",
         "Mash about half of them with a fork.",
@@ -102,9 +260,33 @@
       "tip": "A spoon of tahini makes it creamier."
     },
     {
-      "id": "machboos", "name": "Chicken machboos", "cuisine": "Middle Eastern", "minutes": 70, "serves": 4, "diet": "meat", "equipment": ["stove"],
-      "need": ["1 kg chicken pieces", "2 cups basmati rice, soaked 20 minutes", "2 onions, sliced", "3 cloves garlic", "2 tomatoes, chopped", "2 tsp baharat", "½ tsp turmeric"],
-      "extra": ["1 tbsp ginger, grated", "1 cinnamon stick", "4 cardamom pods", "2 dried limes or 1 lemon", "1 green chili", "a handful of coriander", "2 tbsp raisins"],
+      "id": "machboos",
+      "name": "Chicken machboos",
+      "cuisine": "Middle Eastern",
+      "minutes": 70,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "1 kg chicken pieces",
+        "2 cups basmati rice, soaked 20 minutes",
+        "2 onions, sliced",
+        "3 cloves garlic",
+        "2 tomatoes, chopped",
+        "2 tsp baharat",
+        "½ tsp turmeric"
+      ],
+      "extra": [
+        "1 tbsp ginger, grated",
+        "1 cinnamon stick",
+        "4 cardamom pods",
+        "2 dried limes or 1 lemon",
+        "1 green chili",
+        "a handful of coriander",
+        "2 tbsp raisins"
+      ],
       "steps": [
         "Heat 3 tbsp oil in a big pot and fry the onions 10 minutes until golden.",
         "Add the garlic, ginger, baharat, turmeric, cinnamon and cardamom and stir 1 minute.",
@@ -113,12 +295,30 @@
         "Cover and cook on the lowest heat for 20 minutes.",
         "Meanwhile brown the chicken under the oven grill or in the air fryer at 200°C for 8 minutes. Serve on top of the rice with coriander and raisins."
       ],
-      "tip": "Dried limes (loomi) give the real Gulf taste."
+      "tip": "Dried limes (loomi) give the real Gulf taste.",
+      "pressure": "After browning the chicken (step 3), add the tomatoes, limes, salt and 3½ cups water and cook 10 minutes at high pressure instead of simmering for 30. Release the pressure, then carry on from step 4."
     },
     {
-      "id": "batata_harra", "name": "Batata harra (spicy potatoes)", "cuisine": "Middle Eastern", "minutes": 30, "serves": 4, "diet": "vegan", "equipment": ["oven|airfryer|stove"],
-      "need": ["4 potatoes, in cubes", "4 cloves garlic, crushed", "a big handful of coriander, chopped", "1 tsp chili powder"],
-      "extra": ["1 lemon", "1 green chili, chopped", "1 tsp paprika"],
+      "id": "batata_harra",
+      "name": "Batata harra (spicy potatoes)",
+      "cuisine": "Middle Eastern",
+      "minutes": 30,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "oven|airfryer|stove"
+      ],
+      "need": [
+        "4 potatoes, in cubes",
+        "4 cloves garlic, crushed",
+        "a big handful of coriander, chopped",
+        "1 tsp chili powder"
+      ],
+      "extra": [
+        "1 lemon",
+        "1 green chili, chopped",
+        "1 tsp paprika"
+      ],
       "steps": [
         "Toss the potatoes with 2 tbsp oil and ½ tsp salt.",
         "Cook until golden: air fryer 200°C for 18 minutes, shaking twice; or oven 220°C for 30 minutes; or shallow-fry in a pan for 15 minutes.",
@@ -128,9 +328,30 @@
       "tip": "Dry the potato cubes well before oiling; they crisp better."
     },
     {
-      "id": "masoor_dal", "name": "Masoor dal", "cuisine": "Indian / Pakistani", "minutes": 30, "serves": 4, "diet": "vegan", "equipment": ["stove"],
-      "need": ["1 cup red lentils, rinsed", "1 onion, chopped", "3 cloves garlic", "2 tomatoes or ½ can chopped tomatoes", "½ tsp turmeric", "1 tsp cumin"],
-      "extra": ["1 tbsp ginger, grated", "1 green chili", "a handful of coriander", "½ lemon", "rice, to serve"],
+      "id": "masoor_dal",
+      "name": "Masoor dal",
+      "cuisine": "Indian / Pakistani",
+      "minutes": 30,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "1 cup red lentils, rinsed",
+        "1 onion, chopped",
+        "3 cloves garlic",
+        "2 tomatoes or ½ can chopped tomatoes",
+        "½ tsp turmeric",
+        "1 tsp cumin"
+      ],
+      "extra": [
+        "1 tbsp ginger, grated",
+        "1 green chili",
+        "a handful of coriander",
+        "½ lemon",
+        "rice, to serve"
+      ],
       "steps": [
         "Boil the lentils with 3 cups water and the turmeric. Simmer 20 minutes until soft, skimming off any foam.",
         "Meanwhile heat 2 tbsp oil and fry the onion 8 minutes until golden.",
@@ -138,12 +359,35 @@
         "Stir the onion mix into the lentils with 1 tsp salt and simmer 5 minutes.",
         "Finish with lemon juice and coriander. Serve with rice."
       ],
-      "tip": "Ghee instead of oil in the frying step gives a richer dal."
+      "tip": "Ghee instead of oil in the frying step gives a richer dal.",
+      "pressure": "Fry the onion, garlic, ginger, chili and cumin in the pot first. Add the tomatoes, the rinsed lentils, turmeric, 1 tsp salt and 2½ cups water. Lock the lid and cook 6 minutes at high pressure, then let the pressure drop by itself (about 10 minutes). Stir well and finish with lemon and coriander. Lentils foam, so never fill the pot more than half full."
     },
     {
-      "id": "chicken_curry", "name": "Chicken curry", "cuisine": "Indian / Pakistani", "minutes": 45, "serves": 4, "diet": "meat", "equipment": ["stove"],
-      "need": ["500 g chicken, in chunks", "2 onions, chopped", "4 cloves garlic", "1 tbsp ginger, grated", "2 tomatoes or ½ can chopped tomatoes", "2 tsp garam masala or curry powder"],
-      "extra": ["½ tsp turmeric", "1 tsp chili powder", "½ cup yogurt or coconut milk", "1 green chili", "a handful of coriander", "rice or naan, to serve"],
+      "id": "chicken_curry",
+      "name": "Chicken curry",
+      "cuisine": "Indian / Pakistani",
+      "minutes": 45,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "500 g chicken, in chunks",
+        "2 onions, chopped",
+        "4 cloves garlic",
+        "1 tbsp ginger, grated",
+        "2 tomatoes or ½ can chopped tomatoes",
+        "2 tsp garam masala or curry powder"
+      ],
+      "extra": [
+        "½ tsp turmeric",
+        "1 tsp chili powder",
+        "½ cup yogurt or coconut milk",
+        "1 green chili",
+        "a handful of coriander",
+        "rice or naan, to serve"
+      ],
       "steps": [
         "Heat 3 tbsp oil and fry the onions 10 minutes until golden brown.",
         "Add the garlic, ginger and chili and cook 1 minute. Add the spices and stir 30 seconds.",
@@ -151,12 +395,35 @@
         "Add the chicken and stir to coat. Add ½ cup water, cover and simmer 20 minutes.",
         "Stir in the yogurt or coconut milk and heat gently for 2 minutes without boiling. Top with coriander."
       ],
-      "tip": "Take the pan off the heat before adding yogurt so it doesn't split."
+      "tip": "Take the pan off the heat before adding yogurt so it doesn't split.",
+      "pressure": "Make the onion and tomato base in the pot (steps 1–3). Add the chicken and only ¼ cup water. Cook 8 minutes at high pressure, then release the pressure carefully. Stir in the yogurt or coconut milk with the heat off."
     },
     {
-      "id": "chana_masala", "name": "Chana masala", "cuisine": "Indian / Pakistani", "minutes": 30, "serves": 4, "diet": "vegan", "equipment": ["stove"],
-      "need": ["2 cans chickpeas, drained", "2 onions, chopped", "3 tomatoes or 1 can chopped tomatoes", "3 cloves garlic", "2 tsp garam masala or curry powder"],
-      "extra": ["1 tbsp ginger, grated", "1 tsp cumin", "½ tsp turmeric", "1 green chili", "½ lemon", "a handful of coriander", "rice or naan, to serve"],
+      "id": "chana_masala",
+      "name": "Chana masala",
+      "cuisine": "Indian / Pakistani",
+      "minutes": 30,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "2 cans chickpeas, drained",
+        "2 onions, chopped",
+        "3 tomatoes or 1 can chopped tomatoes",
+        "3 cloves garlic",
+        "2 tsp garam masala or curry powder"
+      ],
+      "extra": [
+        "1 tbsp ginger, grated",
+        "1 tsp cumin",
+        "½ tsp turmeric",
+        "1 green chili",
+        "½ lemon",
+        "a handful of coriander",
+        "rice or naan, to serve"
+      ],
       "steps": [
         "Heat 3 tbsp oil, add the cumin for 20 seconds, then fry the onions 10 minutes until golden.",
         "Add the garlic, ginger and chili for 1 minute, then the spices for 30 seconds.",
@@ -164,12 +431,35 @@
         "Add the chickpeas and 1 cup water. Simmer 10 minutes, mashing a few chickpeas to thicken.",
         "Finish with lemon juice and coriander."
       ],
-      "tip": ""
+      "tip": "",
+      "pressure": "Using dried chickpeas instead of cans? Soak 1½ cups overnight, then cook them in plenty of water with 1 tsp salt for 15 minutes at high pressure and let the pressure drop by itself. Use them in step 4."
     },
     {
-      "id": "aloo_matar", "name": "Aloo matar (potato and peas)", "cuisine": "Indian / Pakistani", "minutes": 30, "serves": 4, "diet": "vegan", "equipment": ["stove"],
-      "need": ["4 potatoes, in cubes", "1 cup peas", "1 onion, chopped", "2 tomatoes, chopped", "½ tsp turmeric", "1 tsp cumin", "1 tsp garam masala or curry powder"],
-      "extra": ["1 tbsp ginger, grated", "2 cloves garlic", "1 green chili", "a handful of coriander", "flatbread or rice, to serve"],
+      "id": "aloo_matar",
+      "name": "Aloo matar (potato and peas)",
+      "cuisine": "Indian / Pakistani",
+      "minutes": 30,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "4 potatoes, in cubes",
+        "1 cup peas",
+        "1 onion, chopped",
+        "2 tomatoes, chopped",
+        "½ tsp turmeric",
+        "1 tsp cumin",
+        "1 tsp garam masala or curry powder"
+      ],
+      "extra": [
+        "1 tbsp ginger, grated",
+        "2 cloves garlic",
+        "1 green chili",
+        "a handful of coriander",
+        "flatbread or rice, to serve"
+      ],
       "steps": [
         "Heat 3 tbsp oil, add the cumin for 20 seconds, then the onion for 6 minutes.",
         "Add the ginger, garlic and chili for 1 minute, then the turmeric and garam masala.",
@@ -177,12 +467,34 @@
         "Add the potatoes and 1½ cups water. Cover and simmer 15 minutes until tender.",
         "Add the peas for the last 5 minutes. Top with coriander."
       ],
-      "tip": ""
+      "tip": "",
+      "pressure": "Make the base in the pot (steps 1–3), then add the potatoes and only ¾ cup water. Cook 3 minutes at high pressure, release the pressure quickly, stir in the peas and cook 2 minutes."
     },
     {
-      "id": "anda_curry", "name": "Egg curry (anda curry)", "cuisine": "Indian / Pakistani", "minutes": 30, "serves": 3, "diet": "veg", "equipment": ["stove"],
-      "need": ["6 eggs", "2 onions, chopped", "2 tomatoes or ½ can chopped tomatoes", "3 cloves garlic", "½ tsp turmeric", "1 tsp garam masala or curry powder"],
-      "extra": ["1 tbsp ginger, grated", "1 tsp chili powder", "1 green chili", "a handful of coriander", "rice or paratha, to serve"],
+      "id": "anda_curry",
+      "name": "Egg curry (anda curry)",
+      "cuisine": "Indian / Pakistani",
+      "minutes": 30,
+      "serves": 3,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "6 eggs",
+        "2 onions, chopped",
+        "2 tomatoes or ½ can chopped tomatoes",
+        "3 cloves garlic",
+        "½ tsp turmeric",
+        "1 tsp garam masala or curry powder"
+      ],
+      "extra": [
+        "1 tbsp ginger, grated",
+        "1 tsp chili powder",
+        "1 green chili",
+        "a handful of coriander",
+        "rice or paratha, to serve"
+      ],
       "steps": [
         "Boil the eggs for 10 minutes, cool in cold water and peel. Make a few small cuts in each.",
         "Heat 3 tbsp oil and fry the onions 10 minutes until golden.",
@@ -190,12 +502,36 @@
         "Add the tomatoes and 1 tsp salt and cook 5 minutes. Add 1 cup water and simmer 5 minutes.",
         "Add the eggs and simmer 5 minutes, spooning the sauce over them. Top with coriander."
       ],
-      "tip": "Frying the peeled eggs for 2 minutes first gives them a golden skin that holds the sauce."
+      "tip": "Frying the peeled eggs for 2 minutes first gives them a golden skin that holds the sauce.",
+      "pressure": "Boil the eggs in the pressure cooker: 1 cup water, eggs on the rack, 5 minutes at high pressure, 5 minutes letting the pressure drop, then straight into cold water. They peel easily."
     },
     {
-      "id": "keema_matar", "name": "Keema matar", "cuisine": "Indian / Pakistani", "minutes": 35, "serves": 4, "diet": "meat", "equipment": ["stove"],
-      "need": ["500 g minced beef or minced lamb", "1 cup peas", "2 onions, chopped", "3 cloves garlic", "1 tbsp ginger, grated", "2 tomatoes, chopped", "2 tsp garam masala or curry powder"],
-      "extra": ["½ tsp turmeric", "1 tsp chili powder", "2 tbsp yogurt", "1 green chili", "a handful of coriander", "naan or rice, to serve"],
+      "id": "keema_matar",
+      "name": "Keema matar",
+      "cuisine": "Indian / Pakistani",
+      "minutes": 35,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "500 g minced beef or minced lamb",
+        "1 cup peas",
+        "2 onions, chopped",
+        "3 cloves garlic",
+        "1 tbsp ginger, grated",
+        "2 tomatoes, chopped",
+        "2 tsp garam masala or curry powder"
+      ],
+      "extra": [
+        "½ tsp turmeric",
+        "1 tsp chili powder",
+        "2 tbsp yogurt",
+        "1 green chili",
+        "a handful of coriander",
+        "naan or rice, to serve"
+      ],
       "steps": [
         "Heat 2 tbsp oil and fry the onions 8 minutes until golden.",
         "Add the garlic, ginger and chili for 1 minute.",
@@ -203,12 +539,40 @@
         "Add the spices, tomatoes, yogurt and 1 tsp salt. Cook 5 minutes, then add ½ cup water, cover and simmer 10 minutes.",
         "Add the peas and cook 5 minutes more. Top with coriander."
       ],
-      "tip": ""
+      "tip": "",
+      "pressure": "Brown the onions, garlic, ginger and mince in the pot (steps 1–3). Add the spices, tomatoes, yogurt, salt and ¼ cup water. Cook 6 minutes at high pressure, release the pressure, then stir in the peas and simmer 3 minutes."
     },
     {
-      "id": "chicken_biryani", "name": "Chicken biryani", "cuisine": "Indian / Pakistani", "minutes": 75, "serves": 5, "diet": "meat", "equipment": ["stove"],
-      "need": ["800 g chicken pieces", "2 cups basmati rice, soaked 30 minutes", "3 onions, thinly sliced", "1 cup yogurt", "4 cloves garlic, crushed", "1 tbsp ginger, grated", "2 tsp garam masala"],
-      "extra": ["2 tomatoes, chopped", "1 tsp chili powder", "½ tsp turmeric", "4 cardamom pods", "1 cinnamon stick", "2 bay leaves", "a pinch of saffron in 3 tbsp warm milk", "a handful of mint", "a handful of coriander", "2 tbsp ghee"],
+      "id": "chicken_biryani",
+      "name": "Chicken biryani",
+      "cuisine": "Indian / Pakistani",
+      "minutes": 75,
+      "serves": 5,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "800 g chicken pieces",
+        "2 cups basmati rice, soaked 30 minutes",
+        "3 onions, thinly sliced",
+        "1 cup yogurt",
+        "4 cloves garlic, crushed",
+        "1 tbsp ginger, grated",
+        "2 tsp garam masala"
+      ],
+      "extra": [
+        "2 tomatoes, chopped",
+        "1 tsp chili powder",
+        "½ tsp turmeric",
+        "4 cardamom pods",
+        "1 cinnamon stick",
+        "2 bay leaves",
+        "a pinch of saffron in 3 tbsp warm milk",
+        "a handful of mint",
+        "a handful of coriander",
+        "2 tbsp ghee"
+      ],
       "steps": [
         "Mix the chicken with the yogurt, garlic, ginger, garam masala, chili, turmeric and 1½ tsp salt. Leave 20 minutes.",
         "Fry the onions in 4 tbsp oil for 15 minutes until deep brown. Take out half for the top.",
@@ -220,9 +584,30 @@
       "tip": "Wrap the lid in a tea towel so no steam escapes."
     },
     {
-      "id": "veg_pulao", "name": "Vegetable pulao", "cuisine": "Indian / Pakistani", "minutes": 35, "serves": 4, "diet": "vegan", "equipment": ["stove"],
-      "need": ["1½ cups basmati rice, soaked 20 minutes", "1 onion, sliced", "1 cup peas", "1 carrot, diced", "1 tsp cumin"],
-      "extra": ["1 cup green beans, chopped", "4 cardamom pods", "1 cinnamon stick", "2 bay leaves", "1 tsp garam masala", "1 tbsp ghee"],
+      "id": "veg_pulao",
+      "name": "Vegetable pulao",
+      "cuisine": "Indian / Pakistani",
+      "minutes": 35,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "1½ cups basmati rice, soaked 20 minutes",
+        "1 onion, sliced",
+        "1 cup peas",
+        "1 carrot, diced",
+        "1 tsp cumin"
+      ],
+      "extra": [
+        "1 cup green beans, chopped",
+        "4 cardamom pods",
+        "1 cinnamon stick",
+        "2 bay leaves",
+        "1 tsp garam masala",
+        "1 tbsp ghee"
+      ],
       "steps": [
         "Heat 2 tbsp oil or ghee. Add the cumin, cardamom, cinnamon and bay leaves for 30 seconds.",
         "Add the onion and cook 6 minutes until golden.",
@@ -230,12 +615,31 @@
         "Add the drained rice, 2¼ cups water and 1 tsp salt. Boil, then cover and cook on low for 15 minutes.",
         "Rest 5 minutes off the heat and fluff with a fork."
       ],
-      "tip": ""
+      "tip": "",
+      "pressure": "Do steps 1–3 in the pot, then add the drained rice, salt and only 1¾ cups water (pressure cookers need less). Cook 4 minutes at high pressure, let the pressure drop by itself for 10 minutes, then fluff with a fork."
     },
     {
-      "id": "masala_omelette", "name": "Masala omelette", "cuisine": "Indian / Pakistani", "minutes": 10, "serves": 1, "diet": "veg", "equipment": ["stove"],
-      "need": ["3 eggs", "¼ onion, finely chopped"],
-      "extra": ["1 small tomato, chopped", "1 green chili, chopped", "a little coriander", "¼ tsp turmeric", "¼ tsp chili powder", "bread or paratha, to serve"],
+      "id": "masala_omelette",
+      "name": "Masala omelette",
+      "cuisine": "Indian / Pakistani",
+      "minutes": 10,
+      "serves": 1,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "3 eggs",
+        "¼ onion, finely chopped"
+      ],
+      "extra": [
+        "1 small tomato, chopped",
+        "1 green chili, chopped",
+        "a little coriander",
+        "¼ tsp turmeric",
+        "¼ tsp chili powder",
+        "bread or paratha, to serve"
+      ],
       "steps": [
         "Beat the eggs with all the other ingredients and a pinch of salt.",
         "Heat 1 tbsp oil in a pan over medium heat and pour in the eggs.",
@@ -245,9 +649,29 @@
       "tip": ""
     },
     {
-      "id": "bhindi_masala", "name": "Bhindi masala (okra)", "cuisine": "Indian / Pakistani", "minutes": 25, "serves": 3, "diet": "vegan", "equipment": ["stove"],
-      "need": ["400 g okra, sliced", "1 onion, sliced", "2 tomatoes, chopped", "½ tsp turmeric", "1 tsp cumin"],
-      "extra": ["1 tsp chili powder", "1 tsp ground coriander", "½ tsp garam masala", "½ lemon", "flatbread, to serve"],
+      "id": "bhindi_masala",
+      "name": "Bhindi masala (okra)",
+      "cuisine": "Indian / Pakistani",
+      "minutes": 25,
+      "serves": 3,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "400 g okra, sliced",
+        "1 onion, sliced",
+        "2 tomatoes, chopped",
+        "½ tsp turmeric",
+        "1 tsp cumin"
+      ],
+      "extra": [
+        "1 tsp chili powder",
+        "1 tsp ground coriander",
+        "½ tsp garam masala",
+        "½ lemon",
+        "flatbread, to serve"
+      ],
       "steps": [
         "Wash the okra and dry it completely before slicing.",
         "Fry the okra in 2 tbsp oil over medium-high heat for 8 minutes, uncovered, until no longer sticky. Set aside.",
@@ -258,9 +682,27 @@
       "tip": "Never cover okra while it cooks, or it turns slimy."
     },
     {
-      "id": "tomato_pasta", "name": "Tomato and garlic pasta", "cuisine": "Western", "minutes": 20, "serves": 2, "diet": "vegan", "equipment": ["stove"],
-      "need": ["200 g pasta", "1 can chopped tomatoes or 5 tomatoes", "2 cloves garlic, sliced"],
-      "extra": ["½ onion, chopped", "a few basil leaves", "parmesan or cheese, to serve", "a pinch of chili flakes", "a pinch of sugar"],
+      "id": "tomato_pasta",
+      "name": "Tomato and garlic pasta",
+      "cuisine": "Western",
+      "minutes": 20,
+      "serves": 2,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "200 g pasta",
+        "1 can chopped tomatoes or 5 tomatoes",
+        "2 cloves garlic, sliced"
+      ],
+      "extra": [
+        "½ onion, chopped",
+        "a few basil leaves",
+        "parmesan or cheese, to serve",
+        "a pinch of chili flakes",
+        "a pinch of sugar"
+      ],
       "steps": [
         "Boil the pasta in salted water as the packet says, usually 10 minutes.",
         "Meanwhile warm 3 tbsp oil and cook the onion 4 minutes, then the garlic and chili for 1 minute.",
@@ -271,9 +713,25 @@
       "tip": ""
     },
     {
-      "id": "aglio_olio", "name": "Garlic and chili spaghetti", "cuisine": "Western", "minutes": 15, "serves": 2, "diet": "vegan", "equipment": ["stove"],
-      "need": ["200 g spaghetti", "4 cloves garlic, thinly sliced", "½ tsp chili flakes"],
-      "extra": ["a handful of parsley", "parmesan, to serve", "½ lemon"],
+      "id": "aglio_olio",
+      "name": "Garlic and chili spaghetti",
+      "cuisine": "Western",
+      "minutes": 15,
+      "serves": 2,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "200 g spaghetti",
+        "4 cloves garlic, thinly sliced",
+        "½ tsp chili flakes"
+      ],
+      "extra": [
+        "a handful of parsley",
+        "parmesan, to serve",
+        "½ lemon"
+      ],
       "steps": [
         "Boil the spaghetti in well-salted water as the packet says.",
         "Meanwhile warm 5 tbsp oil on low heat with the garlic and chili for 4 minutes, until the garlic is pale gold. Don't let it brown.",
@@ -284,9 +742,28 @@
       "tip": "Burnt garlic tastes bitter. Start again if it goes dark brown."
     },
     {
-      "id": "mushroom_pasta", "name": "Creamy mushroom pasta", "cuisine": "Western", "minutes": 20, "serves": 2, "diet": "veg", "equipment": ["stove"],
-      "need": ["200 g pasta", "250 g mushrooms, sliced", "2 cloves garlic", "200 ml cream or milk"],
-      "extra": ["½ onion, chopped", "a handful of parmesan or cheese", "a handful of parsley", "1 tbsp butter", "1 tbsp flour, if using milk"],
+      "id": "mushroom_pasta",
+      "name": "Creamy mushroom pasta",
+      "cuisine": "Western",
+      "minutes": 20,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "200 g pasta",
+        "250 g mushrooms, sliced",
+        "2 cloves garlic",
+        "200 ml cream or milk"
+      ],
+      "extra": [
+        "½ onion, chopped",
+        "a handful of parmesan or cheese",
+        "a handful of parsley",
+        "1 tbsp butter",
+        "1 tbsp flour, if using milk"
+      ],
       "steps": [
         "Boil the pasta as the packet says.",
         "Fry the mushrooms in 1 tbsp oil and the butter over high heat for 6 minutes until browned. Add the onion and garlic for 2 minutes.",
@@ -297,9 +774,27 @@
       "tip": "Don't crowd the mushrooms: they brown instead of steaming."
     },
     {
-      "id": "mac_cheese", "name": "Stovetop mac and cheese", "cuisine": "Western", "minutes": 25, "serves": 3, "diet": "veg", "equipment": ["stove"],
-      "need": ["250 g macaroni", "2 cups grated cheese", "2 cups milk", "2 tbsp butter", "2 tbsp flour"],
-      "extra": ["1 tsp mustard", "a pinch of paprika", "½ cup breadcrumbs"],
+      "id": "mac_cheese",
+      "name": "Stovetop mac and cheese",
+      "cuisine": "Western",
+      "minutes": 25,
+      "serves": 3,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "250 g macaroni",
+        "2 cups grated cheese",
+        "2 cups milk",
+        "2 tbsp butter",
+        "2 tbsp flour"
+      ],
+      "extra": [
+        "1 tsp mustard",
+        "a pinch of paprika",
+        "½ cup breadcrumbs"
+      ],
       "steps": [
         "Boil the macaroni 1 minute less than the packet says, then drain.",
         "Melt the butter in a pot, stir in the flour and cook 1 minute.",
@@ -310,9 +805,24 @@
       "tip": ""
     },
     {
-      "id": "spanish_tortilla", "name": "Spanish potato omelette", "cuisine": "Western", "minutes": 35, "serves": 4, "diet": "veg", "equipment": ["stove"],
-      "need": ["6 eggs", "3 potatoes, thinly sliced", "1 onion, thinly sliced"],
-      "extra": ["½ bell pepper, sliced", "a little parsley"],
+      "id": "spanish_tortilla",
+      "name": "Spanish potato omelette",
+      "cuisine": "Western",
+      "minutes": 35,
+      "serves": 4,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "6 eggs",
+        "3 potatoes, thinly sliced",
+        "1 onion, thinly sliced"
+      ],
+      "extra": [
+        "½ bell pepper, sliced",
+        "a little parsley"
+      ],
       "steps": [
         "Cook the potatoes and onion slowly in ½ cup oil in a frying pan for 15 minutes, until soft but not crisp. Drain off the oil.",
         "Beat the eggs with 1 tsp salt. Stir in the potatoes and leave 5 minutes.",
@@ -323,9 +833,27 @@
       "tip": ""
     },
     {
-      "id": "pancakes", "name": "Fluffy pancakes", "cuisine": "Western", "minutes": 20, "serves": 3, "diet": "veg", "equipment": ["stove"],
-      "need": ["1 cup flour", "1 cup milk", "1 egg", "1 tbsp sugar", "2 tsp baking powder"],
-      "extra": ["2 tbsp butter, melted", "honey, to serve", "1 banana, sliced, to serve"],
+      "id": "pancakes",
+      "name": "Fluffy pancakes",
+      "cuisine": "Western",
+      "minutes": 20,
+      "serves": 3,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "1 cup flour",
+        "1 cup milk",
+        "1 egg",
+        "1 tbsp sugar",
+        "2 tsp baking powder"
+      ],
+      "extra": [
+        "2 tbsp butter, melted",
+        "honey, to serve",
+        "1 banana, sliced, to serve"
+      ],
       "steps": [
         "Mix the flour, sugar, baking powder and a pinch of salt in a bowl.",
         "Whisk the milk, egg and melted butter, pour into the flour and stir until just mixed. A few lumps are fine.",
@@ -336,9 +864,27 @@
       "tip": "Don't over-mix the batter, or the pancakes come out flat."
     },
     {
-      "id": "french_toast", "name": "French toast", "cuisine": "Western", "minutes": 15, "serves": 2, "diet": "veg", "equipment": ["stove"],
-      "need": ["4 slices bread", "2 eggs", "½ cup milk"],
-      "extra": ["1 tbsp sugar", "½ tsp cinnamon", "1 tbsp butter", "honey, to serve", "1 banana, to serve"],
+      "id": "french_toast",
+      "name": "French toast",
+      "cuisine": "Western",
+      "minutes": 15,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "4 slices bread",
+        "2 eggs",
+        "½ cup milk"
+      ],
+      "extra": [
+        "1 tbsp sugar",
+        "½ tsp cinnamon",
+        "1 tbsp butter",
+        "honey, to serve",
+        "1 banana, to serve"
+      ],
       "steps": [
         "Whisk the eggs, milk, sugar and cinnamon in a wide dish.",
         "Heat the butter in a pan over medium heat.",
@@ -348,9 +894,26 @@
       "tip": "Day-old bread soaks better without falling apart."
     },
     {
-      "id": "lemon_chicken_traybake", "name": "Lemon chicken and potatoes", "cuisine": "Western", "minutes": 55, "serves": 4, "diet": "meat", "equipment": ["oven|airfryer"],
-      "need": ["6 chicken thighs or 800 g chicken pieces", "4 potatoes, in wedges", "1 lemon", "4 cloves garlic"],
-      "extra": ["1 tsp oregano", "1 tsp paprika", "1 onion, in wedges"],
+      "id": "lemon_chicken_traybake",
+      "name": "Lemon chicken and potatoes",
+      "cuisine": "Western",
+      "minutes": 55,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "oven|airfryer"
+      ],
+      "need": [
+        "6 chicken thighs or 800 g chicken pieces",
+        "4 potatoes, in wedges",
+        "1 lemon",
+        "4 cloves garlic"
+      ],
+      "extra": [
+        "1 tsp oregano",
+        "1 tsp paprika",
+        "1 onion, in wedges"
+      ],
       "steps": [
         "Mix 3 tbsp oil, the lemon juice, crushed garlic, oregano, paprika and 1½ tsp salt.",
         "Toss the chicken, potatoes and onion in it.",
@@ -360,9 +923,28 @@
       "tip": "Put the squeezed lemon halves on the tray too for more flavour."
     },
     {
-      "id": "beef_burgers", "name": "Beef burgers", "cuisine": "Western", "minutes": 25, "serves": 4, "diet": "meat", "equipment": ["stove|airfryer"],
-      "need": ["500 g minced beef", "4 burger buns", "1 small onion, grated"],
-      "extra": ["4 cheese slices", "lettuce", "1 tomato, sliced", "ketchup", "mayonnaise", "1 tsp mustard"],
+      "id": "beef_burgers",
+      "name": "Beef burgers",
+      "cuisine": "Western",
+      "minutes": 25,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove|airfryer"
+      ],
+      "need": [
+        "500 g minced beef",
+        "4 burger buns",
+        "1 small onion, grated"
+      ],
+      "extra": [
+        "4 cheese slices",
+        "lettuce",
+        "1 tomato, sliced",
+        "ketchup",
+        "mayonnaise",
+        "1 tsp mustard"
+      ],
       "steps": [
         "Mix the beef, onion, 1 tsp salt and ½ tsp pepper. Shape 4 patties a little wider than the buns and press a dent in the middle.",
         "Cook in a hot oiled pan for 4 minutes per side. Air fryer: 200°C for 10 minutes, turning halfway.",
@@ -372,9 +954,25 @@
       "tip": "Only flip once and don't press the patties; they stay juicy."
     },
     {
-      "id": "baked_salmon", "name": "Lemon garlic fish", "cuisine": "Western", "minutes": 20, "serves": 2, "diet": "meat", "equipment": ["oven|airfryer"],
-      "need": ["2 fish fillets (salmon or white fish)", "1 lemon", "2 cloves garlic, crushed"],
-      "extra": ["1 tbsp butter, melted", "a handful of parsley", "rice or salad, to serve"],
+      "id": "baked_salmon",
+      "name": "Lemon garlic fish",
+      "cuisine": "Western",
+      "minutes": 20,
+      "serves": 2,
+      "diet": "meat",
+      "equipment": [
+        "oven|airfryer"
+      ],
+      "need": [
+        "2 fish fillets (salmon or white fish)",
+        "1 lemon",
+        "2 cloves garlic, crushed"
+      ],
+      "extra": [
+        "1 tbsp butter, melted",
+        "a handful of parsley",
+        "rice or salad, to serve"
+      ],
       "steps": [
         "Mix the garlic, butter or 1 tbsp oil, half the lemon juice, salt and pepper.",
         "Brush it over the fish.",
@@ -384,9 +982,28 @@
       "tip": ""
     },
     {
-      "id": "egg_fried_rice", "name": "Egg fried rice", "cuisine": "Asian", "minutes": 15, "serves": 2, "diet": "veg", "equipment": ["stove"],
-      "need": ["2 cups cooked rice (day-old is best)", "2 eggs", "2 tbsp soy sauce", "2 cloves garlic, chopped", "2 spring onions or ½ onion"],
-      "extra": ["½ cup peas", "1 carrot, diced small", "1 tsp sesame oil", "150 g chicken or prawns"],
+      "id": "egg_fried_rice",
+      "name": "Egg fried rice",
+      "cuisine": "Asian",
+      "minutes": 15,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "2 cups cooked rice (day-old is best)",
+        "2 eggs",
+        "2 tbsp soy sauce",
+        "2 cloves garlic, chopped",
+        "2 spring onions or ½ onion"
+      ],
+      "extra": [
+        "½ cup peas",
+        "1 carrot, diced small",
+        "1 tsp sesame oil",
+        "150 g chicken or prawns"
+      ],
       "steps": [
         "No cooked rice? Cook 1 cup rice, spread it on a plate and cool it for 20 minutes first.",
         "Heat 2 tbsp oil in a wok or big pan over high heat. Fry the garlic, onion and vegetables (and chicken or prawns) for 3 minutes.",
@@ -396,9 +1013,29 @@
       "tip": "Cold rice fries; fresh hot rice turns sticky."
     },
     {
-      "id": "chicken_stir_fry", "name": "Chicken stir-fry", "cuisine": "Asian", "minutes": 20, "serves": 3, "diet": "meat", "equipment": ["stove"],
-      "need": ["400 g chicken, in thin strips", "3 tbsp soy sauce", "3 cloves garlic", "2 bell peppers or broccoli or carrots"],
-      "extra": ["1 tbsp ginger, grated", "1 tsp honey or sugar", "1 tsp cornflour", "2 spring onions", "1 tbsp oyster sauce", "rice or noodles, to serve"],
+      "id": "chicken_stir_fry",
+      "name": "Chicken stir-fry",
+      "cuisine": "Asian",
+      "minutes": 20,
+      "serves": 3,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "400 g chicken, in thin strips",
+        "3 tbsp soy sauce",
+        "3 cloves garlic",
+        "2 bell peppers or broccoli or carrots"
+      ],
+      "extra": [
+        "1 tbsp ginger, grated",
+        "1 tsp honey or sugar",
+        "1 tsp cornflour",
+        "2 spring onions",
+        "1 tbsp oyster sauce",
+        "rice or noodles, to serve"
+      ],
       "steps": [
         "Mix the soy sauce, honey, cornflour and 3 tbsp water for the sauce.",
         "Heat 2 tbsp oil in a wok on high heat. Stir-fry the chicken 5 minutes until cooked. Take it out.",
@@ -408,9 +1045,28 @@
       "tip": "Cut everything before you start: stir-frying is fast."
     },
     {
-      "id": "garlic_soy_noodles", "name": "Garlic soy noodles", "cuisine": "Asian", "minutes": 15, "serves": 2, "diet": "veg", "equipment": ["stove"],
-      "need": ["2 portions noodles", "2 tbsp soy sauce", "3 cloves garlic, chopped"],
-      "extra": ["2 spring onions", "1 tsp honey or sugar", "a pinch of chili flakes", "1 tsp sesame oil", "2 eggs, fried, to top", "a handful of cabbage or spinach"],
+      "id": "garlic_soy_noodles",
+      "name": "Garlic soy noodles",
+      "cuisine": "Asian",
+      "minutes": 15,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "2 portions noodles",
+        "2 tbsp soy sauce",
+        "3 cloves garlic, chopped"
+      ],
+      "extra": [
+        "2 spring onions",
+        "1 tsp honey or sugar",
+        "a pinch of chili flakes",
+        "1 tsp sesame oil",
+        "2 eggs, fried, to top",
+        "a handful of cabbage or spinach"
+      ],
       "steps": [
         "Cook the noodles as the packet says and drain.",
         "Warm 2 tbsp oil and fry the garlic and chili for 1 minute. Add the greens for 2 minutes.",
@@ -420,9 +1076,29 @@
       "tip": ""
     },
     {
-      "id": "peanut_noodles", "name": "Peanut noodles", "cuisine": "Asian", "minutes": 15, "serves": 2, "diet": "veg", "equipment": ["stove"],
-      "need": ["200 g noodles or spaghetti", "3 tbsp peanut butter", "2 tbsp soy sauce", "1 clove garlic, crushed", "1 tbsp honey or sugar"],
-      "extra": ["½ lime or lemon", "a pinch of chili flakes", "2 spring onions", "1 cucumber, in sticks", "1 carrot, grated"],
+      "id": "peanut_noodles",
+      "name": "Peanut noodles",
+      "cuisine": "Asian",
+      "minutes": 15,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "200 g noodles or spaghetti",
+        "3 tbsp peanut butter",
+        "2 tbsp soy sauce",
+        "1 clove garlic, crushed",
+        "1 tbsp honey or sugar"
+      ],
+      "extra": [
+        "½ lime or lemon",
+        "a pinch of chili flakes",
+        "2 spring onions",
+        "1 cucumber, in sticks",
+        "1 carrot, grated"
+      ],
       "steps": [
         "Cook the noodles as the packet says. Keep ½ cup of the water.",
         "Whisk the peanut butter, soy sauce, garlic, honey, lime juice and chili with 4 tbsp hot noodle water until smooth.",
@@ -432,9 +1108,28 @@
       "tip": ""
     },
     {
-      "id": "honey_soy_chicken", "name": "Honey soy chicken", "cuisine": "Asian", "minutes": 25, "serves": 3, "diet": "meat", "equipment": ["stove|airfryer"],
-      "need": ["500 g chicken thighs, in pieces", "3 tbsp soy sauce", "2 tbsp honey", "2 cloves garlic, crushed"],
-      "extra": ["1 tbsp ginger, grated", "1 tsp cornflour", "1 tsp sesame seeds", "2 spring onions", "rice, to serve"],
+      "id": "honey_soy_chicken",
+      "name": "Honey soy chicken",
+      "cuisine": "Asian",
+      "minutes": 25,
+      "serves": 3,
+      "diet": "meat",
+      "equipment": [
+        "stove|airfryer"
+      ],
+      "need": [
+        "500 g chicken thighs, in pieces",
+        "3 tbsp soy sauce",
+        "2 tbsp honey",
+        "2 cloves garlic, crushed"
+      ],
+      "extra": [
+        "1 tbsp ginger, grated",
+        "1 tsp cornflour",
+        "1 tsp sesame seeds",
+        "2 spring onions",
+        "rice, to serve"
+      ],
       "steps": [
         "Mix the soy sauce, honey, garlic, ginger, cornflour and 3 tbsp water.",
         "Pan: fry the chicken in 1 tbsp oil for 8 minutes until golden. Air fryer: 200°C for 12 minutes, then put it in a pan.",
@@ -444,9 +1139,30 @@
       "tip": ""
     },
     {
-      "id": "coconut_chicken_curry", "name": "Thai-style coconut chicken curry", "cuisine": "Asian", "minutes": 30, "serves": 4, "diet": "meat", "equipment": ["stove"],
-      "need": ["500 g chicken, in pieces", "1 can coconut milk", "2 tbsp curry paste or curry powder", "1 onion, sliced"],
-      "extra": ["2 cloves garlic", "1 tbsp ginger, grated", "1 bell pepper, sliced", "1 tsp sugar", "1 lime or lemon", "a handful of basil or coriander", "rice, to serve"],
+      "id": "coconut_chicken_curry",
+      "name": "Thai-style coconut chicken curry",
+      "cuisine": "Asian",
+      "minutes": 30,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "500 g chicken, in pieces",
+        "1 can coconut milk",
+        "2 tbsp curry paste or curry powder",
+        "1 onion, sliced"
+      ],
+      "extra": [
+        "2 cloves garlic",
+        "1 tbsp ginger, grated",
+        "1 bell pepper, sliced",
+        "1 tsp sugar",
+        "1 lime or lemon",
+        "a handful of basil or coriander",
+        "rice, to serve"
+      ],
       "steps": [
         "Fry the onion in 2 tbsp oil for 4 minutes. Add the garlic, ginger and curry paste and stir 1 minute.",
         "Add the chicken and cook 4 minutes.",
@@ -456,9 +1172,28 @@
       "tip": ""
     },
     {
-      "id": "chili_garlic_prawns", "name": "Chili garlic prawns", "cuisine": "Asian", "minutes": 15, "serves": 2, "diet": "meat", "equipment": ["stove"],
-      "need": ["300 g prawns, peeled", "4 cloves garlic, chopped", "½ tsp chili flakes", "1 tbsp soy sauce"],
-      "extra": ["1 tbsp butter", "1 tsp honey or sugar", "2 spring onions", "½ lemon", "rice, to serve"],
+      "id": "chili_garlic_prawns",
+      "name": "Chili garlic prawns",
+      "cuisine": "Asian",
+      "minutes": 15,
+      "serves": 2,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "300 g prawns, peeled",
+        "4 cloves garlic, chopped",
+        "½ tsp chili flakes",
+        "1 tbsp soy sauce"
+      ],
+      "extra": [
+        "1 tbsp butter",
+        "1 tsp honey or sugar",
+        "2 spring onions",
+        "½ lemon",
+        "rice, to serve"
+      ],
       "steps": [
         "Dry the prawns with kitchen paper.",
         "Heat 2 tbsp oil and the butter. Fry the garlic and chili for 30 seconds.",
@@ -468,9 +1203,30 @@
       "tip": "Prawns turn rubbery fast: take them off as soon as they curl and turn pink."
     },
     {
-      "id": "nasi_goreng", "name": "Nasi goreng", "cuisine": "Asian", "minutes": 20, "serves": 2, "diet": "veg", "equipment": ["stove"],
-      "need": ["2 cups cooked rice", "2 eggs", "1 onion, chopped", "2 cloves garlic", "2 tbsp soy sauce", "1 tbsp ketchup or chili sauce"],
-      "extra": ["1 tsp sugar", "1 green chili", "150 g chicken or prawns", "1 cucumber, sliced, to serve", "1 tomato, sliced, to serve"],
+      "id": "nasi_goreng",
+      "name": "Nasi goreng",
+      "cuisine": "Asian",
+      "minutes": 20,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "2 cups cooked rice",
+        "2 eggs",
+        "1 onion, chopped",
+        "2 cloves garlic",
+        "2 tbsp soy sauce",
+        "1 tbsp ketchup or chili sauce"
+      ],
+      "extra": [
+        "1 tsp sugar",
+        "1 green chili",
+        "150 g chicken or prawns",
+        "1 cucumber, sliced, to serve",
+        "1 tomato, sliced, to serve"
+      ],
       "steps": [
         "Fry the onion, garlic and chili in 2 tbsp oil for 3 minutes (add chicken or prawns now if using, and cook through).",
         "Add the rice and stir-fry 3 minutes.",
@@ -480,21 +1236,61 @@
       "tip": ""
     },
     {
-      "id": "chicken_adobo", "name": "Chicken adobo", "cuisine": "Asian", "minutes": 45, "serves": 4, "diet": "meat", "equipment": ["stove"],
-      "need": ["1 kg chicken pieces", "½ cup soy sauce", "⅓ cup vinegar", "6 cloves garlic, crushed"],
-      "extra": ["2 bay leaves", "1 tsp sugar", "1 onion, sliced", "rice, to serve"],
+      "id": "chicken_adobo",
+      "name": "Chicken adobo",
+      "cuisine": "Asian",
+      "minutes": 45,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "1 kg chicken pieces",
+        "½ cup soy sauce",
+        "⅓ cup vinegar",
+        "6 cloves garlic, crushed"
+      ],
+      "extra": [
+        "2 bay leaves",
+        "1 tsp sugar",
+        "1 onion, sliced",
+        "rice, to serve"
+      ],
       "steps": [
         "Put the chicken, soy sauce, vinegar, garlic, bay leaves, pepper and ½ cup water in a pot.",
         "Bring to the boil, then cover and simmer 25 minutes.",
         "Lift out the chicken and brown it in a hot oiled pan for 3 minutes per side.",
         "Boil the sauce 5 minutes to reduce, add the sugar, and pour it over the chicken. Serve with rice."
       ],
-      "tip": "Don't stir for the first few minutes after the vinegar goes in; it cooks off more gently."
+      "tip": "Don't stir for the first few minutes after the vinegar goes in; it cooks off more gently.",
+      "pressure": "Put the chicken, soy sauce, vinegar, garlic, bay leaves and pepper in the pot with only ¼ cup water. Cook 10 minutes at high pressure and let the pressure drop by itself for 5 minutes. Then brown the chicken and reduce the sauce (steps 3–4)."
     },
     {
-      "id": "sweet_sour_chicken", "name": "Sweet and sour chicken", "cuisine": "Asian", "minutes": 30, "serves": 3, "diet": "meat", "equipment": ["stove|airfryer"],
-      "need": ["500 g chicken, in chunks", "3 tbsp cornflour", "3 tbsp ketchup", "2 tbsp vinegar", "2 tbsp sugar", "1 tbsp soy sauce"],
-      "extra": ["1 bell pepper, in chunks", "1 onion, in chunks", "1 egg", "1 tsp garlic", "rice, to serve"],
+      "id": "sweet_sour_chicken",
+      "name": "Sweet and sour chicken",
+      "cuisine": "Asian",
+      "minutes": 30,
+      "serves": 3,
+      "diet": "meat",
+      "equipment": [
+        "stove|airfryer"
+      ],
+      "need": [
+        "500 g chicken, in chunks",
+        "3 tbsp cornflour",
+        "3 tbsp ketchup",
+        "2 tbsp vinegar",
+        "2 tbsp sugar",
+        "1 tbsp soy sauce"
+      ],
+      "extra": [
+        "1 bell pepper, in chunks",
+        "1 onion, in chunks",
+        "1 egg",
+        "1 tsp garlic",
+        "rice, to serve"
+      ],
       "steps": [
         "Toss the chicken in beaten egg (if using), then in 2 tbsp of the cornflour with a pinch of salt.",
         "Fry in 3 tbsp oil for 7 minutes until golden and cooked. Air fryer: spray with oil, 200°C for 12 minutes.",

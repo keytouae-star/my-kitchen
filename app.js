@@ -87,6 +87,8 @@
     LS.set("openGroups", [...S.openGroups]);
   }
   function adoptKitchen() { if (S.example) { S.example = false; } }
+  // one-time: the owner has a pressure cooker (added Nov 15, 2026), so tick it on devices that saved equipment before it existed
+  if (!LS.get("pcAdded", false)) { S.equip.add("pressurecooker"); LS.set("equip", [...S.equip]); LS.set("pcAdded", true); }
 
   // ---------- recipes and matching ----------
   const prepCache = new WeakMap();
@@ -441,6 +443,12 @@
         li.append(h("div", null, txt, mins ? h("div", { class: "step-tools" }, h("button", { class: "btn small", type: "button", onclick: () => startTimer(mins, r.name + ", step " + (i + 1)) }, "⏱ Start " + fmtMin(mins) + " timer")) : null));
         return li;
       })));
+      if (r.pressure) {
+        const pm = MK.stepMinutes(r.pressure);
+        const has = S.equip.has("pressurecooker");
+        panel.append(h("div", { class: "tip pc" }, h("strong", { text: "Pressure cooker way" + (has ? "" : " (if you get one)") + ": " }), r.pressure,
+          pm ? h("div", { class: "step-tools" }, h("button", { class: "btn small", type: "button", onclick: () => startTimer(pm, r.name + ", pressure cooker") }, "⏱ Start " + fmtMin(pm) + " timer")) : null));
+      }
       if (r.tip) panel.append(h("p", { class: "tip" }, h("strong", { text: "Tip: " }), r.tip));
       // footer actions
       const src = h("p", { class: "src", style: "margin-top:18px" }, sourceText(r));
@@ -503,6 +511,7 @@
       const extra = h("textarea", { class: "input", id: "edExtra", style: "min-height:90px", placeholder: "Nice to have, e.g.\na handful of coriander", text: (r.extra || []).join("\n") });
       const steps = h("textarea", { class: "input", id: "edSteps", style: "min-height:200px", placeholder: "One step per line, e.g.\nFry the onions for 10 minutes until golden.", text: (r.steps || []).join("\n") });
       const tip = h("input", { class: "input", id: "edTip", value: r.tip || "" });
+      const pressure = h("textarea", { class: "input", id: "edPressure", style: "min-height:80px", placeholder: "e.g. Cook 8 minutes at high pressure, then let the pressure drop by itself for 10 minutes.", text: r.pressure || "" });
       const url = h("input", { class: "input", id: "edUrl", type: "url", value: r.url || "", placeholder: "https://… (optional)" });
       // photo
       const pPrev = h("div");
@@ -531,6 +540,7 @@
         fld("Ingredients", need, "One per line, with the amount first. The coloured tags show which kitchen item each line counts as; orange means a new ingredient."), needParsed,
         fld("Optional extras", extra, "Toppings and nice-to-haves. They don't count as missing."),
         fld("Steps", steps, "One step per line. Write times like \"10 minutes\" and a timer button appears."),
+        fld("Pressure cooker way (optional)", pressure, "How to make it faster in a pressure cooker. Write the minutes and a timer button appears."),
         fld("Tip (optional)", tip), fld("Original link (optional)", url), err,
         h("div", { class: "actions" }, h("button", { class: "btn primary", type: "submit" }, "Save recipe"), h("button", { class: "btn", type: "button", onclick: closeSheet }, "Cancel")));
       f.addEventListener("submit", async (e) => {
@@ -541,7 +551,7 @@
           id: r.id && !fromPreview ? r.id : (src && src.id) || "mine_" + Date.now().toString(36),
           name: name.value.trim(), cuisine: cui.value.trim(), minutes: parseInt(mins.value, 10) || null, serves: Math.min(20, Math.max(1, parseInt(serv.value, 10) || 4)),
           diet: diet.value, equipment: equipFromChecks(new Set([...eqBox.querySelectorAll("input:checked")].map((i) => i.value))),
-          need: lines(need), extra: lines(extra), steps: lines(steps), tip: tip.value.trim(), url: url.value.trim(),
+          need: lines(need), extra: lines(extra), steps: lines(steps), tip: tip.value.trim(), pressure: pressure.value.trim(), url: url.value.trim(),
           source: r.source || "mine", imageUrl: photoRemoved ? "" : r.imageUrl || "", photo: !photoRemoved && !!(photoBlob || r.photo),
         };
         if (!out.name) { err.textContent = "Give the recipe a name."; name.focus(); return; }

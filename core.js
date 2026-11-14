@@ -166,8 +166,8 @@
   const PHRASE_RE = PHRASES.map(([w, k]) => [new RegExp("(^|[^a-z])" + esc(w) + "(s|es)?(?![a-z])", "i"), k, w]);
 
   const BASICS_DEFAULT = ["salt", "pepper", "oil", "water"];
-  const EQUIPMENT = { stove: "Stove", oven: "Oven", airfryer: "Air fryer", blender: "Blender", microwave: "Microwave" };
-  const EQUIP_DEFAULT = ["stove", "oven", "airfryer", "blender"];
+  const EQUIPMENT = { stove: "Stove", oven: "Oven", airfryer: "Air fryer", pressurecooker: "Pressure cooker", blender: "Blender", microwave: "Microwave" };
+  const EQUIP_DEFAULT = ["stove", "oven", "airfryer", "pressurecooker", "blender"];
 
   // ---------- Quantity parsing and scaling ----------
   const VULGAR = { "½": 0.5, "⅓": 1 / 3, "⅔": 2 / 3, "¼": 0.25, "¾": 0.75, "⅛": 0.125, "⅕": 0.2 };
