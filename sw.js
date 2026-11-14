@@ -1,7 +1,7 @@
 /* My Kitchen service worker: the app opens offline.
    App files and the recipe list are network-first (so updates arrive when online)
    with the cached copy as the offline fallback. Fonts and recipe photos are cached as they load. */
-const CACHE = "mykitchen-v3";
+const CACHE = "mykitchen-v4";
 const APP = ["./", "index.html", "core.js", "app.js", "recipes.json", "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png"];
 
 self.addEventListener("install", (e) => {
@@ -17,7 +17,8 @@ self.addEventListener("fetch", (e) => {
   if (url.origin === location.origin) {
     // network first, fall back to cache (ignore ?share params and cache-busting queries)
     e.respondWith(
-      fetch(req).then((res) => {
+      // "no-cache" = always ask GitHub if there's a newer file (it otherwise keeps old copies for 10 minutes)
+      fetch(req.url, { cache: "no-cache", credentials: "same-origin" }).then((res) => {
         if (res.ok && !url.searchParams.has("url") && !url.searchParams.has("text")) {
           const copy = res.clone();
           caches.open(CACHE).then((c) => c.put(url.pathname.endsWith("/") ? req : new Request(url.origin + url.pathname), copy));
