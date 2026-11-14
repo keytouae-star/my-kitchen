@@ -207,6 +207,15 @@ textarea.input { min-height: 140px; resize: vertical; line-height: 1.5; }
 .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .list li { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; min-height: 52px; }
 .list li .grow { flex: 1; min-width: 0; }
+.list li { flex-wrap: wrap; }
+.list li.in-cart { background: var(--basil-soft); }
+.list li.in-cart .grow { color: var(--muted); text-decoration: line-through; }
+.cart-tick { display: inline-grid; place-items: center; width: 40px; height: 40px; }
+.cart-tick input { width: 24px; height: 24px; accent-color: var(--basil); }
+a.btn { text-decoration: none; color: inherit; }
+a.btn.primary { color: var(--basil-ink); }
+.btn.big { min-height: 56px; font-size: 1.1rem; padding: 10px 24px; }
+.shop-item { font-size: 2.2rem; margin: 6px 0 4px; }
 
 /* Timers */
 .timers { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); pointer-events: none; }
@@ -328,6 +337,13 @@ textarea.input { min-height: 140px; resize: vertical; line-height: 1.5; }
   <section id="view-shop" hidden>
     <div class="stack">
       <div class="view-head"><h2>Shopping list</h2></div>
+      <div class="panel">
+        <div class="row" style="justify-content:space-between">
+          <div class="row"><span class="lbl">Shop at</span><div class="row" id="storePick" role="group" aria-label="Grocery store"></div></div>
+          <button class="btn primary" id="shopModeBtn" hidden>Shop my list</button>
+        </div>
+        <p class="hint" style="margin-top:8px">Each item opens the store's search. You add it to the cart there and pay in the store's app yourself. <span id="cartCount"></span></p>
+      </div>
       <form id="shopForm" class="row">
         <label class="sr" for="shopAdd">Add to the list</label>
         <input class="input" id="shopAdd" placeholder="Add something…" style="flex:1;min-width:200px">

@@ -77,6 +77,7 @@
     shop: LS.get("shop", []),
     filters: LS.get("filters", { quick: false, veg: false, vegan: false, fav: false }),
     helper: LS.get("helper", "https://my-kitchen-helper.keytouae.workers.dev"),
+    store: LS.get("store", "lulu"),
     openGroups: new Set(LS.get("openGroups", ["meat", "veg", "dairy", "grain"])),
     view: "cook", showMore: false, sheet: null,
   };
@@ -621,19 +622,89 @@
   function addToShop(items) {
     for (const it of items) {
       const id = (it.keys || []).join("/") || "t_" + it.label.toLowerCase();
-      if (!S.shop.some((s) => s.id === id)) S.shop.push({ id, keys: it.keys || [], label: it.label });
+      if (!S.shop.some((s) => s.id === id)) S.shop.push({ id, keys: it.keys || [], label: it.label, typed: !!it.typed });
     }
     saveState(); render();
     toast(plural(items.length, "item") + " added to your shopping list");
   }
   function shopText() { return "Shopping list\n" + S.shop.map((s) => "• " + s.label).join("\n"); }
+
+  // ---------- grocery stores (opens the store's own search; you add to cart and check out there) ----------
+  const STORES = {
+    lulu: { name: "Lulu", url: (q) => "https://gcc.luluhypermarket.com/en-ae/list/?search_text=" + encodeURIComponent(q) },
+    carrefour: { name: "Carrefour", url: (q) => "https://www.carrefouruae.com/mafuae/en/search?keyword=" + encodeURIComponent(q) },
+  };
+  const SEARCH_WORD = {
+    beef_bacon: "beef bacon", turkey_ham: "turkey ham", lemon: "lemon", bell_pepper: "capsicum", green_chili: "green chilli",
+    coriander: "coriander leaves", coriander_ground: "coriander powder", chili_flakes: "chilli powder", stock: "stock cubes",
+    canned_tomato: "chopped tomatoes", flatbread: "arabic bread", tortilla: "tortilla wraps", baharat: "baharat", juice: "grape juice",
+    malt_drink: "malt drink", oil: "cooking oil", sausage: "beef sausages", fish: "fish fillet", shrimp: "prawns", beef_mince: "minced beef",
+    feta: "feta cheese", spring_onion: "spring onion", oregano: "oregano", chocolate: "cocoa powder", nuts: "almonds", vanilla: "vanilla essence",
+    pepper: "black pepper", sesame: "sesame seeds", peas: "frozen peas", corn: "sweet corn", beans: "kidney beans", lentils: "red lentils",
+  };
+  function searchWord(item) {
+    if (item.typed) return item.label.trim(); // search exactly what you typed ("laban 1 litre")
+    const k = (item.keys || [])[0];
+    if (k && SEARCH_WORD[k]) return SEARCH_WORD[k];
+    const base = k && MK.CATALOG[k] ? MK.CATALOG[k].label : item.label;
+    return base.split(/\s*(?:\/| or |\()\s*/i)[0].trim().toLowerCase();
+  }
+  const store = () => STORES[S.store] || STORES.lulu;
+  function storeLink(item, cls, text) {
+    return h("a", { class: cls || "btn small", href: store().url(searchWord(item)), target: "_blank", rel: "noopener", onclick: () => { item.opened = true; saveState(); } }, text || "Find at " + store().name);
+  }
   function renderShop() {
+    // store picker
+    $("#storePick").replaceChildren(...Object.keys(STORES).map((k) => chip(STORES[k].name, S.store === k, () => { S.store = k; LS.set("store", k); renderShop(); })));
     const ul = $("#shopList");
-    ul.replaceChildren(...S.shop.map((s, i) => h("li", null, h("span", { class: "grow", text: s.label }),
+    ul.replaceChildren(...S.shop.map((s, i) => h("li", { class: s.inCart ? "in-cart" : "" },
+      h("label", { class: "cart-tick" }, h("input", { type: "checkbox", checked: !!s.inCart, "aria-label": s.label + " is in the cart", onchange: (e) => { s.inCart = e.target.checked; saveState(); renderShop(); } })),
+      h("span", { class: "grow", text: s.label }),
+      storeLink(s),
       h("button", { class: "btn quiet small", type: "button", "aria-label": "Remove " + s.label, onclick: () => { S.shop.splice(i, 1); saveState(); render(); } }, "Remove"))));
     if (!S.shop.length) ul.append(h("li", null, h("span", { class: "hint", text: "Nothing here yet. Open a recipe and tap \"Add missing items to shopping list\", or type something above." })));
+    const inCart = S.shop.filter((s) => s.inCart).length;
+    $("#cartCount").textContent = S.shop.length ? `${inCart} of ${S.shop.length} in your ${store().name} cart` : "";
     $("#shopActions").hidden = !S.shop.length;
+    $("#shopModeBtn").hidden = !S.shop.length;
+    $("#shopModeBtn").textContent = `Shop my list at ${store().name}`;
     $("#shopShare").textContent = navigator.share ? "Share list" : "Copy list";
+  }
+  // step-by-step: one item at a time
+  function openShopMode() {
+    S.sheet = "shopmode";
+    let i = S.shop.findIndex((s) => !s.inCart);
+    if (i < 0) i = 0;
+    openSheet((panel) => {
+      const draw = () => {
+        panel.replaceChildren(bar(`Shopping at ${store().name}`));
+        const left = S.shop.filter((s) => !s.inCart).length;
+        if (!left) {
+          panel.append(h("h2", { id: "sheetTitle", text: "All in the cart" }),
+            h("p", { class: "meta-line", text: `Now open the ${store().name} app or website, check the cart and pay there. When the shopping arrives, tap the button below.` }),
+            h("div", { class: "actions" },
+              h("button", { class: "btn primary", type: "button", onclick: () => { closeSheet(); $("#shopBought").click(); } }, "I bought these: add to my kitchen"),
+              h("button", { class: "btn", type: "button", onclick: closeSheet }, "Not yet")));
+          return;
+        }
+        const it = S.shop[i];
+        panel.append(
+          h("p", { class: "hint", text: `Item ${i + 1} of ${S.shop.length} · ${left} still to add` }),
+          h("h2", { id: "sheetTitle", class: "shop-item", text: it.label }),
+          h("p", { class: "meta-line", text: `Searches ${store().name} for "${searchWord(it)}". Pick the one you want, tap its add button, then come back here.` }),
+          h("div", { class: "actions" }, storeLink(it, "btn primary big", `Open ${store().name}: ${searchWord(it)}`)),
+          h("div", { class: "actions" },
+            h("button", { class: "btn", type: "button", onclick: () => { it.inCart = true; saveState(); next(); } }, "✓ Added, next item"),
+            h("button", { class: "btn quiet", type: "button", onclick: () => next(true) }, "Skip for now")));
+      };
+      const next = (skip) => {
+        const order = S.shop.map((_, k) => (i + 1 + k) % S.shop.length);
+        const n = order.find((k) => !S.shop[k].inCart && (!skip || k !== i));
+        if (n != null) i = n;
+        renderShop(); draw();
+      };
+      draw();
+    });
   }
 
   // ---------- recipe list ----------
@@ -891,7 +962,7 @@
   $("#linkForm").addEventListener("submit", (e) => { e.preventDefault(); importLink($("#linkUrl").value); });
   $("#shopForm").addEventListener("submit", (e) => {
     e.preventDefault(); const v = $("#shopAdd").value.trim(); if (!v) return;
-    const m = MK.matchLine(v); addToShop([{ keys: m.custom ? [] : m.keys, label: v }]); $("#shopAdd").value = "";
+    const m = MK.matchLine(v); addToShop([{ keys: m.custom ? [] : m.keys, label: v, typed: true }]); $("#shopAdd").value = "";
   });
   $("#shopBought").addEventListener("click", () => {
     adoptKitchen();
@@ -905,6 +976,7 @@
     try { await navigator.clipboard.writeText(text); toast("List copied"); }
     catch (e) { const ta = $("#shopCopy"); ta.hidden = false; ta.value = text; ta.select(); toast("Select the text below and copy it"); }
   });
+  $("#shopModeBtn").addEventListener("click", openShopMode);
   $("#shopClear").addEventListener("click", () => { if (!confirm("Clear the whole shopping list?")) return; S.shop = []; saveState(); render(); });
   $("#backupBtn").addEventListener("click", makeBackup);
   $("#restoreFile").addEventListener("change", (e) => { const f = e.target.files[0]; if (f) restoreBackup(f); e.target.value = ""; });
