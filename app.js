@@ -76,7 +76,7 @@
     hidden: new Set(LS.get("hidden", [])),
     shop: LS.get("shop", []),
     filters: LS.get("filters", { quick: false, veg: false, vegan: false, fav: false }),
-    helper: LS.get("helper", ""),
+    helper: LS.get("helper", "https://my-kitchen-helper.keytouae.workers.dev"),
     openGroups: new Set(LS.get("openGroups", ["meat", "veg", "dairy", "grain"])),
     view: "cook", showMore: false, sheet: null,
   };
