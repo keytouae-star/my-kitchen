@@ -4,7 +4,7 @@
   const MK = window.MK;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 8; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 9; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -454,7 +454,7 @@
       if (r.tip) panel.append(h("p", { class: "tip" }, h("strong", { text: "Tip: " }), r.tip));
       // footer actions
       const src = h("p", { class: "src", style: "margin-top:18px" }, sourceText(r));
-      if (r.url) src.append(" · ", h("a", { href: r.url, target: "_blank", rel: "noopener", text: "original page" }));
+      if (r.url) src.append(" · ", h("a", { href: outsideLink(r.url), target: "_blank", rel: "noopener", text: "original page" }));
       panel.append(src);
       if (!preview) {
         const acts = h("div", { class: "actions" }, h("button", { class: "btn", type: "button", onclick: () => openEditor(r) }, "Edit recipe"));
@@ -656,8 +656,18 @@
     return base.split(/\s*(?:\/| or |\()\s*/i)[0].trim().toLowerCase();
   }
   const store = () => STORES[S.store] || STORES.lulu;
+  // Inside the installed app, Android opens normal links in a window on top of My Kitchen, which traps you there.
+  // An Android "intent" link hands the page to the store's own app (if installed) or to Chrome instead,
+  // so My Kitchen stays put and the Back button returns to it.
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  const isInstalled = () => (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || document.referrer.startsWith("android-app://");
+  function outsideLink(url) {
+    if (!isAndroid || !isInstalled()) return url;
+    const u = new URL(url);
+    return "intent://" + u.host + u.pathname + u.search + "#Intent;scheme=https;S.browser_fallback_url=" + encodeURIComponent(url) + ";end";
+  }
   function storeLink(item, cls, text) {
-    return h("a", { class: cls || "btn small", href: store().url(searchWord(item)), target: "_blank", rel: "noopener", onclick: () => { item.opened = true; saveState(); } }, text || "Find at " + store().name);
+    return h("a", { class: cls || "btn small", href: outsideLink(store().url(searchWord(item))), target: "_blank", rel: "noopener", onclick: () => { item.opened = true; saveState(); } }, text || "Find at " + store().name);
   }
   function renderShop() {
     // store picker
@@ -676,7 +686,7 @@
     $("#shopModeBtn").textContent = `Shop my list at ${store().name}`;
     $("#shopShare").textContent = navigator.share ? "Share list" : "Copy list";
     // wa.me opens WhatsApp with the text ready; you pick the chat (yourself, family, a shop)
-    $("#shopWhatsApp").href = "https://wa.me/?text=" + encodeURIComponent(whatsAppText());
+    $("#shopWhatsApp").href = outsideLink("https://wa.me/?text=" + encodeURIComponent(whatsAppText()));
     $("#shopWhatsApp").hidden = !S.shop.length;
   }
   // step-by-step: one item at a time
@@ -700,7 +710,7 @@
         panel.append(
           h("p", { class: "hint", text: `Item ${i + 1} of ${S.shop.length} · ${left} still to add` }),
           h("h2", { id: "sheetTitle", class: "shop-item", text: it.label }),
-          h("p", { class: "meta-line", text: `Searches ${store().name} for "${searchWord(it)}". Pick the one you want, tap its add button, then come back here.` }),
+          h("p", { class: "meta-line", text: `Searches ${store().name} for "${searchWord(it)}". Pick the one you want, tap its add button, then press the tablet's Back button to come back here.` }),
           h("div", { class: "actions" }, storeLink(it, "btn primary big", `Open ${store().name}: ${searchWord(it)}`)),
           h("div", { class: "actions" },
             h("button", { class: "btn", type: "button", onclick: () => { it.inCart = true; saveState(); next(); } }, "✓ Added, next item"),
