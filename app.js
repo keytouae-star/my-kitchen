@@ -4,6 +4,7 @@
   const MK = window.MK;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
+  const APP_VERSION = 8; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -676,6 +677,7 @@
     $("#shopShare").textContent = navigator.share ? "Share list" : "Copy list";
     // wa.me opens WhatsApp with the text ready; you pick the chat (yourself, family, a shop)
     $("#shopWhatsApp").href = "https://wa.me/?text=" + encodeURIComponent(whatsAppText());
+    $("#shopWhatsApp").hidden = !S.shop.length;
   }
   // step-by-step: one item at a time
   function openShopMode() {
@@ -741,7 +743,7 @@
     $("#basicsChips").replaceChildren(...BASIC_CHOICES.map((k) => chip(label(k, ex), S.basics.has(k), () => { S.basics.has(k) ? S.basics.delete(k) : S.basics.add(k); saveState(); render(); })));
     $("#helperUrl").value = S.helper;
     const mineN = S.mine.length;
-    $("#aboutText").textContent = `${allRecipes().length} recipes available (${S.builtin.length} built-in, ${mineN} yours or saved). Built-in recipe list updated ${S.feed.updated || "–"}. Everything is stored on this device and works offline. Online search uses TheMealDB's free recipe library.`;
+    $("#aboutText").textContent = `App version ${APP_VERSION}. ${allRecipes().length} recipes available (${S.builtin.length} built-in, ${mineN} yours or saved). Built-in recipe list updated ${S.feed.updated || "–"}. Everything is stored on this device and works offline. Online search uses TheMealDB's free recipe library.`;
   }
   async function makeBackup() {
     const photos = {};
