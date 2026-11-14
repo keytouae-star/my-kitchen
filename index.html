@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Kitchen</title>
+<meta name="description" content="Tick what's in your kitchen and see what you can cook, with ingredients and steps. Works offline.">
+<meta name="theme-color" content="#2e7d4f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: tablet-first two-pane kitchen ("what I have" | "what I can cook"); recipes open in a side sheet; one column on narrow screens. */
+:root {
+  --bg: #f3f7f1;
+  --surface: #ffffff;
+  --sunk: #e9efe6;
+  --ink: #1b2a1f;
+  --muted: #5a6b5f;
+  --line: #d6e0d2;
+  --basil: #2e7d4f;
+  --basil-ink: #ffffff;
+  --basil-soft: #e0f0e5;
+  --saffron: #9a6412;
+  --saffron-soft: #fbeed3;
+  --tomato: #b83e2b;
+  --tomato-soft: #fbe3de;
+  --display: "Bricolage Grotesque", "Segoe UI", Roboto, system-ui, sans-serif;
+  --body: "Figtree", "Segoe UI", Roboto, system-ui, sans-serif;
+  --r: 14px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.5 var(--body);
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--basil); outline-offset: 2px; }
+[hidden] { display: none !important; }
+img { max-width: 100%; display: block; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.15; text-wrap: balance; margin: 0; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Header and navigation */
+.top {
+  position: sticky; top: 0; z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line);
+  padding: 10px max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
+}
+.top-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+.brand svg { width: 34px; height: 34px; flex: none; }
+.brand h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; }
+.status { font-size: .8rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--basil); }
+.dot.off { background: var(--saffron); }
+nav.tabs { display: flex; gap: 4px; overflow-x: auto; margin-top: 8px; scrollbar-width: none; }
+nav.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  border: 0; background: none; padding: 10px 14px 12px; font-weight: 600; color: var(--muted);
+  border-bottom: 3px solid transparent; white-space: nowrap; min-height: 46px;
+}
+.tab[aria-current="page"] { color: var(--basil); border-bottom-color: var(--basil); }
+.badge { display: inline-block; min-width: 20px; padding: 0 6px; border-radius: 10px; background: var(--saffron-soft); color: var(--saffron); font-size: .75rem; line-height: 20px; text-align: center; margin-left: 4px; }
+
+main { padding: 18px max(16px, env(safe-area-inset-right, 0px)) 120px max(16px, env(safe-area-inset-left, 0px)); max-width: 1400px; margin: 0 auto; }
+
+/* Buttons and fields */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 8px 16px;
+  border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-weight: 600;
+}
+.btn:hover { border-color: var(--basil); }
+.btn.primary { background: var(--basil); color: var(--basil-ink); border-color: var(--basil); }
+.btn.quiet { border-color: transparent; background: transparent; color: var(--basil); }
+.btn.danger { color: var(--tomato); }
+.btn:disabled { opacity: .55; cursor: default; }
+.btn.small { min-height: 36px; padding: 4px 12px; font-size: .9rem; }
+.field { display: grid; gap: 6px; }
+.field label, .lbl { font-weight: 600; font-size: .9rem; }
+.input, select.input, textarea.input {
+  width: 100%; min-height: 46px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface);
+}
+textarea.input { min-height: 140px; resize: vertical; line-height: 1.5; }
+.input:focus { border-color: var(--basil); outline: none; box-shadow: 0 0 0 3px var(--basil-soft); }
+.hint { font-size: .85rem; color: var(--muted); margin: 0; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+/* Cook view: two panes */
+.cook { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 22px; align-items: start; }
+@media (max-width: 860px) { .cook { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; }
+.kitchen { position: sticky; top: 120px; max-height: calc(100vh - 140px); overflow: auto; }
+@media (max-width: 860px) { .kitchen { position: static; max-height: none; } }
+.panel-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
+.panel-head h2 { font-size: 1.25rem; margin-right: auto; }
+.count { color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; }
+.note { background: var(--saffron-soft); color: var(--ink); border-radius: 10px; padding: 10px 12px; font-size: .9rem; margin: 0 0 12px; }
+.search-wrap { position: relative; margin-bottom: 12px; }
+.sugg { list-style: none; margin: 4px 0 0; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; position: absolute; left: 0; right: 0; z-index: 5; box-shadow: 0 10px 30px rgba(27,42,31,.12); }
+.sugg button { width: 100%; text-align: left; border: 0; background: none; padding: 10px 12px; border-radius: 8px; display: flex; justify-content: space-between; min-height: 44px; }
+.sugg button:hover, .sugg button:focus-visible { background: var(--basil-soft); }
+.grp { border-top: 1px solid var(--line); }
+.grp summary { list-style: none; display: flex; justify-content: space-between; align-items: center; padding: 12px 2px; font-weight: 700; cursor: pointer; min-height: 46px; }
+.grp summary::-webkit-details-marker { display: none; }
+.grp summary::after { content: "+"; font-size: 1.3rem; color: var(--muted); margin-left: 8px; }
+.grp[open] summary::after { content: "–"; }
+.grp summary .count { margin-left: auto; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 0 14px; }
+.chip {
+  border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 14px; min-height: 40px;
+  display: inline-flex; align-items: center; gap: 6px; font-weight: 500;
+}
+.chip[aria-pressed="true"] { background: var(--basil-soft); border-color: var(--basil); color: var(--ink); }
+.chip[aria-pressed="true"]::before { content: "✓"; color: var(--basil); font-weight: 800; }
+
+/* Results */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.summary { font-size: 1.05rem; margin: 0 0 16px; }
+.summary strong { font-family: var(--display); font-size: 1.35rem; }
+.bucket { margin-bottom: 26px; }
+.bucket h3 { font-size: 1.1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.pill { display: inline-flex; align-items: center; border-radius: 999px; padding: 2px 10px; font-size: .78rem; font-weight: 700; font-family: var(--body); }
+.pill.good { background: var(--basil-soft); color: var(--basil); }
+.pill.warn { background: var(--saffron-soft); color: var(--saffron); }
+.pill.bad { background: var(--tomato-soft); color: var(--tomato); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.card {
+  position: relative; text-align: left; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 0; overflow: hidden; min-width: 0; width: 100%;
+}
+.card:hover { border-color: var(--basil); }
+.card .thumb { aspect-ratio: 16 / 9; width: 100%; object-fit: cover; background: var(--sunk); }
+.card .thumb.blank { display: grid; place-items: center; color: var(--muted); font-family: var(--display); font-size: 2rem; }
+.card .body { padding: 12px 14px 14px; display: grid; gap: 4px; }
+.card .name { font-family: var(--display); font-weight: 600; font-size: 1.08rem; line-height: 1.2; padding-right: 26px; }
+.card .meta { font-size: .85rem; color: var(--muted); }
+.card .miss { font-size: .88rem; color: var(--saffron); }
+.card .ok { font-size: .88rem; color: var(--basil); }
+.card .star { position: absolute; top: 8px; right: 10px; font-size: 1.2rem; color: var(--saffron); text-shadow: 0 0 6px #fff; }
+.card .body .star { top: 10px; }
+.meter { height: 5px; border-radius: 3px; background: var(--sunk); overflow: hidden; margin-top: 4px; }
+.meter span { display: block; height: 100%; background: var(--basil); }
+.empty { text-align: center; padding: 30px 16px; color: var(--muted); }
+.empty h3 { color: var(--ink); margin-bottom: 6px; }
+
+/* Sheet */
+.sheet { position: fixed; inset: 0; z-index: 40; background: rgba(20,32,24,.45); display: flex; justify-content: flex-end; }
+.sheet-panel {
+  background: var(--surface); width: min(760px, 100%); height: 100%; overflow-y: auto; overscroll-behavior: contain;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) calc(110px + env(safe-area-inset-bottom, 0px)) 20px;
+  box-shadow: -10px 0 40px rgba(0,0,0,.15);
+}
+.sheet-bar { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px; position: sticky; top: calc(-16px - env(safe-area-inset-top, 0px)); background: var(--surface); padding: 8px 0; z-index: 2; }
+.close { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); font-size: 1.4rem; line-height: 1; }
+.hero-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--r); margin-bottom: 14px; background: var(--sunk); }
+.sheet h2 { font-size: 1.9rem; font-weight: 800; }
+.sheet h3 { font-size: 1.15rem; margin: 22px 0 10px; }
+.meta-line { color: var(--muted); margin: 6px 0 12px; }
+.serv { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.serv button { width: 46px; height: 44px; border: 0; background: var(--sunk); font-size: 1.3rem; font-weight: 700; }
+.serv output { min-width: 110px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ings { list-style: none; padding: 0; margin: 0; display: grid; gap: 2px; }
+.ings li { display: grid; grid-template-columns: 30px 1fr; gap: 8px; padding: 8px 4px; border-bottom: 1px solid var(--line); align-items: start; }
+.ings .mark { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .85rem; }
+.ings .have .mark { background: var(--basil-soft); color: var(--basil); }
+.ings .miss .mark { background: var(--saffron-soft); color: var(--saffron); }
+.ings .miss .txt { font-weight: 600; }
+.ings .miss.opt .txt { font-weight: 400; }
+.ings .miss.opt .mark { background: var(--sunk); color: var(--muted); }
+.ings .tag { font-size: .78rem; color: var(--muted); margin-left: 6px; }
+.steps { list-style: none; padding: 0; margin: 0; counter-reset: s; display: grid; gap: 10px; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 10px; background: var(--bg); border-radius: 12px; padding: 12px; }
+.steps li::before { content: counter(s); width: 34px; height: 34px; border-radius: 50%; background: var(--basil); color: var(--basil-ink); display: grid; place-items: center; font-weight: 700; font-family: var(--display); }
+.steps li.done { opacity: .5; }
+.steps li.done .step-text { text-decoration: line-through; }
+.step-text { font-size: 1.08rem; line-height: 1.55; cursor: pointer; }
+.step-tools { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.tip { background: var(--basil-soft); border-radius: 12px; padding: 12px 14px; margin-top: 16px; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+.src { font-size: .85rem; color: var(--muted); }
+.src a { color: var(--basil); }
+
+/* Editor */
+.form { display: grid; gap: 16px; }
+.form .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.checks { display: flex; flex-wrap: wrap; gap: 8px; }
+.checks label { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; min-height: 42px; }
+.checks input { width: 20px; height: 20px; accent-color: var(--basil); }
+.parsed { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.parsed span { font-size: .8rem; border-radius: 999px; padding: 2px 10px; background: var(--basil-soft); color: var(--basil); }
+.parsed span.new { background: var(--saffron-soft); color: var(--saffron); }
+.photo-pick { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.photo-pick img { width: 160px; aspect-ratio: 4/3; object-fit: cover; border-radius: 12px; }
+
+/* Other views */
+.view-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.view-head h2 { font-size: 1.6rem; margin-right: auto; }
+.stack { display: grid; gap: 16px; max-width: 900px; }
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.list li { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; min-height: 52px; }
+.list li .grow { flex: 1; min-width: 0; }
+
+/* Timers */
+.timers { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); pointer-events: none; }
+.timer { pointer-events: auto; display: flex; align-items: center; gap: 10px; background: var(--ink); color: #fff; border-radius: 999px; padding: 8px 8px 8px 16px; box-shadow: 0 8px 24px rgba(0,0,0,.25); font-variant-numeric: tabular-nums; }
+.timer .t { font-family: var(--display); font-size: 1.25rem; font-weight: 600; }
+.timer button { border: 0; border-radius: 999px; background: rgba(255,255,255,.15); color: #fff; min-height: 38px; padding: 4px 12px; font-weight: 600; }
+.timer.done { background: var(--tomato); animation: pulse 1s infinite; }
+@keyframes pulse { 50% { transform: scale(1.04); } }
+@media (prefers-reduced-motion: reduce) { .timer.done { animation: none; } }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(80px + env(safe-area-inset-bottom, 0px)); z-index: 70; background: var(--ink); color: #fff; padding: 10px 18px; border-radius: 999px; font-weight: 500; max-width: calc(100% - 32px); text-align: center; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-row">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#2e7d4f"/><path d="M14 30h36a18 18 0 0 1-36 0z" fill="#fff"/><path d="M24 22c2-3-1-5 1-8M32 22c2-3-1-5 1-8M40 22c2-3-1-5 1-8" stroke="#fbeed3" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="10" y="27" width="44" height="4" rx="2" fill="#fbeed3"/></svg>
+      <h1>My Kitchen</h1>
+    </div>
+    <span class="status" id="netStatus"><span class="dot"></span><span>Online</span></span>
+    <button class="btn small" id="installBtn" hidden>Install app</button>
+  </div>
+  <nav class="tabs" aria-label="Sections">
+    <button class="tab" data-view="cook" aria-current="page">What can I cook?</button>
+    <button class="tab" data-view="online">Find online</button>
+    <button class="tab" data-view="recipes">My recipes</button>
+    <button class="tab" data-view="shop">Shopping list <span class="badge" id="shopCount" hidden>0</span></button>
+    <button class="tab" data-view="settings">Settings</button>
+  </nav>
+</header>
+
+<main>
+  <!-- Cook -->
+  <section id="view-cook" class="cook">
+    <aside class="panel kitchen" aria-labelledby="kitchenTitle">
+      <div class="panel-head">
+        <h2 id="kitchenTitle">In my kitchen</h2>
+        <span class="count" id="haveCount"></span>
+        <button class="btn quiet small" id="clearKitchen">Clear</button>
+      </div>
+      <p class="note" id="exampleNote" hidden>This is an example kitchen to show how it works. Tap <strong>Clear</strong> and tick what you really have.</p>
+      <div class="search-wrap">
+        <label class="sr" for="kSearch">Add an ingredient</label>
+        <input class="input" id="kSearch" type="search" placeholder="Type to add: eggs, rice, chicken…" autocomplete="off" enterkeyhint="done">
+        <ul class="sugg" id="kSugg" hidden></ul>
+      </div>
+      <p class="hint" id="kMsg" aria-live="polite"></p>
+      <div id="groups"></div>
+      <details class="grp" id="equipGrp">
+        <summary>My equipment <span class="count" id="equipCount"></span></summary>
+        <div class="chips" id="equipChips"></div>
+      </details>
+      <p class="hint" id="basicsHint"></p>
+    </aside>
+    <section aria-labelledby="dishesTitle">
+      <h2 id="dishesTitle" class="sr">Dishes</h2>
+      <div class="filters" role="group" aria-label="Filters">
+        <button class="chip" id="fQuick" aria-pressed="false">Quick (20 min or less)</button>
+        <button class="chip" id="fVeg" aria-pressed="false">Vegetarian</button>
+        <button class="chip" id="fVegan" aria-pressed="false">Vegan</button>
+        <button class="chip" id="fFav" aria-pressed="false">★ Favourites</button>
+      </div>
+      <p class="summary" id="summary"></p>
+      <div id="results"></div>
+    </section>
+  </section>
+
+  <!-- Online -->
+  <section id="view-online" hidden>
+    <div class="stack">
+      <div class="view-head"><h2>Find more recipes online</h2></div>
+      <p class="note" id="offlineNote" hidden>You're offline. Online search needs internet; all your saved recipes still work.</p>
+      <div class="panel">
+        <form id="onlineForm" class="row">
+          <label class="sr" for="onlineQ">Search online</label>
+          <input class="input" id="onlineQ" type="search" placeholder="A dish or an ingredient, e.g. biryani or lamb" style="flex:1;min-width:200px" enterkeyhint="search">
+          <button class="btn primary" type="submit">Search</button>
+        </form>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" id="ideasBtn">Ideas from my kitchen</button>
+          <span class="hint">Searches a free recipe library for dishes that use what you have.</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:8px">Save a recipe from a website</h3>
+        <p class="hint" style="margin-bottom:10px">In Chrome, open the recipe page, tap <strong>Share</strong>, then <strong>My Kitchen</strong>. Or paste the link here.</p>
+        <form id="linkForm" class="row">
+          <label class="sr" for="linkUrl">Recipe link</label>
+          <input class="input" id="linkUrl" type="url" placeholder="https://…" style="flex:1;min-width:200px" inputmode="url">
+          <button class="btn primary" type="submit">Import</button>
+        </form>
+        <p class="hint" id="linkMsg" aria-live="polite" style="margin-top:8px"></p>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="pasteBtn2">Paste recipe text instead</button>
+        </div>
+      </div>
+      <p class="hint" id="onlineMsg" aria-live="polite"></p>
+      <div class="grid" id="onlineResults"></div>
+    </div>
+  </section>
+
+  <!-- Recipes -->
+  <section id="view-recipes" hidden>
+    <div class="view-head">
+      <h2>My recipes</h2>
+      <button class="btn primary" id="addBtn">Add a recipe</button>
+      <button class="btn" id="pasteBtn">Paste a recipe</button>
+    </div>
+    <div class="row" style="margin-bottom:14px">
+      <label class="sr" for="rSearch">Search recipes</label>
+      <input class="input" id="rSearch" type="search" placeholder="Search your recipes" style="flex:1;min-width:200px">
+      <button class="btn" id="updateBtn">Check for new recipes</button>
+    </div>
+    <p class="hint" id="updateMsg" aria-live="polite" style="margin-bottom:12px"></p>
+    <div id="recipeList"></div>
+  </section>
+
+  <!-- Shopping -->
+  <section id="view-shop" hidden>
+    <div class="stack">
+      <div class="view-head"><h2>Shopping list</h2></div>
+      <form id="shopForm" class="row">
+        <label class="sr" for="shopAdd">Add to the list</label>
+        <input class="input" id="shopAdd" placeholder="Add something…" style="flex:1;min-width:200px">
+        <button class="btn" type="submit">Add</button>
+      </form>
+      <ul class="list" id="shopList"></ul>
+      <div class="row" id="shopActions">
+        <button class="btn primary" id="shopBought">I bought these: add to my kitchen</button>
+        <button class="btn" id="shopShare">Share list</button>
+        <button class="btn danger" id="shopClear">Clear list</button>
+      </div>
+      <textarea class="input" id="shopCopy" readonly hidden aria-label="Shopping list text"></textarea>
+    </div>
+  </section>
+
+  <!-- Settings -->
+  <section id="view-settings" hidden>
+    <div class="stack">
+      <div class="view-head"><h2>Settings</h2></div>
+      <div class="panel">
+        <h3 style="margin-bottom:6px">Basics I always have</h3>
+        <p class="hint" style="margin-bottom:10px">These count as "have" in every recipe, so you don't need to tick them.</p>
+        <div class="chips" id="basicsChips"></div>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:6px">Backup</h3>
+        <p class="hint" style="margin-bottom:10px">Saves your own recipes, photos, kitchen, favourites and shopping list to one file. Keep it somewhere safe (Google Drive, for example) in case the tablet is reset.</p>
+        <div class="row">
+          <button class="btn primary" id="backupBtn">Save backup file</button>
+          <label class="btn" for="restoreFile">Restore from file</label>
+          <input type="file" id="restoreFile" accept="application/json,.json" hidden>
+        </div>
+        <p class="hint" id="backupMsg" aria-live="polite" style="margin-top:8px"></p>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:6px">Website import helper</h3>
+        <p class="hint" style="margin-bottom:10px">Saving recipes from websites needs a small free helper address (set up once on Cloudflare). Paste it here.</p>
+        <form id="helperForm" class="row">
+          <label class="sr" for="helperUrl">Helper address</label>
+          <input class="input" id="helperUrl" type="url" placeholder="https://my-kitchen-helper.yourname.workers.dev" style="flex:1;min-width:220px">
+          <button class="btn" type="submit">Save</button>
+        </form>
+        <p class="hint" id="helperMsg" aria-live="polite" style="margin-top:8px"></p>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:6px">About</h3>
+        <p class="hint" id="aboutText"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" id="sheetPanel"></div>
+</div>
+<div class="timers" id="timers" aria-live="polite"></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
