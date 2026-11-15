@@ -217,6 +217,31 @@ a.btn.wa { background: #1f9d55; border-color: #1f9d55; color: #fff; }
 a.btn.primary { color: var(--basil-ink); }
 .btn.big { min-height: 56px; font-size: 1.1rem; padding: 10px 24px; }
 .shop-item { font-size: 2.2rem; margin: 6px 0 4px; }
+/* use soon */
+.chip.soon { border-color: var(--saffron); background: var(--saffron-soft); }
+.chip.soon[aria-pressed="true"]::before { content: none; }
+.soon-line { color: var(--saffron); font-size: .88rem; font-weight: 600; }
+/* notes */
+.notes { margin: 6px 0 4px; border: 1px solid var(--line); border-radius: 12px; padding: 4px 12px; }
+.notes summary { cursor: pointer; font-weight: 600; min-height: 40px; display: flex; align-items: center; }
+.note-box { min-height: 80px; margin: 4px 0 10px; }
+.plan-pick { align-items: center; padding: 0 0 8px; }
+/* cook mode */
+.cook-step { font-family: var(--body); font-size: clamp(1.4rem, 3.2vw, 2rem); line-height: 1.45; font-weight: 500; margin: 14px 0 18px; text-wrap: pretty; }
+.cook-progress { height: 8px; border-radius: 4px; background: var(--sunk); overflow: hidden; }
+.cook-progress span { display: block; height: 100%; background: var(--basil); }
+.cook-nav { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.cook-nav .btn { flex: 1 1 140px; }
+/* meal plan */
+.plan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.plan-day { display: grid; gap: 10px; align-content: start; }
+.plan-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.plan-head h3 { font-size: 1.15rem; }
+.plan-day .list li { flex-wrap: nowrap; padding: 8px 10px; }
+.plan-dish { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; border: 0; background: none; padding: 2px 0; min-height: 40px; }
+.plan-dish .grow { font-weight: 600; line-height: 1.25; }
+.plan-dish .miss { color: var(--saffron); font-size: .85rem; }
+.plan-dish .ok { color: var(--basil); font-size: .85rem; }
 
 /* Timers */
 .timers { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); pointer-events: none; }
@@ -241,6 +266,7 @@ a.btn.primary { color: var(--basil-ink); }
   </div>
   <nav class="tabs" aria-label="Sections">
     <button class="tab" data-view="cook" aria-current="page">What can I cook?</button>
+    <button class="tab" data-view="plan">Meal plan</button>
     <button class="tab" data-view="online">Find online</button>
     <button class="tab" data-view="recipes">My recipes</button>
     <button class="tab" data-view="shop">Shopping list <span class="badge" id="shopCount" hidden>0</span></button>
@@ -269,10 +295,15 @@ a.btn.primary { color: var(--basil-ink); }
         <summary>My equipment <span class="count" id="equipCount"></span></summary>
         <div class="chips" id="equipChips"></div>
       </details>
+      <p class="hint soon-line" id="soonHint" style="margin:6px 0"></p>
       <p class="hint" id="basicsHint"></p>
     </aside>
     <section aria-labelledby="dishesTitle">
       <h2 id="dishesTitle" class="sr">Dishes</h2>
+      <div class="note row" id="backupNote" hidden style="justify-content:space-between">
+        <span>It's been a while since your last backup. Save one so a tablet reset can't lose your recipes.</span>
+        <span class="row"><button class="btn small primary" id="backupNow">Save backup</button><button class="btn small quiet" id="backupLater">Later</button></span>
+      </div>
       <div class="filters" role="group" aria-label="Filters">
         <button class="chip" id="fQuick" aria-pressed="false">Quick (20 min or less)</button>
         <button class="chip" id="fVeg" aria-pressed="false">Vegetarian</button>
@@ -282,6 +313,18 @@ a.btn.primary { color: var(--basil-ink); }
       <p class="summary" id="summary"></p>
       <div id="results"></div>
     </section>
+  </section>
+
+  <!-- Meal plan -->
+  <section id="view-plan" hidden>
+    <div class="stack">
+      <div class="view-head"><h2>Meal plan</h2></div>
+      <div class="panel row" style="justify-content:space-between">
+        <p class="summary" id="planSummary" style="margin:0"></p>
+        <button class="btn primary" id="planShop" hidden>Add missing items to shopping list</button>
+      </div>
+      <div class="plan-grid" id="planDays"></div>
+    </div>
   </section>
 
   <!-- Online -->

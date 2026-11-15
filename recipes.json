@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "updated": "2026-11-15",
   "recipes": [
     {
@@ -1299,6 +1299,329 @@
         "Toss in the chicken and serve straight away with rice."
       ],
       "tip": ""
+    },
+    {
+      "id": "harees",
+      "name": "Harees",
+      "cuisine": "Emirati / Gulf",
+      "minutes": 180,
+      "serves": 6,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "2 cups harees wheat (whole wheat grains), soaked overnight",
+        "500 g lamb or chicken on the bone"
+      ],
+      "extra": [
+        "3 tbsp ghee, to serve",
+        "½ tsp cinnamon, to serve"
+      ],
+      "steps": [
+        "Drain the soaked wheat and put it in a big pot with the meat, 8 cups water and 1½ tsp salt.",
+        "Bring to the boil and skim off the foam.",
+        "Cover and simmer on low for 2½ hours, stirring every 20 minutes so it doesn't stick. Add hot water if it gets too thick.",
+        "Lift out the meat, remove the bones, shred it and return it to the pot.",
+        "Beat hard with a wooden spoon for 5 minutes (or a few short pulses with a hand blender) until smooth and stretchy.",
+        "Serve hot with melted ghee poured on top and a pinch of cinnamon."
+      ],
+      "pressure": "Put the soaked wheat, meat, salt and 6 cups water in the pot. Cook 45 minutes at high pressure and let the pressure drop by itself. Remove the bones, then beat until smooth and stretchy.",
+      "tip": "Harees should be thick, smooth and slightly stretchy, like a porridge you can hold on a spoon."
+    },
+    {
+      "id": "luqaimat",
+      "name": "Luqaimat (sweet dumplings)",
+      "cuisine": "Emirati / Gulf",
+      "minutes": 60,
+      "serves": 6,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "2 cups flour",
+        "1 tsp yeast",
+        "1 tbsp sugar",
+        "1 cup warm water",
+        "date syrup or honey, to drizzle"
+      ],
+      "extra": [
+        "1 tbsp cornflour",
+        "¼ tsp cardamom",
+        "a pinch of saffron",
+        "1 tbsp sesame seeds, to sprinkle"
+      ],
+      "steps": [
+        "Mix the flour, cornflour, yeast, sugar, cardamom, saffron and a pinch of salt.",
+        "Stir in the warm water a little at a time to make a thick, sticky batter, like very thick pancake batter.",
+        "Cover and leave in a warm place for 40 minutes until bubbly and doubled.",
+        "Heat oil about 5 cm deep over medium heat. A drop of batter should sizzle and rise slowly.",
+        "Drop small balls of batter into the oil using two teaspoons dipped in water. Fry 5 minutes, turning, until golden all over.",
+        "Drain on paper, drizzle with date syrup and sprinkle with sesame seeds. Eat warm."
+      ],
+      "tip": "If the oil is too hot they brown outside but stay raw inside. Fry a test one first."
+    },
+    {
+      "id": "balaleet",
+      "name": "Balaleet (sweet vermicelli with eggs)",
+      "cuisine": "Emirati / Gulf",
+      "minutes": 25,
+      "serves": 3,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "200 g vermicelli",
+        "3 tbsp sugar",
+        "2 eggs",
+        "¼ tsp cardamom"
+      ],
+      "extra": [
+        "a pinch of saffron in 2 tbsp warm water",
+        "1 tbsp rose water",
+        "1 tbsp ghee or butter"
+      ],
+      "steps": [
+        "Toast the vermicelli in the ghee or 1 tbsp oil over medium heat for 3 minutes until golden.",
+        "Add 2 cups water, the sugar, cardamom, saffron water and rose water. Simmer 8 minutes until the water is absorbed.",
+        "Cover and leave on the lowest heat for 5 minutes.",
+        "Meanwhile beat the eggs with a pinch of salt and cook a thin omelette in a little oil.",
+        "Serve the vermicelli with the omelette on top."
+      ],
+      "tip": "A classic Emirati breakfast: sweet and salty together."
+    },
+    {
+      "id": "chicken_saloona",
+      "name": "Chicken saloona",
+      "cuisine": "Emirati / Gulf",
+      "minutes": 50,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "800 g chicken pieces",
+        "2 onions, chopped",
+        "3 tomatoes, chopped",
+        "2 potatoes, in chunks",
+        "2 carrots, in chunks",
+        "2 tsp baharat",
+        "1 tsp turmeric"
+      ],
+      "extra": [
+        "1 zucchini, in chunks",
+        "1 dried lime, pierced",
+        "3 cloves garlic",
+        "1 tbsp ginger, grated",
+        "1 tbsp tomato paste",
+        "a handful of coriander",
+        "rice, to serve"
+      ],
+      "steps": [
+        "Fry the onions in 3 tbsp oil for 8 minutes until golden.",
+        "Add the garlic, ginger, baharat and turmeric and stir 1 minute.",
+        "Add the chicken and brown for 5 minutes.",
+        "Add the tomatoes and tomato paste and cook 5 minutes until soft.",
+        "Add the potatoes, carrots, dried lime, 4 cups water and 1½ tsp salt. Cover and simmer 25 minutes, adding the zucchini for the last 10 minutes.",
+        "Top with coriander and serve with rice."
+      ],
+      "pressure": "After step 4, add the potatoes, carrots, dried lime, salt and 2½ cups water. Cook 8 minutes at high pressure, release the pressure, add the zucchini and simmer 5 minutes.",
+      "tip": ""
+    },
+    {
+      "id": "thareed",
+      "name": "Thareed (meat stew over bread)",
+      "cuisine": "Emirati / Gulf",
+      "minutes": 75,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "700 g lamb or chicken pieces",
+        "2 onions, chopped",
+        "3 tomatoes, chopped",
+        "2 potatoes, in chunks",
+        "1 zucchini, in chunks",
+        "2 tsp baharat",
+        "4 flatbreads (regag or khubz)"
+      ],
+      "extra": [
+        "1 dried lime, pierced",
+        "1 tsp turmeric",
+        "2 carrots, in chunks",
+        "a handful of coriander"
+      ],
+      "steps": [
+        "Fry the onions in 3 tbsp oil for 8 minutes. Add the baharat and turmeric for 1 minute.",
+        "Add the meat and brown 5 minutes, then the tomatoes for 5 minutes.",
+        "Add 5 cups water, 1½ tsp salt and the dried lime. Simmer covered: lamb 50 minutes, chicken 25 minutes.",
+        "Add the potatoes and carrots for 20 minutes, and the zucchini for the last 10 minutes.",
+        "Tear the bread into a deep serving dish in layers and ladle over enough broth to soak it.",
+        "Arrange the meat and vegetables on top and serve straight away."
+      ],
+      "pressure": "For lamb: after browning, add the water, salt and dried lime and cook 25 minutes at high pressure. Release, add the vegetables and simmer 15 minutes.",
+      "tip": "A favourite at Ramadan iftar."
+    },
+    {
+      "id": "chebab",
+      "name": "Chebab (Emirati pancakes)",
+      "cuisine": "Emirati / Gulf",
+      "minutes": 50,
+      "serves": 4,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "2 cups flour",
+        "1 tsp yeast",
+        "1 egg",
+        "2 tbsp sugar",
+        "1½ cups milk",
+        "½ tsp cardamom"
+      ],
+      "extra": [
+        "a pinch of saffron",
+        "date syrup, to serve",
+        "cream cheese, to serve",
+        "1 tbsp butter"
+      ],
+      "steps": [
+        "Whisk the flour, yeast, sugar, cardamom, saffron and a pinch of salt.",
+        "Whisk in the egg and warm milk until smooth, like thick pancake batter.",
+        "Cover and leave 30 minutes until bubbly.",
+        "Heat a pan over medium-low heat and wipe with a little butter. Pour in a small ladle of batter.",
+        "Cook 2 minutes until bubbles cover the top, flip and cook 1 minute more.",
+        "Serve warm with date syrup and cream cheese."
+      ],
+      "tip": ""
+    },
+    {
+      "id": "dango",
+      "name": "Dango (spiced chickpeas)",
+      "cuisine": "Emirati / Gulf",
+      "minutes": 10,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "2 cans chickpeas, drained",
+        "1 tsp cumin",
+        "½ tsp chili powder",
+        "1 lemon"
+      ],
+      "extra": [
+        "1 green chili, chopped",
+        "a little coriander"
+      ],
+      "steps": [
+        "Warm the chickpeas with ½ cup water and ½ tsp salt for 5 minutes.",
+        "Drain well.",
+        "Toss with the cumin, chili powder, ½ tsp black pepper and the lemon juice.",
+        "Add the green chili and coriander and serve warm in small cups."
+      ],
+      "tip": "A popular snack for Ramadan and Eid gatherings."
+    },
+    {
+      "id": "karak_chai",
+      "name": "Karak chai",
+      "cuisine": "Emirati / Gulf",
+      "minutes": 10,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "2 tea bags or 2 tsp black tea",
+        "1 cup evaporated milk or milk",
+        "2 tbsp sugar",
+        "4 cardamom pods, crushed"
+      ],
+      "extra": [
+        "a pinch of saffron",
+        "1 slice ginger"
+      ],
+      "steps": [
+        "Boil 1½ cups water with the cardamom (and ginger) for 3 minutes.",
+        "Add the tea and sugar and boil 3 minutes until very dark.",
+        "Pour in the milk and bring it up to the boil, then lower the heat as it rises. Do this three times, about 3 minutes.",
+        "Strain into cups and serve hot."
+      ],
+      "tip": "Letting it rise three times is what makes karak thick and strong."
+    },
+    {
+      "id": "samak_mashwi",
+      "name": "Samak mashwi (Gulf grilled fish)",
+      "cuisine": "Emirati / Gulf",
+      "minutes": 30,
+      "serves": 2,
+      "diet": "meat",
+      "equipment": [
+        "oven|airfryer|stove"
+      ],
+      "need": [
+        "2 fish fillets or 1 whole fish (hammour, kingfish or sea bream)",
+        "1 tsp turmeric",
+        "1 tsp cumin",
+        "1 lemon",
+        "3 cloves garlic, crushed"
+      ],
+      "extra": [
+        "1 tsp baharat",
+        "1 tsp chili powder",
+        "a handful of coriander",
+        "rice, to serve"
+      ],
+      "steps": [
+        "Mix the garlic, spices, juice of half the lemon, 2 tbsp oil and 1 tsp salt into a paste.",
+        "Rub it all over the fish (make a few slits first if it's whole). Leave 10 minutes.",
+        "Cook: air fryer 200°C for 12 minutes; oven at 220°C for 15 minutes (whole fish 25 minutes); or in a hot oiled pan 4 minutes per side.",
+        "Squeeze over the rest of the lemon, add coriander and serve with rice."
+      ],
+      "tip": "The fish is done when it flakes easily at the thickest part."
+    },
+    {
+      "id": "margoogat",
+      "name": "Margoogat (stew with thin dough)",
+      "cuisine": "Emirati / Gulf",
+      "minutes": 60,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "need": [
+        "500 g chicken pieces",
+        "2 onions, chopped",
+        "3 tomatoes, chopped",
+        "2 zucchini, in chunks",
+        "2 tsp baharat",
+        "1 tsp turmeric",
+        "1 cup flour"
+      ],
+      "extra": [
+        "1 eggplant, in chunks",
+        "2 potatoes, in chunks",
+        "1 dried lime, pierced",
+        "a handful of coriander"
+      ],
+      "steps": [
+        "For the dough, mix the flour with ½ tsp salt and about ⅓ cup water. Knead 3 minutes until smooth, cover and rest 15 minutes.",
+        "Fry the onions in 3 tbsp oil for 8 minutes, add the spices for 1 minute, then the chicken for 5 minutes.",
+        "Add the tomatoes for 5 minutes, then 4 cups water, 1½ tsp salt and the dried lime. Simmer 20 minutes.",
+        "Add the vegetables and simmer 10 minutes.",
+        "Roll the dough very thin, cut it into 5 cm squares and drop them into the simmering stew one by one. Cook 10 minutes until tender.",
+        "Rest 5 minutes, top with coriander and serve."
+      ],
+      "tip": "Roll the dough as thin as you can: it thickens the stew as it cooks."
     }
   ]
 }

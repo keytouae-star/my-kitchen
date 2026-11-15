@@ -35,7 +35,7 @@
     sausage: ["Beef or chicken sausages", "meat", "sausages, beef sausages, chicken sausages, sausage"],
     beef_bacon: ["Beef or turkey bacon", "meat", "beef bacon, turkey bacon"],
     turkey_ham: ["Turkey or beef ham", "meat", "turkey ham, beef ham, turkey slices, beef pastrami, pastrami"],
-    fish: ["Fish fillets", "meat", "fish, white fish, salmon, cod, hammour, tilapia, sea bass, seabass, haddock, hake, fish fillet, salmon fillets, kingfish"],
+    fish: ["Fish fillets", "meat", "fish, white fish, salmon, cod, hammour, tilapia, sea bass, seabass, haddock, hake, fish fillet, salmon fillets, kingfish, sea bream, seabream, bream, safi, shaari, whole fish"],
     tuna: ["Canned tuna", "meat", "tuna, tinned tuna, tuna chunks"],
     shrimp: ["Prawns / shrimp", "meat", "prawns, prawn, shrimps, king prawns"],
 
@@ -48,6 +48,7 @@
     labneh: ["Labneh", "dairy", "labne, labneh cheese"],
     cream_cheese: ["Cream cheese", "dairy", "philadelphia, soft cheese"],
     yogurt: ["Yogurt", "dairy", "yoghurt, plain yogurt, greek yogurt, natural yogurt, laban, curd, dahi"],
+    evaporated_milk: ["Evaporated or condensed milk", "dairy", "evaporated milk, condensed milk, sweetened condensed milk, carnation milk, rainbow milk"],
     cream: ["Cream", "dairy", "cooking cream, heavy cream, double cream, single cream, whipping cream, sour cream, creme fraiche, fresh cream"],
 
     onion: ["Onions", "veg", "onion, red onion, white onion, yellow onion, brown onion, shallot, shallots"],
@@ -75,10 +76,12 @@
     okra: ["Okra", "veg", "bamia, bhindi, ladies fingers"],
     avocado: ["Avocado", "veg", "avocados"],
 
+    tea: ["Tea", "jar", "black tea, tea bags, tea bag, loose tea, red tea"],
     lemon: ["Lemons or limes", "fruit", "lemon, lime, limes, lemon juice, lime juice, lemon zest, lime zest"],
     banana: ["Bananas", "fruit", "banana"],
     apple: ["Apples", "fruit", "apple"],
     dates: ["Dates", "fruit", "date, medjool dates"],
+    dried_lime: ["Dried limes (loomi)", "spice", "dried lime, dried limes, loomi, black lime, black limes, omani lime"],
     juice: ["Fruit juice", "fruit", "grape juice, red grape juice, white grape juice, sparkling grape juice, apple juice, orange juice"],
     malt_drink: ["Malt drink (non-alcoholic)", "jar", "non-alcoholic malt drink, malt drink, malt beverage"],
     raisins: ["Raisins", "fruit", "sultanas, raisin"],
@@ -90,10 +93,12 @@
     dill: ["Dill", "herb", "fresh dill"],
 
     rice: ["Rice", "grain", "basmati, basmati rice, long grain rice, white rice, jasmine rice, cooked rice, egyptian rice"],
-    pasta: ["Pasta", "grain", "spaghetti, penne, macaroni, fusilli, linguine, tagliatelle, farfalle, rigatoni, lasagne sheets, orzo, vermicelli"],
+    pasta: ["Pasta", "grain", "spaghetti, penne, macaroni, fusilli, linguine, tagliatelle, farfalle, rigatoni, lasagne sheets, orzo"],
+    vermicelli: ["Vermicelli", "grain", "vermicelli noodles, sheriya, seviyan"],
+    wheat_grain: ["Harees wheat", "grain", "harees wheat, whole wheat grains, wheat berries, whole wheat"],
     noodles: ["Noodles", "grain", "egg noodles, rice noodles, instant noodles, ramen, udon, noodle"],
     bread: ["Bread", "grain", "white bread, brown bread, toast, bread slices, sliced bread, burger buns, buns, baguette"],
-    flatbread: ["Flatbread / pita", "grain", "pita, pitta, pita bread, khubz, arabic bread, naan, chapati, roti, paratha, lavash"],
+    flatbread: ["Flatbread / pita", "grain", "pita, pitta, pita bread, khubz, arabic bread, naan, chapati, roti, paratha, lavash, regag, regag bread, chebab bread"],
     tortilla: ["Tortillas / wraps", "grain", "tortillas, wraps, flour tortillas, tortilla wraps"],
     bulgur: ["Bulgur", "grain", "burghul, bulgur wheat, cracked wheat"],
     couscous: ["Couscous", "grain", "cous cous"],
@@ -120,6 +125,7 @@
     tahini: ["Tahini", "jar", "tahina, sesame paste"],
     peanut_butter: ["Peanut butter", "jar", ""],
     honey: ["Honey", "jar", ""],
+    date_syrup: ["Date syrup (dibs)", "jar", "dibs, date molasses, date honey"],
     olives: ["Olives", "jar", "black olives, green olives, kalamata olives"],
     pomegranate_molasses: ["Pomegranate molasses", "jar", "dibs rumman"],
 
@@ -127,6 +133,7 @@
     sugar: ["Sugar", "bake", "white sugar, brown sugar, caster sugar, granulated sugar, icing sugar, powdered sugar"],
     baking_powder: ["Baking powder", "bake", "baking soda, bicarbonate of soda"],
     cornflour: ["Cornflour", "bake", "cornstarch, corn starch, corn flour"],
+    rose_water: ["Rose water", "bake", "rosewater"],
     vanilla: ["Vanilla flavouring", "bake", "vanilla essence, alcohol-free vanilla flavouring, vanilla flavoring"],
     yeast: ["Yeast", "bake", "dried yeast, instant yeast"],
     nuts: ["Nuts", "bake", "almonds, cashews, walnuts, pistachios, peanuts, pine nuts"],
@@ -145,7 +152,7 @@
     oregano: ["Oregano or mixed herbs", "spice", "dried oregano, mixed herbs, italian seasoning, thyme, dried thyme, rosemary, dried basil"],
     za_atar: ["Za'atar", "spice", "zaatar, zatar"],
     sumac: ["Sumac", "spice", ""],
-    baharat: ["Baharat / 7 spices", "spice", "seven spices, 7 spices, mixed spice, allspice"],
+    baharat: ["Baharat / 7 spices", "spice", "seven spices, 7 spices, mixed spice, allspice, bzar, bezar, emirati spice mix"],
     sesame: ["Sesame seeds", "spice", "sesame seed"],
     saffron: ["Saffron", "spice", ""],
   };
@@ -333,7 +340,7 @@
 
   // ---------- Inference helpers for imported recipes ----------
   const MEAT = new Set(["turkey", "chicken", "beef", "beef_mince", "lamb", "sausage", "beef_bacon", "turkey_ham", "fish", "tuna", "shrimp"]);
-  const ANIMAL = new Set(["egg", "milk", "butter", "ghee", "cheese", "parmesan", "feta", "labneh", "cream_cheese", "yogurt", "cream", "honey"]);
+  const ANIMAL = new Set(["evaporated_milk", "egg", "milk", "butter", "ghee", "cheese", "parmesan", "feta", "labneh", "cream_cheese", "yogurt", "cream", "honey"]);
   function inferDiet(lines) {
     let d = "vegan";
     for (const l of lines) {

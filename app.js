@@ -4,7 +4,7 @@
   const MK = window.MK;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 9; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 10; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -79,6 +79,11 @@
     filters: LS.get("filters", { quick: false, veg: false, vegan: false, fav: false }),
     helper: LS.get("helper", "https://my-kitchen-helper.keytouae.workers.dev"),
     store: LS.get("store", "lulu"),
+    plan: LS.get("plan", []),            // [{ id, day: "YYYY-MM-DD", done }]
+    notes: LS.get("notes", {}),          // { recipeId: "my note" }
+    useSoon: new Set(LS.get("useSoon", [])),
+    lastCooked: LS.get("lastCooked", {}), // { recipeId: "YYYY-MM-DD" }
+    speak: LS.get("speak", true),
     openGroups: new Set(LS.get("openGroups", ["meat", "veg", "dairy", "grain"])),
     view: "cook", showMore: false, sheet: null,
   };
@@ -87,7 +92,27 @@
     LS.set("equip", [...S.equip]); LS.set("basics", [...S.basics]); LS.set("favs", [...S.favs]);
     LS.set("hidden", [...S.hidden]); LS.set("shop", S.shop); LS.set("filters", S.filters);
     LS.set("openGroups", [...S.openGroups]);
+    LS.set("plan", S.plan); LS.set("notes", S.notes); LS.set("useSoon", [...S.useSoon]); LS.set("lastCooked", S.lastCooked); LS.set("speak", S.speak);
   }
+  // ---------- dates (local time, so "today" is right in the UAE) ----------
+  const dayKey = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  const todayKey = () => dayKey(new Date());
+  function nextDays(n) {
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      const d = new Date(); d.setDate(d.getDate() + i);
+      const name = d.toLocaleDateString("en-GB", { weekday: "long" });
+      out.push({ key: dayKey(d), label: i === 0 ? "Today" : i === 1 ? "Tomorrow" : name, sub: d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }) });
+    }
+    return out;
+  }
+  function daysAgo(key) {
+    const [y, m, d] = key.split("-").map(Number);
+    const n = Math.round((new Date(new Date().toDateString()) - new Date(y, m - 1, d)) / 864e5);
+    return n <= 0 ? "today" : n === 1 ? "yesterday" : n + " days ago";
+  }
+  // drop plan days that have passed
+  S.plan = S.plan.filter((p) => p.day >= todayKey());
   function adoptKitchen() { if (S.example) { S.example = false; } }
   // one-time: the owner has a pressure cooker (added Nov 15, 2026), so tick it on devices that saved equipment before it existed
   if (!LS.get("pcAdded", false)) { S.equip.add("pressurecooker"); LS.set("equip", [...S.equip]); LS.set("pcAdded", true); }
@@ -130,7 +155,9 @@
     const p = prep(r);
     const miss = p.need.filter((x) => !sat(x));
     const have = p.need.length - miss.length;
-    return { miss, have, total: p.need.length, frac: p.need.length ? have / p.need.length : 0 };
+    // "use soon" items this dish would use up
+    const soon = [...new Set(p.need.concat(p.extra).flatMap((x) => x.keys.filter((k) => S.useSoon.has(k) && S.have.has(k))))];
+    return { miss, have, soon, total: p.need.length, frac: p.need.length ? have / p.need.length : 0 };
   }
   function passFilters(r) {
     const f = S.filters;
@@ -190,12 +217,13 @@
   function setView(v) {
     S.view = v;
     document.querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-current", t.dataset.view === v ? "page" : "false"));
-    for (const id of ["cook", "online", "recipes", "shop", "settings"]) $("#view-" + id).hidden = id !== v;
+    for (const id of ["cook", "plan", "online", "recipes", "shop", "settings"]) $("#view-" + id).hidden = id !== v;
     render();
     window.scrollTo(0, 0);
   }
   function render() {
     if (S.view === "cook") { renderKitchen(); renderResults(); }
+    if (S.view === "plan") renderPlan();
     if (S.view === "recipes") renderRecipeList();
     if (S.view === "shop") renderShop();
     if (S.view === "settings") renderSettings();
@@ -210,8 +238,29 @@
   }
   function toggleHave(k) {
     adoptKitchen();
-    S.have.has(k) ? S.have.delete(k) : S.have.add(k);
+    if (S.have.has(k)) { S.have.delete(k); S.useSoon.delete(k); } else S.have.add(k);
     saveState(); render();
+  }
+  // tap = have / don't have; press and hold = "use soon"
+  function kitchenChip(k, text) {
+    const soon = S.useSoon.has(k);
+    let longPressed = false, timer = null;
+    const b = chip((soon ? "⏰ " : "") + text, S.have.has(k), () => { if (longPressed) { longPressed = false; return; } toggleHave(k); },
+      { title: "Tap to tick. Press and hold to mark it use soon." });
+    if (soon) b.classList.add("soon");
+    const cancel = () => clearTimeout(timer);
+    b.addEventListener("pointerdown", () => { longPressed = false; timer = setTimeout(() => { longPressed = true; toggleSoon(k); }, 550); });
+    ["pointerup", "pointerleave", "pointercancel"].forEach((ev) => b.addEventListener(ev, cancel));
+    b.addEventListener("contextmenu", (e) => e.preventDefault());
+    return b;
+  }
+  function toggleSoon(k) {
+    adoptKitchen();
+    if (S.useSoon.has(k)) S.useSoon.delete(k); else { S.useSoon.add(k); S.have.add(k); }
+    saveState();
+    try { navigator.vibrate && navigator.vibrate(30); } catch (e) {}
+    toast(S.useSoon.has(k) ? `⏰ ${label(k)}: marked "use soon"` : `${label(k)}: no longer "use soon"`);
+    render();
   }
   function renderKitchen() {
     const ex = extras();
@@ -228,7 +277,7 @@
       const n = keys.filter((k) => S.have.has(k)).length;
       const det = h("details", { class: "grp", open: S.openGroups.has(g) },
         h("summary", null, glabel, h("span", { class: "count", text: n ? n + " ticked" : "" })),
-        h("div", { class: "chips" }, keys.map((k) => chip(g === "other" ? ex[k] : MK.CATALOG[k].label, S.have.has(k), () => toggleHave(k)))));
+        h("div", { class: "chips" }, keys.map((k) => kitchenChip(k, g === "other" ? ex[k] : MK.CATALOG[k].label))));
       det.addEventListener("toggle", () => { det.open ? S.openGroups.add(g) : S.openGroups.delete(g); LS.set("openGroups", [...S.openGroups]); });
       wrap.append(det);
     }
@@ -237,6 +286,9 @@
       S.equip.has(k) ? S.equip.delete(k) : S.equip.add(k); saveState(); render();
     })));
     $("#equipCount").textContent = [...S.equip].map((k) => MK.EQUIPMENT[k]).join(", ");
+    $("#soonHint").textContent = S.useSoon.size
+      ? `⏰ Use soon: ${[...S.useSoon].map((k) => label(k, ex).toLowerCase()).join(", ")}. Press and hold an item to change this.`
+      : "Tip: press and hold an item to mark it ⏰ use soon (like spinach that's going off). Dishes that use it move to the top.";
     $("#basicsHint").textContent = "Always counted as in your kitchen: " + [...S.basics].map((k) => label(k, ex).toLowerCase()).join(", ") + ". Change this in Settings.";
   }
   // ingredient search
@@ -307,6 +359,7 @@
         h("span", { class: "name", text: r.name }),
         h("span", { class: "meta", text: meta }),
         sc ? h("span", { class: "meter", "aria-hidden": "true" }, h("span", { style: "width:" + Math.round(sc.frac * 100) + "%" })) : null,
+        sc && sc.soon && sc.soon.length ? h("span", { class: "soon-line", text: "⏰ Uses " + sc.soon.map((k) => label(k, ex).toLowerCase()).join(", ") }) : null,
         sc ? (sc.miss.length
           ? h("span", { class: "miss", text: "Missing: " + missText(sc.miss, ex) })
           : h("span", { class: "ok", text: "You have everything" })) : null));
@@ -320,7 +373,7 @@
     const pool = allRecipes().filter(passFilters);
     const noEquip = pool.filter((r) => !eqOK(r));
     const scored = pool.filter(eqOK).map((r) => ({ r, sc: score(r) }));
-    scored.sort((a, b) => a.sc.miss.length - b.sc.miss.length || (S.favs.has(b.r.id) - S.favs.has(a.r.id)) || b.sc.frac - a.sc.frac || (a.r.minutes || 999) - (b.r.minutes || 999));
+    scored.sort((a, b) => a.sc.miss.length - b.sc.miss.length || (b.sc.soon.length - a.sc.soon.length) || (S.favs.has(b.r.id) - S.favs.has(a.r.id)) || b.sc.frac - a.sc.frac || (a.r.minutes || 999) - (b.r.minutes || 999));
     const now = scored.filter((x) => !x.sc.miss.length);
     const near = scored.filter((x) => x.sc.miss.length && x.sc.miss.length <= 2);
     const rest = scored.filter((x) => x.sc.miss.length > 2);
@@ -330,6 +383,8 @@
       out.append(h("div", { class: "empty panel" }, h("h3", { text: "Tick what's in your kitchen" }), h("p", { text: "Pick ingredients on the left (or type them), and dishes you can cook will show up here." })));
     } else {
       sum.append(h("strong", { text: now.length ? plural(now.length, "dish", "dishes") : "No dishes" }), " you can cook right now", near.length ? `, and ${near.length} more missing just 1 or 2 things.` : ".");
+      const soonN = now.filter((x) => x.sc.soon.length).length;
+      if (S.useSoon.size) sum.append(" ", h("span", { class: "soon-line", text: soonN ? `⏰ ${plural(soonN, "dish", "dishes")} you can cook now use your "use soon" items (shown first).` : `⏰ Nothing you can cook right now uses your "use soon" items.` }));
     }
     const bucket = (title, pill, items) => {
       if (!items.length) return;
@@ -363,6 +418,7 @@
     $("#sheet").hidden = true;
     document.body.style.overflow = "";
     S.sheet = null;
+    try { canSpeak && speechSynthesis.cancel(); } catch (e) {}
     releaseWake();
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
@@ -373,7 +429,7 @@
     try { if ("wakeLock" in navigator && !wakeLock) { wakeLock = await navigator.wakeLock.request("screen"); wakeLock.addEventListener("release", () => (wakeLock = null)); } } catch (e) {}
   }
   function releaseWake() { if (wakeLock && !timers.some((t) => !t.done)) { wakeLock.release().catch(() => {}); wakeLock = null; } }
-  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && (S.sheet === "recipe" || timers.some((t) => !t.done))) keepAwake(); });
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && (S.sheet === "recipe" || S.sheet === "cook" || timers.some((t) => !t.done))) keepAwake(); });
 
   // recipe view (also used to preview online results before saving)
   function openRecipe(id, preview) {
@@ -396,7 +452,29 @@
       panel.append(h("p", { class: "meta-line", text: [r.cuisine, r.minutes ? r.minutes + " min" : "time not given", r.diet === "vegan" ? "Vegan" : r.diet === "veg" ? "Vegetarian" : ""].filter(Boolean).join(" · ") }));
       const sc = score(r);
       panel.append(h("p", null, sc.miss.length ? h("span", { class: "pill warn", text: `Missing ${sc.miss.length} of ${sc.total}` }) : h("span", { class: "pill good", text: "You have everything" }),
-        !eqOK(r) ? h("span", { class: "pill bad", style: "margin-left:6px", text: "Needs: " + equipText(r) }) : null));
+        !eqOK(r) ? h("span", { class: "pill bad", style: "margin-left:6px", text: "Needs: " + equipText(r) }) : null,
+        !preview && S.lastCooked[r.id] ? h("span", { class: "pill good", style: "margin-left:6px", text: "Last cooked " + daysAgo(S.lastCooked[r.id]) }) : null));
+      if (!preview) {
+        // main actions
+        const days = nextDays(7);
+        const planRow = h("div", { class: "chips plan-pick", hidden: true },
+          h("span", { class: "lbl", text: "Add to:" }),
+          days.map((d) => chip(d.label, S.plan.some((p) => p.id === r.id && p.day === d.key), (e) => {
+            const btn = e.currentTarget;
+            const at = S.plan.findIndex((p) => p.id === r.id && p.day === d.key);
+            if (at >= 0) { S.plan.splice(at, 1); btn.setAttribute("aria-pressed", "false"); toast("Removed from " + d.label); }
+            else { S.plan.push({ id: r.id, day: d.key }); btn.setAttribute("aria-pressed", "true"); toast("Added to " + d.label + "'s meal plan"); }
+            saveState(); render();
+          })));
+        panel.append(h("div", { class: "actions" },
+          h("button", { class: "btn primary", type: "button", onclick: () => openCookMode(r) }, "▶ Start cooking"),
+          h("button", { class: "btn", type: "button", onclick: () => { planRow.hidden = !planRow.hidden; } }, "📅 Add to meal plan"),
+          h("button", { class: "btn", type: "button", onclick: () => openCooked(r) }, "✓ I cooked this")), planRow);
+        // my notes
+        const note = h("textarea", { class: "input note-box", id: "note-" + r.id, placeholder: "e.g. kids liked it · less chili next time · use 2 cups water", text: S.notes[r.id] || "" });
+        note.addEventListener("input", () => { if (note.value.trim()) S.notes[r.id] = note.value; else delete S.notes[r.id]; saveState(); });
+        panel.append(h("details", { class: "notes", open: !!S.notes[r.id] }, h("summary", null, "📝 My notes" + (S.notes[r.id] ? "" : " (add one)")), note));
+      }
       if (preview) {
         const saved = isMine(r.id);
         panel.append(h("div", { class: "actions" }, h("button", { class: "btn primary", type: "button", disabled: saved, onclick: async (e) => {
@@ -474,6 +552,135 @@
         } }, isBuiltin(r.id) ? "Hide recipe" : "Delete recipe"));
         panel.append(acts);
       }
+    });
+  }
+
+  // ---------- cook mode: one big step at a time, read aloud ----------
+  const canSpeak = "speechSynthesis" in window;
+  function say(text, force) {
+    if (!canSpeak || (!S.speak && !force)) return;
+    try {
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "en-GB"; u.rate = 0.95;
+      speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+  function openCookMode(r) {
+    const steps = r.steps || [];
+    let i = 0;
+    S.sheet = "cook";
+    keepAwake();
+    openSheet((panel) => {
+      const draw = () => {
+        const voiceBtn = canSpeak ? h("button", { class: "btn small", type: "button", "aria-pressed": String(S.speak), onclick: () => { S.speak = !S.speak; saveState(); if (!S.speak) speechSynthesis.cancel(); draw(); } }, S.speak ? "🔊 Reading aloud" : "🔈 Read aloud: off") : null;
+        panel.replaceChildren(bar(r.name, voiceBtn));
+        if (i >= steps.length) {
+          panel.append(h("h2", { id: "sheetTitle", class: "cook-step", text: "All done. Enjoy your meal!" }),
+            h("div", { class: "actions" },
+              h("button", { class: "btn primary big", type: "button", onclick: () => openCooked(r) }, "✓ I cooked this: update my kitchen"),
+              h("button", { class: "btn big", type: "button", onclick: () => { i = steps.length - 1; draw(); } }, "← Last step")));
+          say("All done. Enjoy your meal.");
+          return;
+        }
+        const s = steps[i], mins = MK.stepMinutes(s);
+        panel.append(...[
+          h("p", { class: "hint", text: `Step ${i + 1} of ${steps.length}` }),
+          h("div", { class: "cook-progress", "aria-hidden": "true" }, h("span", { style: `width:${Math.round(((i + 1) / steps.length) * 100)}%` })),
+          h("p", { id: "sheetTitle", class: "cook-step", text: s }),
+          mins ? h("div", { class: "actions" }, h("button", { class: "btn big", type: "button", onclick: () => startTimer(mins, r.name + ", step " + (i + 1)) }, "⏱ Start " + fmtMin(mins) + " timer")) : null,
+          h("div", { class: "cook-nav" },
+            h("button", { class: "btn big", type: "button", disabled: i === 0, onclick: () => { i--; draw(); } }, "← Back"),
+            canSpeak ? h("button", { class: "btn big", type: "button", onclick: () => say(`Step ${i + 1}. ${s}`, true) }, "🔁 Repeat") : null,
+            h("button", { class: "btn primary big", type: "button", onclick: () => { i++; draw(); } }, i === steps.length - 1 ? "Finish ✓" : "Next →"))].filter(Boolean));
+        say(`Step ${i + 1}. ${s}`);
+      };
+      draw();
+    });
+  }
+  // ---------- "I cooked this": untick what got used up ----------
+  function openCooked(r) {
+    S.sheet = "cooked";
+    openSheet((panel) => {
+      const p = prep(r), ex = extras();
+      const used = [...new Set(p.need.concat(p.extra).flatMap((x) => x.keys.filter((k) => S.have.has(k) && !S.basics.has(k))))];
+      const picked = new Set();
+      panel.append(bar("I cooked this"),
+        h("h2", { id: "sheetTitle", text: "Nice! Did anything run out?" }),
+        h("p", { class: "meta-line", text: "Tap what's finished now. It will be unticked from your kitchen so suggestions stay right. Leave the rest." }));
+      panel.append(used.length
+        ? h("div", { class: "chips" }, used.map((k) => { const b = chip(label(k, ex), false, () => { picked.has(k) ? picked.delete(k) : picked.add(k); b.setAttribute("aria-pressed", String(picked.has(k))); }); return b; }))
+        : h("p", { class: "hint", text: "None of its ingredients are ticked in your kitchen." }));
+      panel.append(h("div", { class: "actions" },
+        h("button", { class: "btn primary", type: "button", onclick: () => {
+          adoptKitchen();
+          picked.forEach((k) => { S.have.delete(k); S.useSoon.delete(k); });
+          S.lastCooked[r.id] = todayKey();
+          const planned = S.plan.find((x) => x.id === r.id && !x.done);
+          if (planned) planned.done = true;
+          saveState(); closeSheet(); render();
+          toast(picked.size ? plural(picked.size, "item") + " removed from your kitchen" : "Saved. Enjoy!");
+        } }, "Save"),
+        h("button", { class: "btn", type: "button", onclick: closeSheet }, "Cancel")));
+    });
+  }
+
+  // ---------- meal plan ----------
+  function combinedMissing() {
+    const ex = extras(), seen = new Map();
+    for (const p of S.plan) {
+      if (p.done) continue;
+      const r = byId(p.id);
+      if (!r) continue;
+      for (const x of score(r).miss) { const id = x.keys.join("/"); if (!seen.has(id)) seen.set(id, { keys: x.keys, label: x.keys.map((k) => label(k, ex)).join(" or ") }); }
+    }
+    return [...seen.values()];
+  }
+  function renderPlan() {
+    const wrap = $("#planDays");
+    wrap.replaceChildren();
+    let total = 0;
+    for (const d of nextDays(7)) {
+      const items = S.plan.filter((p) => p.day === d.key && byId(p.id));
+      total += items.length;
+      wrap.append(h("section", { class: "panel plan-day" },
+        h("div", { class: "plan-head" }, h("h3", { text: d.label }), h("span", { class: "hint", text: d.sub })),
+        items.length ? h("ul", { class: "list" }, items.map((p) => {
+          const r = byId(p.id), sc = score(r);
+          return h("li", { class: p.done ? "in-cart" : "" },
+            h("button", { class: "plan-dish grow", type: "button", onclick: () => openRecipe(r.id) },
+              h("span", { class: "grow", text: r.name }),
+              h("span", { class: p.done ? "hint" : sc.miss.length ? "miss" : "ok", text: p.done ? "cooked ✓" : sc.miss.length ? `missing ${sc.miss.length}` : "ready to cook" })),
+            h("button", { class: "btn quiet small", type: "button", "aria-label": "Remove " + r.name, onclick: () => { S.plan.splice(S.plan.indexOf(p), 1); saveState(); render(); } }, "Remove"));
+        })) : null,
+        h("button", { class: "btn small", type: "button", onclick: () => pickDish(d) }, "+ Add a dish")));
+    }
+    const missing = combinedMissing();
+    $("#planSummary").textContent = total
+      ? `${plural(total, "dish", "dishes")} planned this week. ` + (missing.length ? `${plural(missing.length, "thing")} to buy for them.` : "You have everything for them.")
+      : "Plan the week: tap \"+ Add a dish\" on any day, or \"Add to meal plan\" on a recipe.";
+    const b = $("#planShop");
+    b.hidden = !missing.length;
+    b.textContent = `Add ${plural(missing.length, "missing item")} to shopping list`;
+  }
+  function pickDish(d) {
+    S.sheet = "pick";
+    openSheet((panel) => {
+      panel.append(bar("Meal plan"), h("h2", { id: "sheetTitle", text: "Choose a dish for " + d.label }));
+      const q = h("input", { class: "input", id: "pickQ", type: "search", placeholder: "Search dishes", style: "margin-top:10px" });
+      const list = h("div", { class: "grid", style: "margin-top:12px" });
+      const draw = () => {
+        const s = q.value.trim().toLowerCase();
+        const items = allRecipes().filter((r) => eqOK(r) && (!s || (r.name + " " + r.cuisine).toLowerCase().includes(s)))
+          .map((r) => ({ r, sc: score(r) })).sort((a, b) => a.sc.miss.length - b.sc.miss.length || a.r.name.localeCompare(b.r.name)).slice(0, 60);
+        list.replaceChildren(...items.map((x) => card(x.r, x.sc, () => {
+          if (!S.plan.some((p) => p.id === x.r.id && p.day === d.key)) S.plan.push({ id: x.r.id, day: d.key });
+          saveState(); closeSheet(); render(); toast(x.r.name + " added to " + d.label);
+        })));
+      };
+      q.addEventListener("input", draw);
+      panel.append(q, list);
+      draw();
     });
   }
 
@@ -762,17 +969,30 @@
       if (b) photos[r.id] = await new Promise((res) => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.readAsDataURL(b); });
     }
     const data = { app: "my-kitchen", version: 1, saved: new Date().toISOString(), recipes: S.mine, photos,
-      state: { have: [...S.have], equip: [...S.equip], basics: [...S.basics], favs: [...S.favs], hidden: [...S.hidden], shop: S.shop, helper: S.helper } };
+      state: { have: [...S.have], equip: [...S.equip], basics: [...S.basics], favs: [...S.favs], hidden: [...S.hidden], shop: S.shop, helper: S.helper,
+        plan: S.plan, notes: S.notes, useSoon: [...S.useSoon], lastCooked: S.lastCooked } };
+    const backedUp = () => { LS.set("lastBackup", Date.now()); $("#backupNote").hidden = true; };
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
     const name = "my-kitchen-backup-" + new Date().toISOString().slice(0, 10) + ".json";
     const file = typeof File === "function" ? new File([blob], name, { type: "application/json" }) : null;
     if (file && navigator.canShare && navigator.canShare({ files: [file] }) && confirm("Share the backup file (for example to Google Drive)?\nPress Cancel to save it to Downloads instead.")) {
-      try { await navigator.share({ files: [file], title: "My Kitchen backup" }); $("#backupMsg").textContent = "Backup shared."; return; } catch (e) { if (e.name === "AbortError") return; }
+      try { await navigator.share({ files: [file], title: "My Kitchen backup" }); $("#backupMsg").textContent = "Backup shared."; backedUp(); toast("Backup saved"); return; } catch (e) { if (e.name === "AbortError") return; }
     }
     const a = h("a", { href: URL.createObjectURL(blob), download: name });
     document.body.append(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 5000);
     $("#backupMsg").textContent = `Saved ${name} (${plural(S.mine.length, "recipe")}) to your Downloads.`;
+    backedUp(); toast("Backup saved to Downloads");
+  }
+  // gentle monthly reminder, only once you have something of your own to lose
+  function backupNudge() {
+    const now = Date.now();
+    let first = LS.get("firstUse", 0);
+    if (!first) { LS.set("firstUse", now); first = now; }
+    const last = LS.get("lastBackup", 0), snooze = LS.get("backupSnooze", 0);
+    const hasStuff = S.mine.length > 0 || Object.keys(S.notes).length > 0 || S.plan.length > 0;
+    const due = now - Math.max(last, first) > 30 * 864e5 && now > snooze;
+    $("#backupNote").hidden = !(hasStuff && due);
   }
   async function restoreBackup(file) {
     try {
@@ -789,6 +1009,10 @@
       if (st.hidden) S.hidden = new Set(st.hidden);
       if (st.shop) S.shop = st.shop;
       if (st.helper) { S.helper = st.helper; LS.set("helper", S.helper); }
+      if (st.plan) S.plan = st.plan.filter((p) => p.day >= todayKey());
+      if (st.notes) S.notes = st.notes;
+      if (st.useSoon) S.useSoon = new Set(st.useSoon);
+      if (st.lastCooked) S.lastCooked = st.lastCooked;
       S.mine = await dbAll("recipes");
       saveState(); render();
       $("#backupMsg").textContent = "Backup restored.";
@@ -996,6 +1220,9 @@
     catch (e) { const ta = $("#shopCopy"); ta.hidden = false; ta.value = text; ta.select(); toast("Select the text below and copy it"); }
   });
   $("#shopModeBtn").addEventListener("click", openShopMode);
+  $("#planShop").addEventListener("click", () => { const m = combinedMissing(); if (m.length) addToShop(m); render(); });
+  $("#backupNow").addEventListener("click", () => makeBackup());
+  $("#backupLater").addEventListener("click", () => { LS.set("backupSnooze", Date.now() + 7 * 864e5); $("#backupNote").hidden = true; });
   $("#shopClear").addEventListener("click", () => { if (!confirm("Clear the whole shopping list?")) return; S.shop = []; saveState(); render(); });
   $("#backupBtn").addEventListener("click", makeBackup);
   $("#restoreFile").addEventListener("change", (e) => { const f = e.target.files[0]; if (f) restoreBackup(f); e.target.value = ""; });
@@ -1025,7 +1252,7 @@
     netStatus();
     render();
     // draw as soon as each source answers; never wait on one before showing the other
-    dbAll("recipes").then((m) => { S.mine = m || []; render(); }).catch(() => {});
+    dbAll("recipes").then((m) => { S.mine = m || []; render(); backupNudge(); }).catch(() => {});
     const n = await loadFeed(false);
     render();
     if (n > 0) toast(plural(n, "new recipe") + " added to your list");
