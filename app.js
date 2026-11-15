@@ -4,7 +4,7 @@
   const MK = window.MK;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 10; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 11; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -418,7 +418,6 @@
     $("#sheet").hidden = true;
     document.body.style.overflow = "";
     S.sheet = null;
-    try { canSpeak && speechSynthesis.cancel(); } catch (e) {}
     releaseWake();
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
@@ -555,17 +554,7 @@
     });
   }
 
-  // ---------- cook mode: one big step at a time, read aloud ----------
-  const canSpeak = "speechSynthesis" in window;
-  function say(text, force) {
-    if (!canSpeak || (!S.speak && !force)) return;
-    try {
-      speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = "en-GB"; u.rate = 0.95;
-      speechSynthesis.speak(u);
-    } catch (e) {}
-  }
+  // ---------- cook mode: one big step at a time (read-aloud removed Nov 15 at the owner's request) ----------
   function openCookMode(r) {
     const steps = r.steps || [];
     let i = 0;
@@ -573,14 +562,12 @@
     keepAwake();
     openSheet((panel) => {
       const draw = () => {
-        const voiceBtn = canSpeak ? h("button", { class: "btn small", type: "button", "aria-pressed": String(S.speak), onclick: () => { S.speak = !S.speak; saveState(); if (!S.speak) speechSynthesis.cancel(); draw(); } }, S.speak ? "🔊 Reading aloud" : "🔈 Read aloud: off") : null;
-        panel.replaceChildren(bar(r.name, voiceBtn));
+        panel.replaceChildren(bar(r.name));
         if (i >= steps.length) {
           panel.append(h("h2", { id: "sheetTitle", class: "cook-step", text: "All done. Enjoy your meal!" }),
             h("div", { class: "actions" },
               h("button", { class: "btn primary big", type: "button", onclick: () => openCooked(r) }, "✓ I cooked this: update my kitchen"),
               h("button", { class: "btn big", type: "button", onclick: () => { i = steps.length - 1; draw(); } }, "← Last step")));
-          say("All done. Enjoy your meal.");
           return;
         }
         const s = steps[i], mins = MK.stepMinutes(s);
@@ -591,9 +578,7 @@
           mins ? h("div", { class: "actions" }, h("button", { class: "btn big", type: "button", onclick: () => startTimer(mins, r.name + ", step " + (i + 1)) }, "⏱ Start " + fmtMin(mins) + " timer")) : null,
           h("div", { class: "cook-nav" },
             h("button", { class: "btn big", type: "button", disabled: i === 0, onclick: () => { i--; draw(); } }, "← Back"),
-            canSpeak ? h("button", { class: "btn big", type: "button", onclick: () => say(`Step ${i + 1}. ${s}`, true) }, "🔁 Repeat") : null,
             h("button", { class: "btn primary big", type: "button", onclick: () => { i++; draw(); } }, i === steps.length - 1 ? "Finish ✓" : "Next →"))].filter(Boolean));
-        say(`Step ${i + 1}. ${s}`);
       };
       draw();
     });
