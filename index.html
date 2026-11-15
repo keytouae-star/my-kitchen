@@ -229,6 +229,7 @@ a.btn.primary { color: var(--basil-ink); }
 body:has(.timer) .fab { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
 /* use soon */
 .chip.soon { border-color: var(--saffron); background: var(--saffron-soft); }
+.chip.low { border-color: var(--saffron); background: var(--saffron-soft); }
 .chip.soon[aria-pressed="true"]::before { content: none; }
 .soon-line { color: var(--saffron); font-size: .88rem; font-weight: 600; }
 /* notes */
@@ -432,6 +433,11 @@ body:has(.timer) .fab { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
         <div class="chips" id="basicsChips"></div>
       </div>
       <div class="panel">
+        <h3 style="margin-bottom:6px">Stock amounts</h3>
+        <p class="hint" style="margin-bottom:10px">Correct a number if it's wrong (things used outside the app aren't counted).</p>
+        <div id="stockList"></div>
+      </div>
+      <div class="panel">
         <h3 style="margin-bottom:6px">Backup</h3>
         <p class="hint" style="margin-bottom:10px">Saves your own recipes, photos, kitchen, favourites and shopping list to one file. Keep it somewhere safe (Google Drive, for example) in case the tablet is reset.</p>
         <div class="row">
@@ -467,6 +473,7 @@ body:has(.timer) .fab { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script src="core.js"></script>
+<script src="stock.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

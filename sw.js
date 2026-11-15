@@ -1,8 +1,8 @@
 /* My Kitchen service worker: the app opens offline.
    App files and the recipe list are network-first (so updates arrive when online)
    with the cached copy as the offline fallback. Fonts and recipe photos are cached as they load. */
-const CACHE = "mykitchen-v14";
-const APP = ["./", "index.html", "core.js", "app.js", "recipes.json", "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png"];
+const CACHE = "mykitchen-v15";
+const APP = ["./", "index.html", "core.js", "stock.js", "app.js", "recipes.json", "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(APP)).then(() => self.skipWaiting()));

@@ -33,7 +33,13 @@
         "Make 4 small wells in the sauce and crack an egg into each. Cover and cook on low for 6 minutes, until the whites are set but the yolks are soft.",
         "Scatter over the feta and parsley and serve straight from the pan with bread."
       ],
-      "tip": "If the sauce gets too thick before the eggs go in, add a splash of water."
+      "tip": "If the sauce gets too thick before the eggs go in, add a splash of water.",
+      "image": "photos/shakshuka.jpg",
+      "imageCredit": {
+        "artist": "Calliopejen1",
+        "license": "CC BY-SA 3.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Shakshuka_by_Calliopejen1.jpg"
+      }
     },
     {
       "id": "hummus",
@@ -63,7 +69,13 @@
         "Taste and add more lemon or salt if needed.",
         "Spread in a bowl, make a swirl with a spoon, drizzle with oil and sprinkle with paprika and parsley."
       ],
-      "tip": "For extra smooth hummus, blend for a full 3 minutes and use ice-cold water."
+      "tip": "For extra smooth hummus, blend for a full 3 minutes and use ice-cold water.",
+      "image": "photos/hummus.jpg",
+      "imageCredit": {
+        "artist": "pita pita granada",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Hummus_plate_ni.jpg"
+      }
     },
     {
       "id": "lentil_soup",
@@ -97,7 +109,13 @@
         "Serve with lemon wedges and toasted bread."
       ],
       "tip": "Thick soup? Add hot water a little at a time.",
-      "pressure": "Fry the onion, carrot, garlic and spices in the pot. Add the lentils, potato, stock cube and 5 cups water. Cook 8 minutes at high pressure, let the pressure drop by itself (about 10 minutes), then blend. Never fill the pot more than half full."
+      "pressure": "Fry the onion, carrot, garlic and spices in the pot. Add the lentils, potato, stock cube and 5 cups water. Cook 8 minutes at high pressure, let the pressure drop by itself (about 10 minutes), then blend. Never fill the pot more than half full.",
+      "image": "photos/lentil_soup.jpg",
+      "imageCredit": {
+        "artist": "Andy Li",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Homemade_Lentil_Soup_-_Lavash_2025-02-10.jpg"
+      }
     },
     {
       "id": "shawarma_wraps",
@@ -132,7 +150,13 @@
         "For the sauce, mix the tahini or mayo with the last clove of garlic, the rest of the lemon juice and a little water.",
         "Warm the bread, spread with sauce, add the chicken and vegetables, and roll up tightly."
       ],
-      "tip": "Thighs stay juicier than breast."
+      "tip": "Thighs stay juicier than breast.",
+      "image": "photos/shawarma_wraps.jpg",
+      "imageCredit": {
+        "artist": "Andy Li",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Chicken_Shawarma_Wrap_-_Lavash_2024-09-11.jpg"
+      }
     },
     {
       "id": "kofta",
@@ -163,7 +187,13 @@
         "Cook: in a hot oiled pan for 8 minutes, turning often. Air fryer: 200°C for 10 minutes. Oven: 220°C for 15 minutes.",
         "Serve in warm bread with yogurt and cucumber."
       ],
-      "tip": "Chill the shaped kofta 15 minutes if they feel soft; they hold together better."
+      "tip": "Chill the shaped kofta 15 minutes if they feel soft; they hold together better.",
+      "image": "photos/kofta.jpg",
+      "imageCredit": {
+        "artist": "Foodista",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:K%C3%B6fte_kebabs.jpg"
+      }
     },
     {
       "id": "mujaddara",
@@ -193,7 +223,13 @@
         "Rest 5 minutes off the heat, fluff with a fork and top with the crispy onions."
       ],
       "tip": "Don't rush the onions: their dark colour is the flavour of the dish. Red lentils go mushy here.",
-      "pressure": "Cook the brown or green lentils in 3 cups water for 8 minutes at high pressure instead of boiling them for 15. Release the pressure, drain, and carry on from step 3."
+      "pressure": "Cook the brown or green lentils in 3 cups water for 8 minutes at high pressure instead of boiling them for 15. Release the pressure, drain, and carry on from step 3.",
+      "image": "photos/mujaddara.jpg",
+      "imageCredit": {
+        "artist": "Bazel",
+        "license": "CC BY-SA 3.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Mujaddara.jpg"
+      }
     },
     {
       "id": "fattoush",
@@ -226,7 +262,13 @@
         "Whisk the lemon juice, 4 tbsp oil, sumac, pomegranate molasses and ½ tsp salt.",
         "Just before eating, toss everything with the dressing and the crisp bread."
       ],
-      "tip": "Add the bread at the last minute so it stays crunchy."
+      "tip": "Add the bread at the last minute so it stays crunchy.",
+      "image": "photos/fattoush.jpg",
+      "imageCredit": {
+        "artist": "Arousing Appetites",
+        "license": "CC BY-SA 3.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Fattoush_mixed-salad.jpg"
+      }
     },
     {
       "id": "foul",
@@ -257,7 +299,13 @@
         "Stir in the garlic, lemon juice, cumin, ½ tsp salt and 2 tbsp oil.",
         "Top with tomato, parsley and chili and serve hot with bread."
       ],
-      "tip": "A spoon of tahini makes it creamier."
+      "tip": "A spoon of tahini makes it creamier.",
+      "image": "photos/foul.jpg",
+      "imageCredit": {
+        "artist": "Habib M'henni",
+        "license": "CC BY-SA 3.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Foul_Mdammis,_Tunisie.jpg"
+      }
     },
     {
       "id": "machboos",
@@ -296,7 +344,13 @@
         "Meanwhile brown the chicken under the oven grill or in the air fryer at 200°C for 8 minutes. Serve on top of the rice with coriander and raisins."
       ],
       "tip": "Dried limes (loomi) give the real Gulf taste.",
-      "pressure": "After browning the chicken (step 3), add the tomatoes, limes, salt and 3½ cups water and cook 10 minutes at high pressure instead of simmering for 30. Release the pressure, then carry on from step 4."
+      "pressure": "After browning the chicken (step 3), add the tomatoes, limes, salt and 3½ cups water and cook 10 minutes at high pressure instead of simmering for 30. Release the pressure, then carry on from step 4.",
+      "image": "photos/machboos.jpg",
+      "imageCredit": {
+        "artist": "Basel15 at en.wikipedia",
+        "license": "Public domain",
+        "page": "https://commons.wikimedia.org/wiki/File:Kabsa.jpg"
+      }
     },
     {
       "id": "batata_harra",
@@ -325,7 +379,13 @@
         "In a pan, warm 2 tbsp oil and fry the garlic, chili and paprika for 1 minute.",
         "Toss the hot potatoes in the garlic oil with the coriander and a squeeze of lemon."
       ],
-      "tip": "Dry the potato cubes well before oiling; they crisp better."
+      "tip": "Dry the potato cubes well before oiling; they crisp better.",
+      "image": "photos/batata_harra.jpg",
+      "imageCredit": {
+        "artist": "secretlondon123 from London, England",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Batata_harra.jpg"
+      }
     },
     {
       "id": "masoor_dal",
@@ -360,7 +420,13 @@
         "Finish with lemon juice and coriander. Serve with rice."
       ],
       "tip": "Ghee instead of oil in the frying step gives a richer dal.",
-      "pressure": "Fry the onion, garlic, ginger, chili and cumin in the pot first. Add the tomatoes, the rinsed lentils, turmeric, 1 tsp salt and 2½ cups water. Lock the lid and cook 6 minutes at high pressure, then let the pressure drop by itself (about 10 minutes). Stir well and finish with lemon and coriander. Lentils foam, so never fill the pot more than half full."
+      "pressure": "Fry the onion, garlic, ginger, chili and cumin in the pot first. Add the tomatoes, the rinsed lentils, turmeric, 1 tsp salt and 2½ cups water. Lock the lid and cook 6 minutes at high pressure, then let the pressure drop by itself (about 10 minutes). Stir well and finish with lemon and coriander. Lentils foam, so never fill the pot more than half full.",
+      "image": "photos/masoor_dal.jpg",
+      "imageCredit": {
+        "artist": "cyclonebill",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Flickr_-_cyclonebill_-_Lamb_Korma,_raita,_Masoor_Dal,_guler%C3%B8dder_og_chapati.jpg"
+      }
     },
     {
       "id": "chicken_curry",
@@ -396,7 +462,13 @@
         "Stir in the yogurt or coconut milk and heat gently for 2 minutes without boiling. Top with coriander."
       ],
       "tip": "Take the pan off the heat before adding yogurt so it doesn't split.",
-      "pressure": "Make the onion and tomato base in the pot (steps 1–3). Add the chicken and only ¼ cup water. Cook 8 minutes at high pressure, then release the pressure carefully. Stir in the yogurt or coconut milk with the heat off."
+      "pressure": "Make the onion and tomato base in the pot (steps 1–3). Add the chicken and only ¼ cup water. Cook 8 minutes at high pressure, then release the pressure carefully. Stir in the yogurt or coconut milk with the heat off.",
+      "image": "photos/chicken_curry.jpg",
+      "imageCredit": {
+        "artist": "Gaurav Dhwaj Khadka",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Chicken_Curry_9.jpg"
+      }
     },
     {
       "id": "chana_masala",
@@ -432,7 +504,13 @@
         "Finish with lemon juice and coriander."
       ],
       "tip": "",
-      "pressure": "Using dried chickpeas instead of cans? Soak 1½ cups overnight, then cook them in plenty of water with 1 tsp salt for 15 minutes at high pressure and let the pressure drop by itself. Use them in step 4."
+      "pressure": "Using dried chickpeas instead of cans? Soak 1½ cups overnight, then cook them in plenty of water with 1 tsp salt for 15 minutes at high pressure and let the pressure drop by itself. Use them in step 4.",
+      "image": "photos/chana_masala.jpg",
+      "imageCredit": {
+        "artist": "Andy Li",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Chana_Masala_-_Mohammed_-_Spice_Of_Life_2024-05-27.jpg"
+      }
     },
     {
       "id": "aloo_matar",
@@ -468,7 +546,13 @@
         "Add the peas for the last 5 minutes. Top with coriander."
       ],
       "tip": "",
-      "pressure": "Make the base in the pot (steps 1–3), then add the potatoes and only ¾ cup water. Cook 3 minutes at high pressure, release the pressure quickly, stir in the peas and cook 2 minutes."
+      "pressure": "Make the base in the pot (steps 1–3), then add the potatoes and only ¾ cup water. Cook 3 minutes at high pressure, release the pressure quickly, stir in the peas and cook 2 minutes.",
+      "image": "photos/aloo_matar.jpg",
+      "imageCredit": {
+        "artist": "Zeel Patel",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Aloo_Matar.JPG"
+      }
     },
     {
       "id": "anda_curry",
@@ -503,7 +587,13 @@
         "Add the eggs and simmer 5 minutes, spooning the sauce over them. Top with coriander."
       ],
       "tip": "Frying the peeled eggs for 2 minutes first gives them a golden skin that holds the sauce.",
-      "pressure": "Boil the eggs in the pressure cooker: 1 cup water, eggs on the rack, 5 minutes at high pressure, 5 minutes letting the pressure drop, then straight into cold water. They peel easily."
+      "pressure": "Boil the eggs in the pressure cooker: 1 cup water, eggs on the rack, 5 minutes at high pressure, 5 minutes letting the pressure drop, then straight into cold water. They peel easily.",
+      "image": "photos/anda_curry.jpg",
+      "imageCredit": {
+        "artist": "https://onlybestrecipes.com/egg-curry-recipeegg-curry-recipe/",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Spicy_Anda_Curry.jpg"
+      }
     },
     {
       "id": "keema_matar",
@@ -540,7 +630,13 @@
         "Add the peas and cook 5 minutes more. Top with coriander."
       ],
       "tip": "",
-      "pressure": "Brown the onions, garlic, ginger and mince in the pot (steps 1–3). Add the spices, tomatoes, yogurt, salt and ¼ cup water. Cook 6 minutes at high pressure, release the pressure, then stir in the peas and simmer 3 minutes."
+      "pressure": "Brown the onions, garlic, ginger and mince in the pot (steps 1–3). Add the spices, tomatoes, yogurt, salt and ¼ cup water. Cook 6 minutes at high pressure, release the pressure, then stir in the peas and simmer 3 minutes.",
+      "image": "photos/keema_matar.jpg",
+      "imageCredit": {
+        "artist": "Cabeza2000",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Keema_Matar_(a_dish_from_India).jpg"
+      }
     },
     {
       "id": "chicken_biryani",
@@ -581,7 +677,13 @@
         "Spread the rice over the chicken. Top with the fried onions, herbs, saffron milk and ghee.",
         "Cover tightly and cook on the lowest heat for 20 minutes. Rest 5 minutes, then mix gently from the bottom as you serve."
       ],
-      "tip": "Wrap the lid in a tea towel so no steam escapes."
+      "tip": "Wrap the lid in a tea towel so no steam escapes.",
+      "image": "photos/chicken_biryani.jpg",
+      "imageCredit": {
+        "artist": "Subhrajyoti07",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:A_home_made_plate_of_mutton_biryani_served_with_chicken_kassa_cooked_in_the_bengali_style.jpg"
+      }
     },
     {
       "id": "veg_pulao",
@@ -616,7 +718,13 @@
         "Rest 5 minutes off the heat and fluff with a fork."
       ],
       "tip": "",
-      "pressure": "Do steps 1–3 in the pot, then add the drained rice, salt and only 1¾ cups water (pressure cookers need less). Cook 4 minutes at high pressure, let the pressure drop by itself for 10 minutes, then fluff with a fork."
+      "pressure": "Do steps 1–3 in the pot, then add the drained rice, salt and only 1¾ cups water (pressure cookers need less). Cook 4 minutes at high pressure, let the pressure drop by itself for 10 minutes, then fluff with a fork.",
+      "image": "photos/veg_pulao.jpg",
+      "imageCredit": {
+        "artist": "Sumitsurai",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Andhra_Vegetable_Pulao_-_WCI-Day0-Dinner.jpg"
+      }
     },
     {
       "id": "masala_omelette",
@@ -646,7 +754,13 @@
         "Cook 2 minutes until the bottom sets, then fold or flip and cook 1 minute more.",
         "Serve hot with bread."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/masala_omelette.jpg",
+      "imageCredit": {
+        "artist": "Saileshpat",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Indian_Omelette_Odisha.jpg"
+      }
     },
     {
       "id": "bhindi_masala",
@@ -679,7 +793,13 @@
         "Add the tomatoes and ½ tsp salt and cook 4 minutes.",
         "Return the okra and cook 3 minutes. Finish with lemon juice."
       ],
-      "tip": "Never cover okra while it cooks, or it turns slimy."
+      "tip": "Never cover okra while it cooks, or it turns slimy.",
+      "image": "photos/bhindi_masala.jpg",
+      "imageCredit": {
+        "artist": "Monali.mishra",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Bhindi_Masala.jpg"
+      }
     },
     {
       "id": "tomato_pasta",
@@ -710,7 +830,13 @@
         "Drain the pasta, keeping a cup of the water. Toss the pasta in the sauce with a splash of the water.",
         "Serve with basil and cheese."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/tomato_pasta.jpg",
+      "imageCredit": {
+        "artist": "HaJunkiyada",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Liat_Portal_for_Foodie_Disorder_-_Spaghetti_with_Tomato_Sauce.jpg"
+      }
     },
     {
       "id": "aglio_olio",
@@ -739,7 +865,13 @@
         "Toss the spaghetti in the garlic oil with a splash of pasta water for 1 minute until glossy.",
         "Add parsley, a squeeze of lemon and cheese."
       ],
-      "tip": "Burnt garlic tastes bitter. Start again if it goes dark brown."
+      "tip": "Burnt garlic tastes bitter. Start again if it goes dark brown.",
+      "image": "photos/aglio_olio.jpg",
+      "imageCredit": {
+        "artist": "Bairuilong",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_aglio_e_olio_KB.jpg"
+      }
     },
     {
       "id": "mushroom_pasta",
@@ -771,7 +903,13 @@
         "Add the cheese, salt and pepper, then toss in the drained pasta with a splash of pasta water.",
         "Top with parsley."
       ],
-      "tip": "Don't crowd the mushrooms: they brown instead of steaming."
+      "tip": "Don't crowd the mushrooms: they brown instead of steaming.",
+      "image": "photos/mushroom_pasta.jpg",
+      "imageCredit": {
+        "artist": "Sharon Chen",
+        "license": "CC BY 3.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Creamy_Mushroom_Pasta.jpg"
+      }
     },
     {
       "id": "mac_cheese",
@@ -802,7 +940,13 @@
         "Off the heat, stir in the cheese, mustard and salt until smooth.",
         "Stir in the macaroni. Optional: top with breadcrumbs and air fry at 190°C for 5 minutes for a crunchy top."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/mac_cheese.jpg",
+      "imageCredit": {
+        "artist": "Matt MacGillivray from Toronto, Ontario, Canada",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Flickr_qmnonic_123431456--Kraft_Dinner_and_veggie_dogs.jpg"
+      }
     },
     {
       "id": "spanish_tortilla",
@@ -864,7 +1008,13 @@
       "tip": "Don't over-mix the batter, or the pancakes come out flat.",
       "tags": [
         "sweet"
-      ]
+      ],
+      "image": "photos/pancakes.jpg",
+      "imageCredit": {
+        "artist": "Mae Mu",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Foodiesfeed.com_pouring-honey-on-pancakes-with-walnuts.jpg"
+      }
     },
     {
       "id": "french_toast",
@@ -897,7 +1047,13 @@
       "tip": "Day-old bread soaks better without falling apart.",
       "tags": [
         "sweet"
-      ]
+      ],
+      "image": "photos/french_toast.jpg",
+      "imageCredit": {
+        "artist": "Ocdp",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:French_toast_001.jpg"
+      }
     },
     {
       "id": "lemon_chicken_traybake",
@@ -926,7 +1082,13 @@
         "Oven: spread on a tray and roast at 210°C for 45 minutes, turning once, until golden. Air fryer: cook the potatoes at 200°C for 10 minutes, add the chicken and cook 20 minutes more, shaking halfway.",
         "Check the chicken is cooked through (no pink near the bone), then serve with the pan juices."
       ],
-      "tip": "Put the squeezed lemon halves on the tray too for more flavour."
+      "tip": "Put the squeezed lemon halves on the tray too for more flavour.",
+      "image": "photos/lemon_chicken_traybake.jpg",
+      "imageCredit": {
+        "artist": "Daderot",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Curry_roasted_cauliflower_and_haricots_verts,_roasted_garlic_celeriac_puree,_beef_bourguignon,_and_chicken_thigh_with_sweet_potato_and_apple_-_Boston,_MA.jpg"
+      }
     },
     {
       "id": "beef_burgers",
@@ -957,7 +1119,13 @@
         "Add the cheese for the last minute and cover to melt.",
         "Toast the buns and build the burgers with salad and sauces."
       ],
-      "tip": "Only flip once and don't press the patties; they stay juicy."
+      "tip": "Only flip once and don't press the patties; they stay juicy.",
+      "image": "photos/beef_burgers.jpg",
+      "imageCredit": {
+        "artist": "عمرو",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Hamburger_with_beef_bacon.jpg"
+      }
     },
     {
       "id": "baked_salmon",
@@ -985,7 +1153,13 @@
         "Oven: bake at 200°C for 12–15 minutes. Air fryer: 190°C for 9 minutes. The fish is done when it flakes easily.",
         "Squeeze over the rest of the lemon and add parsley."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/baked_salmon.jpg",
+      "imageCredit": {
+        "artist": "Andy / Andrew Fogg from near Cambridge, UK",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Time_for_another_food_picture_-)_(4200042228).jpg"
+      }
     },
     {
       "id": "egg_fried_rice",
@@ -1016,7 +1190,13 @@
         "Push to one side, crack in the eggs and scramble for 1 minute.",
         "Add the rice and stir-fry 3 minutes until hot. Add the soy sauce and sesame oil and toss well."
       ],
-      "tip": "Cold rice fries; fresh hot rice turns sticky."
+      "tip": "Cold rice fries; fresh hot rice turns sticky.",
+      "image": "photos/egg_fried_rice.jpg",
+      "imageCredit": {
+        "artist": "daSupremo",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Fried_rice_with_chicken_and_egg.jpg"
+      }
     },
     {
       "id": "chicken_stir_fry",
@@ -1048,7 +1228,13 @@
         "Stir-fry the vegetables, garlic and ginger 3 minutes; they should stay crunchy.",
         "Return the chicken, add the sauce and toss 1 minute until glossy. Top with spring onions."
       ],
-      "tip": "Cut everything before you start: stir-frying is fast."
+      "tip": "Cut everything before you start: stir-frying is fast.",
+      "image": "photos/chicken_stir_fry.jpg",
+      "imageCredit": {
+        "artist": "Takeaway",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Kai_phat_khing.jpg"
+      }
     },
     {
       "id": "garlic_soy_noodles",
@@ -1111,7 +1297,13 @@
         "Toss the drained noodles in the sauce.",
         "Top with cucumber, carrot and spring onions. Eat warm or cold."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/peanut_noodles.jpg",
+      "imageCredit": {
+        "artist": "USDA",
+        "license": "Public domain",
+        "page": "https://commons.wikimedia.org/wiki/File:Noodles_with_Peanut_Butter_Sauce.jpg"
+      }
     },
     {
       "id": "honey_soy_chicken",
@@ -1142,7 +1334,13 @@
         "Pour the sauce over and bubble 2 minutes until sticky.",
         "Top with sesame seeds and spring onions. Serve with rice."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/honey_soy_chicken.jpg",
+      "imageCredit": {
+        "artist": "Vyacheslav Argenberg",
+        "license": "CC BY 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Chicken_teriyaki,_Fried_chicken,_Krasnoyarsk,_Russia.jpg"
+      }
     },
     {
       "id": "coconut_chicken_curry",
@@ -1175,7 +1373,13 @@
         "Pour in the coconut milk, ½ cup water, the sugar and 1 tsp salt. Simmer 15 minutes.",
         "Add the pepper for the last 5 minutes. Finish with lime juice and herbs."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/coconut_chicken_curry.jpg",
+      "imageCredit": {
+        "artist": "Andy Li",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Red_Curry_with_Chicken_-_Little_Thai,_Brighton_2024-03-01.jpg"
+      }
     },
     {
       "id": "chili_garlic_prawns",
@@ -1206,7 +1410,13 @@
         "Add the prawns and cook 2 minutes per side until pink.",
         "Add the soy sauce and honey and toss 30 seconds. Finish with lemon and spring onions."
       ],
-      "tip": "Prawns turn rubbery fast: take them off as soon as they curl and turn pink."
+      "tip": "Prawns turn rubbery fast: take them off as soon as they curl and turn pink.",
+      "image": "photos/chili_garlic_prawns.jpg",
+      "imageCredit": {
+        "artist": "Francesc Fort",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Llagost%C3%AD_amb_all_al_vapor.jpg"
+      }
     },
     {
       "id": "nasi_goreng",
@@ -1239,7 +1449,13 @@
         "Add the soy sauce, ketchup and sugar and toss until the rice is evenly coloured.",
         "Fry the eggs separately and put one on each plate of rice, with cucumber and tomato on the side."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/nasi_goreng.jpg",
+      "imageCredit": {
+        "artist": "Wiki Farazi",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Nasi_goreng_pattaya_20231028_120535.jpg"
+      }
     },
     {
       "id": "chicken_adobo",
@@ -1270,7 +1486,13 @@
         "Boil the sauce 5 minutes to reduce, add the sugar, and pour it over the chicken. Serve with rice."
       ],
       "tip": "Don't stir for the first few minutes after the vinegar goes in; it cooks off more gently.",
-      "pressure": "Put the chicken, soy sauce, vinegar, garlic, bay leaves and pepper in the pot with only ¼ cup water. Cook 10 minutes at high pressure and let the pressure drop by itself for 5 minutes. Then brown the chicken and reduce the sauce (steps 3–4)."
+      "pressure": "Put the chicken, soy sauce, vinegar, garlic, bay leaves and pepper in the pot with only ¼ cup water. Cook 10 minutes at high pressure and let the pressure drop by itself for 5 minutes. Then brown the chicken and reduce the sauce (steps 3–4).",
+      "image": "photos/chicken_adobo.jpg",
+      "imageCredit": {
+        "artist": "dbgg1979 on flickr",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Chicken_adobo.jpg"
+      }
     },
     {
       "id": "sweet_sour_chicken",
@@ -1304,7 +1526,13 @@
         "Stir-fry the pepper, onion and garlic 3 minutes. Pour in the sauce and bubble 1 minute until thick.",
         "Toss in the chicken and serve straight away with rice."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/sweet_sour_chicken.jpg",
+      "imageCredit": {
+        "artist": "Miansari66",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Sweet_and_Sour_Chicken.JPG"
+      }
     },
     {
       "id": "harees",
@@ -1333,7 +1561,13 @@
         "Serve hot with melted ghee poured on top and a pinch of cinnamon."
       ],
       "pressure": "Put the soaked wheat, meat, salt and 6 cups water in the pot. Cook 45 minutes at high pressure and let the pressure drop by itself. Remove the bones, then beat until smooth and stretchy.",
-      "tip": "Harees should be thick, smooth and slightly stretchy, like a porridge you can hold on a spoon."
+      "tip": "Harees should be thick, smooth and slightly stretchy, like a porridge you can hold on a spoon.",
+      "image": "photos/harees.jpg",
+      "imageCredit": {
+        "artist": "Krista",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Al_fanar_harees_(7797136886).jpg"
+      }
     },
     {
       "id": "luqaimat",
@@ -1369,7 +1603,13 @@
       "tip": "If the oil is too hot they brown outside but stay raw inside. Fry a test one first.",
       "tags": [
         "sweet"
-      ]
+      ],
+      "image": "photos/luqaimat.jpg",
+      "imageCredit": {
+        "artist": "Benreis",
+        "license": "CC BY 3.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Lokma_Galata_Bridge.JPG"
+      }
     },
     {
       "id": "balaleet",
@@ -1402,7 +1642,13 @@
       "tip": "A classic Emirati breakfast: sweet and salty together.",
       "tags": [
         "sweet"
-      ]
+      ],
+      "image": "photos/balaleet.jpg",
+      "imageCredit": {
+        "artist": "Droodkin",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Balaleet_2019.jpg"
+      }
     },
     {
       "id": "chicken_saloona",
@@ -1477,7 +1723,13 @@
         "Arrange the meat and vegetables on top and serve straight away."
       ],
       "pressure": "For lamb: after browning, add the water, salt and dried lime and cook 25 minutes at high pressure. Release, add the vegetables and simmer 15 minutes.",
-      "tip": "A favourite at Ramadan iftar."
+      "tip": "A favourite at Ramadan iftar.",
+      "image": "photos/thareed.jpg",
+      "imageCredit": {
+        "artist": "Miansari66",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Tharid..JPG"
+      }
     },
     {
       "id": "chebab",
@@ -1605,7 +1857,13 @@
         "Cook: air fryer 200°C for 12 minutes; oven at 220°C for 15 minutes (whole fish 25 minutes); or in a hot oiled pan 4 minutes per side.",
         "Squeeze over the rest of the lemon, add coriander and serve with rice."
       ],
-      "tip": "The fish is done when it flakes easily at the thickest part."
+      "tip": "The fish is done when it flakes easily at the thickest part.",
+      "image": "photos/samak_mashwi.jpg",
+      "imageCredit": {
+        "artist": "Shaween",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Grilled_Fish,_Shaqlawa,_Kurdistan_1.jpg"
+      }
     },
     {
       "id": "margoogat",
@@ -1669,7 +1927,13 @@
         "Add the mint, sugar and the rest of the water to the teapot and leave 4 minutes.",
         "Pour from high up into small glasses so it foams a little."
       ],
-      "tip": "Go easy on the brewing time with green tea: longer makes it bitter."
+      "tip": "Go easy on the brewing time with green tea: longer makes it bitter.",
+      "image": "photos/mint_tea.jpg",
+      "imageCredit": {
+        "artist": "Sarkar Sayantan",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Moroccan_Mint_Tea_-_1.jpg"
+      }
     },
     {
       "id": "ginger_lemon_honey",
@@ -1701,7 +1965,13 @@
         "Stir in the honey once it has cooled a little.",
         "Pour into mugs with a slice of the remaining lemon."
       ],
-      "tip": "Good for a sore throat. Don't boil the honey; add it when the tea is just hot."
+      "tip": "Good for a sore throat. Don't boil the honey; add it when the tea is just hot.",
+      "image": "photos/ginger_lemon_honey.jpg",
+      "imageCredit": {
+        "artist": "Erasmus Kamugisha",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Lemon_and_ginger_tea_,Tanzania.jpg"
+      }
     },
     {
       "id": "maramiya_tea",
@@ -1729,7 +1999,13 @@
         "Add the tea bags, sage and sugar and leave 4 minutes.",
         "Strain into glasses."
       ],
-      "tip": "A Levantine favourite after a heavy meal."
+      "tip": "A Levantine favourite after a heavy meal.",
+      "image": "photos/maramiya_tea.jpg",
+      "imageCredit": {
+        "artist": "cogdogblog",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Making_Sage_Tea_(9235010409).jpg"
+      }
     },
     {
       "id": "chamomile_tea",
@@ -1759,7 +2035,13 @@
         "Cover and leave 5 minutes.",
         "Strain and stir in the honey."
       ],
-      "tip": "Caffeine-free, so it's a good one for the evening."
+      "tip": "Caffeine-free, so it's a good one for the evening.",
+      "image": "photos/chamomile_tea.jpg",
+      "imageCredit": {
+        "artist": "Greg",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Glass_of_chamomile_tea.jpg"
+      }
     },
     {
       "id": "karkade",
@@ -1790,7 +2072,13 @@
         "Take off the heat, stir in the sugar and leave 10 minutes.",
         "Strain. Drink hot, or chill it and serve over ice with mint and a squeeze of lemon."
       ],
-      "tip": "Deep red, sweet and tart. It keeps 3 days in the fridge."
+      "tip": "Deep red, sweet and tart. It keeps 3 days in the fridge.",
+      "image": "photos/karkade.jpg",
+      "imageCredit": {
+        "artist": "stu_spivack",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Homemade_sorrel_drink.jpg"
+      }
     },
     {
       "id": "peach_iced_tea",
@@ -1822,7 +2110,13 @@
         "Strain, then cool.",
         "Pour over plenty of ice with lemon slices and mint."
       ],
-      "tip": "Make it the night before and keep it in the fridge; it's even better cold."
+      "tip": "Make it the night before and keep it in the fridge; it's even better cold.",
+      "image": "photos/peach_iced_tea.jpg",
+      "imageCredit": {
+        "artist": "Baoothersks",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Peach_iced_tea_with_orange_slices.jpg"
+      }
     },
     {
       "id": "lemon_mint",
@@ -1850,7 +2144,13 @@
         "Blend 1 minute until frothy and green.",
         "Taste, add more sugar if it's too sour, and serve straight away."
       ],
-      "tip": "Remove the pips first; peel the lemons so it isn't bitter."
+      "tip": "Remove the pips first; peel the lemons so it isn't bitter.",
+      "image": "photos/lemon_mint.jpg",
+      "imageCredit": {
+        "artist": "Bernard Gagnon",
+        "license": "CC BY-SA 3.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Mint_lemonade.jpg"
+      }
     },
     {
       "id": "mango_lassi",
@@ -1881,7 +2181,13 @@
         "Blend 1 minute until smooth.",
         "Pour into glasses and sprinkle with cardamom."
       ],
-      "tip": "Frozen mango works well and makes it thicker."
+      "tip": "Frozen mango works well and makes it thicker.",
+      "image": "photos/mango_lassi.jpg",
+      "imageCredit": {
+        "artist": "Andy Li",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Mango_Lassi_and_Butter_Milk_-_Vel_South_Indian_Kitchen_%2B_Bar.jpg"
+      }
     },
     {
       "id": "watermelon_mint",
@@ -1911,7 +2217,13 @@
         "Strain if you like it smooth.",
         "Serve over ice (stir in soaked chia or basil seeds if you have them)."
       ],
-      "tip": "No sugar needed if the watermelon is ripe."
+      "tip": "No sugar needed if the watermelon is ripe.",
+      "image": "photos/watermelon_mint.jpg",
+      "imageCredit": {
+        "artist": "Brindhashanmugam312",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Watermelon_juice_in_glass.jpg"
+      }
     },
     {
       "id": "date_shake",
@@ -1942,7 +2254,13 @@
         "Blend everything for 1 minute until smooth.",
         "Serve cold."
       ],
-      "tip": "Naturally sweet, so no sugar needed."
+      "tip": "Naturally sweet, so no sugar needed.",
+      "image": "photos/date_shake.jpg",
+      "imageCredit": {
+        "artist": "Ranjithkanth jayanthi",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Milkshake_3.jpg"
+      }
     },
     {
       "id": "iced_coffee",
@@ -1969,7 +2287,13 @@
         "Fill a glass with ice, pour in the milk, then the coffee.",
         "For a Spanish latte, stir condensed milk into the glass first."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/iced_coffee.jpg",
+      "imageCredit": {
+        "artist": "Tony Webster",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Iced_Coffee_in_Glass_-_Sunshine_Coffee_-_Laramie_Cafe_(53838344552).jpg"
+      }
     },
     {
       "id": "energy_balls",
@@ -2001,7 +2325,13 @@
         "Roll into 12 small balls and roll them in coconut.",
         "Chill 15 minutes. They keep a week in the fridge."
       ],
-      "tip": "No added sugar: the dates do the sweetening."
+      "tip": "No added sugar: the dates do the sweetening.",
+      "image": "photos/energy_balls.jpg",
+      "imageCredit": {
+        "artist": "Meg H",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Raw-energy-balls_(49658797242).jpg"
+      }
     },
     {
       "id": "chia_pudding",
@@ -2060,7 +2390,13 @@
         "Layer yogurt, fruit and oats in two glasses, twice.",
         "Drizzle with honey and top with nuts."
       ],
-      "tip": "Greek yogurt makes it thicker and higher in protein."
+      "tip": "Greek yogurt makes it thicker and higher in protein.",
+      "image": "photos/yogurt_parfait.jpg",
+      "imageCredit": {
+        "artist": "Benoît Prieur",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Parfait_glac%C3%A9_au_Grand_Marnier,_fruits_confits_et_pain_d%27%C3%A9pice.JPG"
+      }
     },
     {
       "id": "banana_oat_cookies",
@@ -2092,7 +2428,13 @@
         "Drop 12 spoonfuls on a lined tray and flatten a little.",
         "Bake at 180°C for 15 minutes until golden at the edges (air fryer: 170°C for 9 minutes)."
       ],
-      "tip": "The riper (spottier) the bananas, the sweeter the cookies."
+      "tip": "The riper (spottier) the bananas, the sweeter the cookies.",
+      "image": "photos/banana_oat_cookies.jpg",
+      "imageCredit": {
+        "artist": "James from Boulder, USA",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:OATMEAL-BANANA_COOKIES_-_Flickr_-_scubadive67.jpg"
+      }
     },
     {
       "id": "baked_apples",
@@ -2124,7 +2466,13 @@
         "Bake at 190°C for 25 minutes until soft (air fryer: 180°C for 15 minutes).",
         "Serve warm with a spoon of yogurt."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/baked_apples.jpg",
+      "imageCredit": {
+        "artist": "Andrey Korzun",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Baked_apple_02.JPG"
+      }
     },
     {
       "id": "nice_cream",
@@ -2190,7 +2538,13 @@
         "Pour the cream on top and bake at 220°C for 15 minutes until the top is golden.",
         "Serve warm."
       ],
-      "tip": "Egypt's favourite bread pudding. Croissants or bread work instead of puff pastry."
+      "tip": "Egypt's favourite bread pudding. Croissants or bread work instead of puff pastry.",
+      "image": "photos/umm_ali.jpg",
+      "imageCredit": {
+        "artist": "Miansari66",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Umm_Ali.JPG"
+      }
     },
     {
       "id": "basbousa",
@@ -2225,7 +2579,13 @@
         "Bake at 180°C for 30 minutes until golden.",
         "Pour the cool syrup over the hot cake and leave 30 minutes to soak before cutting."
       ],
-      "tip": "Cool syrup on hot cake (or the other way round) stops it going soggy."
+      "tip": "Cool syrup on hot cake (or the other way round) stops it going soggy.",
+      "image": "photos/basbousa.jpg",
+      "imageCredit": {
+        "artist": "stu_spivack",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Basboosa.jpg"
+      }
     },
     {
       "id": "rice_pudding",
@@ -2257,7 +2617,13 @@
         "Stir in the sugar, cardamom and rose water (and the cornflour mixed with a little cold milk for a thicker set) for 3 minutes.",
         "Pour into bowls, cool and top with pistachios. Eat warm or cold."
       ],
-      "tip": "Stir from the bottom so the milk doesn't catch."
+      "tip": "Stir from the bottom so the milk doesn't catch.",
+      "image": "photos/rice_pudding.jpg",
+      "imageCredit": {
+        "artist": "Bukky658",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Tuwo_Shinkafa_with_garden_egg_Soup.jpg"
+      }
     },
     {
       "id": "muhallabia",
@@ -2288,7 +2654,13 @@
         "Stir over medium heat for 8 minutes until thick enough to coat the spoon. Stir in the rose water.",
         "Pour into small bowls, cool, then chill 2 hours. Top with pistachios."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/muhallabia.jpg",
+      "imageCredit": {
+        "artist": "E4024",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Turkish_muhallebi.jpg"
+      }
     },
     {
       "id": "brownies",
@@ -2321,7 +2693,13 @@
         "Spread in a lined 20 cm tin and bake at 180°C for 25 minutes. The middle should still be a little soft.",
         "Cool completely before cutting into squares."
       ],
-      "tip": "Take them out while the middle still wobbles slightly: they firm up as they cool."
+      "tip": "Take them out while the middle still wobbles slightly: they firm up as they cool.",
+      "image": "photos/brownies.jpg",
+      "imageCredit": {
+        "artist": "Wikimedia Commons contributor",
+        "license": "CC BY-SA 3.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Chocolate_brownies_without_table.jpg"
+      }
     },
     {
       "id": "sheer_khurma",
@@ -2388,7 +2766,13 @@
         "Brush with the melted butter mixed with the rest of the saffron water.",
         "Serve with grilled tomatoes, rice and lemon wedges, sprinkled with sumac."
       ],
-      "tip": "Grated onion and yogurt make the chicken very tender."
+      "tip": "Grated onion and yogurt make the chicken very tender.",
+      "image": "photos/joojeh_kabab.jpg",
+      "imageCredit": {
+        "artist": "Nasser-sadeghi",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Joojeh-kabab.JPG"
+      }
     },
     {
       "id": "ghormeh_sabzi",
@@ -2422,7 +2806,13 @@
         "Serve with rice."
       ],
       "pressure": "After browning, add the water and salt and cook the meat 25 minutes at high pressure. Release, add the fried herbs, beans and dried limes and simmer 20 minutes without the lid.",
-      "tip": "Frying the herbs slowly is the secret: don't rush it."
+      "tip": "Frying the herbs slowly is the secret: don't rush it.",
+      "image": "photos/ghormeh_sabzi.jpg",
+      "imageCredit": {
+        "artist": "Amin Majidi",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Ghormeh_Sabzi.JPG"
+      }
     },
     {
       "id": "chelow_tahdig",
@@ -2450,7 +2840,13 @@
         "Cover with a lid wrapped in a tea towel. Cook on medium heat 10 minutes, then on the lowest heat 45 minutes.",
         "Drizzle the rest of the butter and saffron water over the top. Flip onto a plate, or serve the rice and break the crispy tahdig into pieces."
       ],
-      "tip": "The crispy bottom (tahdig) is the best part. A non-stick pot makes it easy."
+      "tip": "The crispy bottom (tahdig) is the best part. A non-stick pot makes it easy.",
+      "image": "photos/chelow_tahdig.jpg",
+      "imageCredit": {
+        "artist": "the foodhoe",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Tahdig_with_ghormeh_sabzi.jpg"
+      }
     },
     {
       "id": "zereshk_polo",
@@ -2482,7 +2878,13 @@
         "Mix a cup of rice with the rest of the saffron water.",
         "Serve the white rice topped with the saffron rice, barberries and nuts, with the chicken and its sauce."
       ],
-      "tip": "Barberries are sold at Iranian shops and most big supermarkets in the UAE."
+      "tip": "Barberries are sold at Iranian shops and most big supermarkets in the UAE.",
+      "image": "photos/zereshk_polo.jpg",
+      "imageCredit": {
+        "artist": "Marcuscalabresus",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Zereshk_polo_-_Riso_con_crespini.jpg"
+      }
     },
     {
       "id": "kashk_bademjan",
@@ -2513,7 +2915,13 @@
         "Stir in 3 tbsp kashk and cook 2 minutes.",
         "Spread on a plate and top with the rest of the kashk, fried onion, walnuts and mint fried in a little oil. Eat with bread."
       ],
-      "tip": "No kashk? Use thick yogurt or labneh with a squeeze of lemon."
+      "tip": "No kashk? Use thick yogurt or labneh with a squeeze of lemon.",
+      "image": "photos/kashk_bademjan.jpg",
+      "imageCredit": {
+        "artist": "مانفی",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Kashk_e_Badamjan.jpg"
+      }
     },
     {
       "id": "mirza_ghasemi",
@@ -2542,7 +2950,13 @@
         "Push to the sides, crack in the eggs, scramble them, then mix everything together.",
         "Serve warm with bread."
       ],
-      "tip": "Charring the skin gives the smoky taste."
+      "tip": "Charring the skin gives the smoky taste.",
+      "image": "photos/mirza_ghasemi.jpg",
+      "imageCredit": {
+        "artist": "Anastasiya Lvova",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:%D0%9C%D0%B8%D1%80%D0%B7%D0%B0_%D0%93%D0%B0%D1%81%D1%81%D0%B5%D0%BC%D0%B8.jpg"
+      }
     },
     {
       "id": "kuku_sabzi",
@@ -2575,7 +2989,13 @@
         "Cut into quarters, flip each one and cook 8 minutes more (or finish in the oven at 180°C for 15 minutes).",
         "Serve warm or cold with bread and yogurt."
       ],
-      "tip": "It should be mostly herbs held together by egg: deep green inside."
+      "tip": "It should be mostly herbs held together by egg: deep green inside.",
+      "image": "photos/kuku_sabzi.jpg",
+      "imageCredit": {
+        "artist": "Shannon Badiee",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Kuku_Sabzi_Platter.jpg"
+      }
     },
     {
       "id": "khoresh_gheymeh",
@@ -2635,7 +3055,13 @@
         "Add a pinch of salt, the vinegar and 4 tbsp olive oil and toss.",
         "Put the feta on top in one piece or big chunks, sprinkle with oregano and drizzle with a little more oil."
       ],
-      "tip": "No lettuce in a real Greek salad: just ripe tomatoes."
+      "tip": "No lettuce in a real Greek salad: just ripe tomatoes.",
+      "image": "photos/greek_salad.jpg",
+      "imageCredit": {
+        "artist": "Paasikivi",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Greek_salad_and_Tzatziki.jpg"
+      }
     },
     {
       "id": "chicken_souvlaki",
@@ -2667,7 +3093,13 @@
         "Thread the chicken onto skewers and cook: air fryer 200°C for 12 minutes; oven grill 10 minutes per side; or a hot pan 8 minutes.",
         "Warm the bread and fill with chicken, tzatziki, tomato and onion. Squeeze over lemon."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/chicken_souvlaki.jpg",
+      "imageCredit": {
+        "artist": "Breawycker",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Chicken_souvlaki_pita_with_french_fries.jpg"
+      }
     },
     {
       "id": "chicken_paella",
@@ -2702,7 +3134,13 @@
         "Simmer 18 minutes, adding the peas and prawns on top for the last 6 minutes.",
         "Turn up the heat for 1 minute to crisp the bottom, rest 5 minutes covered, then serve with lemon and parsley."
       ],
-      "tip": "Not stirring is what makes the crispy bottom (socarrat)."
+      "tip": "Not stirring is what makes the crispy bottom (socarrat).",
+      "image": "photos/chicken_paella.jpg",
+      "imageCredit": {
+        "artist": "Wilfredor",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Paella_de_fruit_de_mer.jpg"
+      }
     },
     {
       "id": "chicken_tagine",
@@ -2737,7 +3175,13 @@
         "Add the olives and lemon (sliced, or preserved lemon if you have it) and cook uncovered 10 minutes until the sauce thickens.",
         "Top with coriander and serve with couscous or bread."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/chicken_tagine.jpg",
+      "imageCredit": {
+        "artist": "This Photo was taken by Timothy A. Gonsalves. Feel free to use my photos, but pl",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Chicken_Veg_Tagine_Rabat_Nov25_A7CR_08908.jpg"
+      }
     },
     {
       "id": "menemen",
@@ -2801,7 +3245,13 @@
         "Add the beans and pasta and cook 10 minutes until the pasta is soft. Stir in the spinach.",
         "Serve with parmesan and a drizzle of olive oil."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/minestrone.jpg",
+      "imageCredit": {
+        "artist": "Katrin Morenz from Aachen, Deutschland",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Minestrone_soup.jpg"
+      }
     },
     {
       "id": "chicken_fajitas",
@@ -2835,7 +3285,13 @@
         "Cook the peppers and onion 5 minutes until soft with some colour, then return the chicken and squeeze over the rest of the lime.",
         "Warm the tortillas and fill with the chicken and peppers, avocado, sour cream and salsa."
       ],
-      "tip": "Get the pan really hot so the chicken chars instead of stewing."
+      "tip": "Get the pan really hot so the chicken chars instead of stewing.",
+      "image": "photos/chicken_fajitas.jpg",
+      "imageCredit": {
+        "artist": "Missvain",
+        "license": "CC BY 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Chicken_fajitas_-_La_Hacienda_-_Sarah_Stierch.jpg"
+      }
     },
     {
       "id": "beef_tacos",
@@ -2869,7 +3325,13 @@
         "Add the spices, 1 tsp salt and ¼ cup water and simmer 5 minutes until saucy.",
         "Warm the tortillas and fill with beef, lettuce, tomato, cheese and sour cream. Squeeze over lime."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/beef_tacos.jpg",
+      "imageCredit": {
+        "artist": "Larry Miller",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:001_Tacos_de_carnitas,_carne_asada_y_al_pastor.jpg"
+      }
     },
     {
       "id": "guacamole",
@@ -2895,7 +3357,13 @@
         "Stir in the lime juice, onion, chili, tomato, coriander and ½ tsp salt.",
         "Taste, add more lime or salt, and serve straight away."
       ],
-      "tip": "Press cling film onto the surface if you make it ahead, so it stays green."
+      "tip": "Press cling film onto the surface if you make it ahead, so it stays green.",
+      "image": "photos/guacamole.jpg",
+      "imageCredit": {
+        "artist": "Nikodem Nijaki",
+        "license": "CC BY-SA 3.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Guacamole_IMGP1271.jpg"
+      }
     },
     {
       "id": "chicken_quesadillas",
@@ -2924,7 +3392,13 @@
         "Cook in a dry pan over medium heat for 3 minutes per side until golden and the cheese melts.",
         "Cut into wedges and serve with salsa and sour cream."
       ],
-      "tip": "Great for leftover roast chicken."
+      "tip": "Great for leftover roast chicken.",
+      "image": "photos/chicken_quesadillas.jpg",
+      "imageCredit": {
+        "artist": "Photograph by Mike Peel (www.mikepeel.net).",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:At_Long_Island_2023_267.jpg"
+      }
     },
     {
       "id": "burrito_bowl",
@@ -2959,7 +3433,13 @@
         "Warm the beans and corn.",
         "Build bowls: rice, meat, beans, corn, tomato, lettuce, avocado, cheese and a spoon of sour cream."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/burrito_bowl.jpg",
+      "imageCredit": {
+        "artist": "Missvain",
+        "license": "CC BY 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Steak_burrito_bowl_at_La_Casa_Restaurant_in_Sonoma,_California_-_Sarah_Stierch_03.jpg"
+      }
     },
     {
       "id": "mexican_rice",
@@ -2990,7 +3470,13 @@
         "Add 2¾ cups water, the stock cube, peas and carrot. Boil, then cover and cook on low for 18 minutes.",
         "Rest 5 minutes, fluff and add coriander."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/mexican_rice.jpg",
+      "imageCredit": {
+        "artist": "Maryam S.",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Mexican_rice_and_beans.jpg"
+      }
     },
     {
       "id": "huevos_rancheros",
@@ -3022,7 +3508,13 @@
         "Fry the eggs and warm the tortillas in a dry pan.",
         "Put tortillas on plates, then beans, eggs and the tomato sauce. Top with avocado, cheese and coriander."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/huevos_rancheros.jpg",
+      "imageCredit": {
+        "artist": "1000b",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Huevos_rancheros.jpg"
+      }
     },
     {
       "id": "chicken_enchiladas",
@@ -3055,7 +3547,13 @@
         "Pour over the rest of the sauce and cheese. Bake at 200°C for 20 minutes until bubbling (air fryer: 180°C for 12 minutes in a small dish).",
         "Top with sour cream and coriander."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/chicken_enchiladas.jpg",
+      "imageCredit": {
+        "artist": "Lameirasb",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Festival_de_la_Enchilada_59.jpg"
+      }
     },
     {
       "id": "bulgogi",
@@ -3086,7 +3584,13 @@
         "Cook in a very hot pan in batches for 2 minutes per batch until caramelised.",
         "Top with spring onions and sesame seeds. Serve with rice, or wrapped in lettuce leaves."
       ],
-      "tip": "Freeze the beef for 30 minutes first: it's much easier to slice thinly."
+      "tip": "Freeze the beef for 30 minutes first: it's much easier to slice thinly.",
+      "image": "photos/bulgogi.jpg",
+      "imageCredit": {
+        "artist": "Debbie Tingzon",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Bulgogi_3.jpg"
+      }
     },
     {
       "id": "chicken_katsu",
@@ -3119,7 +3623,13 @@
         "Mix the ketchup, worcestershire, soy and sugar for the sauce.",
         "Slice and serve with rice, shredded cabbage and the sauce."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/chicken_katsu.jpg",
+      "imageCredit": {
+        "artist": "Ocdp",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Chicken_Cutlet_001.jpg"
+      }
     },
     {
       "id": "pad_thai",
@@ -3155,7 +3665,13 @@
         "Add the noodles and sauce and toss 2 minutes. Add the bean sprouts and spring onions for 30 seconds.",
         "Serve with peanuts, chili flakes and lime wedges."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/pad_thai.jpg",
+      "imageCredit": {
+        "artist": "Takeaway",
+        "license": "CC BY-SA 3.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Phat_Thai_kung_Chang_Khien_street_stall.jpg"
+      }
     },
     {
       "id": "miso_soup",
@@ -3181,7 +3697,13 @@
         "Take off the heat. Mix the miso with a little of the hot water until smooth, then stir it in.",
         "Add the tofu, warm through for 1 minute without boiling, and top with spring onions."
       ],
-      "tip": "Never boil miso: it loses its flavour."
+      "tip": "Never boil miso: it loses its flavour.",
+      "image": "photos/miso_soup.jpg",
+      "imageCredit": {
+        "artist": "Ocdp",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Pholiota_microspora_miso_soup_001.jpg"
+      }
     },
     {
       "id": "chili_con_carne",
@@ -3217,7 +3739,13 @@
         "Add the beans and simmer 10 minutes more.",
         "Serve with rice, sour cream and cheese."
       ],
-      "tip": "Even better the next day."
+      "tip": "Even better the next day.",
+      "image": "photos/chili_con_carne.jpg",
+      "imageCredit": {
+        "artist": "Carstor",
+        "license": "CC BY-SA 2.5",
+        "page": "https://commons.wikimedia.org/wiki/File:Bowl_of_chili.jpg"
+      }
     },
     {
       "id": "chicken_wings",
@@ -3247,7 +3775,13 @@
         "For buffalo wings, toss in hot sauce mixed with melted butter. For honey wings, use honey and a splash of soy sauce.",
         "Serve with celery and carrot sticks."
       ],
-      "tip": "Baking powder (not soda) is the trick for crisp skin without frying."
+      "tip": "Baking powder (not soda) is the trick for crisp skin without frying.",
+      "image": "photos/chicken_wings.jpg",
+      "imageCredit": {
+        "artist": "Willis Lam",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Buffalo_Burgers_Buffalo_Chicken_Wings_(36082467922).jpg"
+      }
     },
     {
       "id": "shepherds_pie",
@@ -3283,7 +3817,13 @@
         "Spread the meat in a dish, top with the mash and rough it up with a fork (add cheese if you like).",
         "Bake at 200°C for 25 minutes until golden on top."
       ],
-      "tip": "Made with beef it's called cottage pie."
+      "tip": "Made with beef it's called cottage pie.",
+      "image": "photos/shepherds_pie.jpg",
+      "imageCredit": {
+        "artist": "Abhinaba Basu from Redmond, United States",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Shepherd%27s_pie_(22470901009).jpg"
+      }
     },
     {
       "id": "chicken_schnitzel",
@@ -3313,7 +3853,13 @@
         "Fry in 1 cm of hot oil for 2 to 3 minutes per side until golden, or spray with oil and air fry at 200°C for 10 minutes, turning once.",
         "Serve with lemon wedges and parsley, with potatoes or salad."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/chicken_schnitzel.jpg",
+      "imageCredit": {
+        "artist": "Kritzolina",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Allg%C3%A4uer_Schnitzel_mit_Kr%C3%A4uterr%C3%B6sti.jpg"
+      }
     },
     {
       "id": "beef_stroganoff",
@@ -3344,7 +3890,13 @@
         "Add the paprika and mustard, then the cream, and simmer 3 minutes.",
         "Return the beef with its juices and heat 1 minute. Top with parsley and serve with rice, pasta or mash."
       ],
-      "tip": "Don't overcook the beef: it only needs a quick sear."
+      "tip": "Don't overcook the beef: it only needs a quick sear.",
+      "image": "photos/beef_stroganoff.jpg",
+      "imageCredit": {
+        "artist": "benketaro",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Beef_stroganoff_with_pasta.jpg"
+      }
     },
     {
       "id": "caesar_salad",
@@ -3375,7 +3927,13 @@
         "For the dressing, mix the mayonnaise, lemon juice, garlic, mustard, worcestershire, half the parmesan and a splash of water.",
         "Toss the lettuce with the dressing and top with the chicken, croutons and the rest of the parmesan."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/caesar_salad.jpg",
+      "imageCredit": {
+        "artist": "Andy Li",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Caesar_Salad_-_Purezza_2023-11-22.jpg"
+      }
     }
   ]
 }

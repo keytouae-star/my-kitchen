@@ -2,9 +2,10 @@
 (() => {
   "use strict";
   const MK = window.MK;
+  const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 14; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 15; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -84,6 +85,7 @@
     notes: LS.get("notes", {}),          // { recipeId: "my note" }
     useSoon: new Set(LS.get("useSoon", [])),
     lastCooked: LS.get("lastCooked", {}), // { recipeId: "YYYY-MM-DD" }
+    stock: LS.get("stock", {}),          // { key: qty }
     speak: LS.get("speak", true),
     openGroups: new Set(LS.get("openGroups", ["meat", "veg", "salad", "fruit", "dairy", "grain"])),
     view: "cook", showMore: false, sheet: null,
@@ -93,7 +95,7 @@
     LS.set("equip", [...S.equip]); LS.set("basics", [...S.basics]); LS.set("favs", [...S.favs]);
     LS.set("hidden", [...S.hidden]); LS.set("shop", S.shop); LS.set("filters", S.filters);
     LS.set("openGroups", [...S.openGroups]);
-    LS.set("plan", S.plan); LS.set("notes", S.notes); LS.set("useSoon", [...S.useSoon]); LS.set("lastCooked", S.lastCooked); LS.set("speak", S.speak);
+    LS.set("plan", S.plan); LS.set("notes", S.notes); LS.set("useSoon", [...S.useSoon]); LS.set("lastCooked", S.lastCooked); LS.set("stock", S.stock); LS.set("speak", S.speak);
   }
   // ---------- dates (local time, so "today" is right in the UAE) ----------
   const dayKey = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
@@ -279,10 +281,14 @@
   // tap = have / don't have; press and hold = "use soon"
   function kitchenChip(k, text) {
     const soon = S.useSoon.has(k);
+    const t = MKStock && MKStock.TRACKED[k];
+    const low = t && S.stock[k] != null && S.stock[k] <= t.low;
+    const shown = (soon ? "⏰ " : "") + (low ? "⚠ " : "") + text + (t && S.stock[k] != null ? " · " + MKStock.unitLabel(k, S.stock[k]) : "");
     let longPressed = false, timer = null;
-    const b = chip((soon ? "⏰ " : "") + text, S.have.has(k), () => { if (longPressed) { longPressed = false; return; } toggleHave(k); },
+    const b = chip(shown, S.have.has(k), () => { if (longPressed) { longPressed = false; return; } toggleHave(k); },
       { title: "Tap to tick. Press and hold to mark it use soon." });
     if (soon) b.classList.add("soon");
+    if (low) b.classList.add("low");
     const cancel = () => clearTimeout(timer);
     b.addEventListener("pointerdown", () => { longPressed = false; timer = setTimeout(() => { longPressed = true; toggleSoon(k); }, 550); });
     ["pointerup", "pointerleave", "pointercancel"].forEach((ev) => b.addEventListener(ev, cancel));
@@ -661,15 +667,59 @@
     });
   }
   // ---------- "I cooked this": untick what got used up ----------
+  // "Running low" prompt: add ticked items back to the shopping list at their first buy amount
+  function promptLow(list) {
+    if (!list.length) return;
+    S.sheet = "low";
+    openSheet((panel) => {
+      const picked = new Set(list.map((_, i) => i));
+      const one = list.length === 1;
+      const left = (it) => MKStock.unitLabel(it.key, it.left);
+      panel.append(bar("Running low"),
+        h("h2", { id: "sheetTitle", text: one ? "Running low: " + list[0].label + " (" + left(list[0]) + " left). Reorder?" : "Running low: reorder?" }),
+        h("p", { class: "meta-line", text: one ? "Add it back to your shopping list?" : "Tick what you want to add back to your shopping list." }));
+      if (!one) {
+        panel.append(h("div", { class: "checks" }, list.map((it, i) => {
+          const cb = h("input", { type: "checkbox", checked: true });
+          cb.addEventListener("change", () => { cb.checked ? picked.add(i) : picked.delete(i); });
+          return h("label", null, cb, h("span", { text: it.label + " (" + left(it) + " left)" }));
+        })));
+      }
+      panel.append(h("div", { class: "actions" },
+        h("button", { class: "btn primary", type: "button", onclick: () => {
+          const add = list.filter((_, i) => picked.has(i)).map((it) => ({ keys: [it.key], label: it.label }));
+          closeSheet();
+          if (add.length) addToShop(add);
+        } }, "Yes, add to list"),
+        h("button", { class: "btn", type: "button", onclick: closeSheet }, "Not now")));
+    });
+  }
   function openCooked(r) {
     S.sheet = "cooked";
     openSheet((panel) => {
       const p = prep(r), ex = extras();
       const used = [...new Set(p.need.concat(p.extra).flatMap((x) => x.keys.filter((k) => S.have.has(k) && !S.basics.has(k))))];
       const picked = new Set();
+      const stockLines = [];
+      for (const x of p.need) {
+        const k = x.keys.find((k) => MKStock && MKStock.TRACKED[k] && S.stock[k] != null);
+        if (!k) continue;
+        const amt = MKStock.amountOf(x.line, k, 1);
+        if (amt != null && amt > 0) stockLines.push({ key: k, amount: amt });
+      }
+      const takeOff = new Set(stockLines.map((_, i) => i));
       panel.append(bar("I cooked this"),
         h("h2", { id: "sheetTitle", text: "Nice! Did anything run out?" }),
         h("p", { class: "meta-line", text: "Tap what's finished now. It will be unticked from your kitchen so suggestions stay right. Leave the rest." }));
+      if (stockLines.length) {
+        panel.append(h("h3", { style: "margin-top:14px", text: "Taking off your stock" }));
+        panel.append(h("div", { class: "checks" }, stockLines.map((sl, i) => {
+          const cb = h("input", { type: "checkbox", checked: true });
+          cb.addEventListener("change", () => { cb.checked ? takeOff.add(i) : takeOff.delete(i); });
+          const left = Math.max(0, S.stock[sl.key] - sl.amount);
+          return h("label", null, cb, h("span", { text: label(sl.key, ex) + " −" + MKStock.unitLabel(sl.key, sl.amount) + " (" + MKStock.unitLabel(sl.key, left) + " left)" }));
+        })));
+      }
       panel.append(used.length
         ? h("div", { class: "chips" }, used.map((k) => { const b = chip(label(k, ex), false, () => { picked.has(k) ? picked.delete(k) : picked.add(k); b.setAttribute("aria-pressed", String(picked.has(k))); }); return b; }))
         : h("p", { class: "hint", text: "None of its ingredients are ticked in your kitchen." }));
@@ -677,10 +727,19 @@
         h("button", { class: "btn primary", type: "button", onclick: () => {
           adoptKitchen();
           picked.forEach((k) => { S.have.delete(k); S.useSoon.delete(k); });
+          const low = [];
+          stockLines.forEach((sl, i) => {
+            if (!takeOff.has(i)) return;
+            const k = sl.key;
+            S.stock[k] = (S.stock[k] || 0) - sl.amount;
+            if (S.stock[k] <= 0) { delete S.stock[k]; S.have.delete(k); S.useSoon.delete(k); }
+            else if (S.stock[k] <= MKStock.TRACKED[k].low) low.push({ key: k, label: label(k, ex), left: S.stock[k] });
+          });
           S.lastCooked[r.id] = todayKey();
           const planned = S.plan.find((x) => x.id === r.id && !x.done);
           if (planned) planned.done = true;
           saveState(); closeSheet(); render();
+          if (low.length) promptLow(low);
           toast(picked.size ? plural(picked.size, "item") + " removed from your kitchen" : "Saved. Enjoy!");
         } }, "Save"),
         h("button", { class: "btn", type: "button", onclick: closeSheet }, "Cancel")));
@@ -901,7 +960,67 @@
   // WhatsApp message: a checklist you can tick off while ordering
   function whatsAppText() {
     const d = new Date().toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
-    return `🛒 Shopping list (${d})\n\n` + S.shop.map((s) => "☐ " + s.label).join("\n") + `\n\n${plural(S.shop.length, "item")} · from My Kitchen`;
+    return `🛒 Shopping list (${d})\n\n` + S.shop.map((s) => "☐ " + s.label + amountLabel(s.keys && s.keys[0], shopAmount(s))).join("\n") + `\n\n${plural(S.shop.length, "item")} · from My Kitchen`;
+  }
+  // amount on a shopping item: tracked items only, in the item's unit
+  function shopAmount(s) {
+    const k = s.keys && s.keys[0];
+    const t = k && MKStock && MKStock.TRACKED[k];
+    if (!t) return null;
+    return s.amount != null ? s.amount : t.buy[0];
+  }
+  function amountLabel(key, amount) {
+    const t = key && MKStock && MKStock.TRACKED[key];
+    if (!t || amount == null) return "";
+    const txt = MKStock.unitLabel(key, amount);
+    return t.unit === "pcs" ? " × " + txt : " " + txt;
+  }
+  function amountRow(s, t) {
+    const key = s.keys[0];
+    const set = (v) => { s.amount = v; saveState(); renderShop(); };
+    return h("div", { class: "row", style: "gap:6px;margin-top:6px" },
+      ...t.buy.map((b) => h("button", { class: "btn small", type: "button", onclick: () => set(b) }, MKStock.unitLabel(key, b))),
+      h("input", { class: "input amount-input", type: "number", min: "0", step: t.unit === "pcs" ? "0.5" : "1", inputmode: "decimal", value: shopAmount(s), "data-key": key, "aria-label": "Amount of " + s.label, style: "width:100px", onchange: (e) => set(Math.max(0, +e.target.value || 0)) }),
+      h("span", { class: "hint", text: t.unit }));
+  }
+  // next start after a WhatsApp send: did everything arrive?
+  function checkArrivals() {
+    const order = LS.get("lastOrder", null);
+    if (!order || order.confirmed || !order.items || !order.items.length) return;
+    S.sheet = "arrivals";
+    openSheet((panel) => {
+      const ticked = new Set(order.items.map((_, i) => i));
+      panel.append(bar("Did everything arrive?"),
+        h("h2", { id: "sheetTitle", text: "Did everything arrive?" }),
+        h("p", { class: "meta-line", text: "Everything is ticked. Untick anything that didn't arrive and it goes back on your shopping list." }));
+      panel.append(h("div", { class: "chips" }, order.items.map((it, i) => {
+        const b = chip(it.label + amountLabel(it.keys && it.keys[0], it.amount), true, () => { ticked.has(i) ? ticked.delete(i) : ticked.add(i); b.setAttribute("aria-pressed", String(ticked.has(i))); });
+        return b;
+      })));
+      panel.append(h("div", { class: "actions" },
+        h("button", { class: "btn primary", type: "button", onclick: () => {
+          const back = [];
+          order.items.forEach((it, i) => {
+            if (ticked.has(i)) return;
+            const k = it.keys && it.keys[0];
+            if (k) {
+              S.have.delete(k);
+              if (it.amount != null) {
+                S.stock[k] = (S.stock[k] || 0) - it.amount;
+                if (S.stock[k] <= 0) delete S.stock[k];
+              }
+            }
+            back.push({ keys: it.keys || [], label: it.label, amount: it.amount });
+          });
+          for (const b of back) {
+            const id = (b.keys || []).join("/") || "t_" + b.label.toLowerCase();
+            if (!S.shop.some((s) => s.id === id)) S.shop.push({ id, keys: b.keys, label: b.label, amount: b.amount });
+          }
+          LS.set("lastOrder", { ...order, confirmed: true });
+          saveState(); closeSheet(); render();
+          toast(back.length ? plural(back.length, "item") + " back on your shopping list" : "All arrived. Your kitchen is updated.");
+        } }, "Confirm")));
+    });
   }
 
   // ---------- grocery stores (opens the store's own search; you add to cart and check out there) ----------
@@ -942,11 +1061,15 @@
     // store picker
     $("#storePick").replaceChildren(...Object.keys(STORES).map((k) => chip(STORES[k].name, S.store === k, () => { S.store = k; LS.set("store", k); renderShop(); })));
     const ul = $("#shopList");
-    ul.replaceChildren(...S.shop.map((s, i) => h("li", { class: s.inCart ? "in-cart" : "" },
-      h("label", { class: "cart-tick" }, h("input", { type: "checkbox", checked: !!s.inCart, "aria-label": s.label + " is in the cart", onchange: (e) => { s.inCart = e.target.checked; saveState(); renderShop(); } })),
-      h("span", { class: "grow", text: s.label }),
-      storeLink(s),
-      h("button", { class: "btn quiet small", type: "button", "aria-label": "Remove " + s.label, onclick: () => { S.shop.splice(i, 1); saveState(); render(); } }, "Remove"))));
+    ul.replaceChildren(...S.shop.map((s, i) => {
+      const k = s.keys && s.keys[0];
+      const t = k && MKStock && MKStock.TRACKED[k];
+      return h("li", { class: s.inCart ? "in-cart" : "" },
+        h("label", { class: "cart-tick" }, h("input", { type: "checkbox", checked: !!s.inCart, "aria-label": s.label + " is in the cart", onchange: (e) => { s.inCart = e.target.checked; saveState(); renderShop(); } })),
+        h("div", { class: "grow" }, h("span", { text: s.label }), t ? amountRow(s, t) : null),
+        storeLink(s),
+        h("button", { class: "btn quiet small", type: "button", "aria-label": "Remove " + s.label, onclick: () => { S.shop.splice(i, 1); saveState(); render(); } }, "Remove"));
+    }));
     if (!S.shop.length) ul.append(h("li", null, h("span", { class: "hint", text: "Nothing here yet. Open a recipe and tap \"Add missing items to shopping list\", or type something above." })));
     const inCart = S.shop.filter((s) => s.inCart).length;
     $("#cartCount").textContent = S.shop.length ? `${inCart} of ${S.shop.length} in your ${store().name} cart` : "";
@@ -1022,6 +1145,14 @@
     const ex = extras();
     $("#basicsChips").replaceChildren(...BASIC_CHOICES.map((k) => chip(label(k, ex), S.basics.has(k), () => { S.basics.has(k) ? S.basics.delete(k) : S.basics.add(k); saveState(); render(); })));
     $("#helperUrl").value = S.helper;
+    const stockKeys = Object.keys(S.stock);
+    $("#stockList").replaceChildren(...(stockKeys.length ? stockKeys.map((k) => {
+      const t = MKStock.TRACKED[k] || { unit: "pcs" };
+      const inp = h("input", { class: "input", type: "number", min: "0", step: t.unit === "pcs" ? "0.5" : "1", inputmode: "decimal", value: S.stock[k], "data-key": k, "aria-label": "Amount of " + label(k, ex), style: "width:100px", onchange: (e) => { S.stock[k] = Math.max(0, +e.target.value || 0); saveState(); } });
+      return h("div", { class: "row", style: "gap:8px;margin-bottom:8px" },
+        h("span", { class: "grow", text: label(k, ex) }), inp, h("span", { class: "hint", text: t.unit }),
+        h("button", { class: "btn quiet small", type: "button", onclick: () => { delete S.stock[k]; saveState(); renderSettings(); } }, "Remove"));
+    }) : [h("p", { class: "hint", text: "No stock counted yet. Send a shopping list on WhatsApp or use \"I bought these\"." })]));
     const mineN = S.mine.length;
     $("#aboutText").textContent = `App version ${APP_VERSION}. ${allRecipes().length} recipes available (${S.builtin.length} built-in, ${mineN} yours or saved). Built-in recipe list updated ${S.feed.updated || "–"}. Everything is stored on this device and works offline. Online search uses TheMealDB's free recipe library.`;
   }
@@ -1033,7 +1164,7 @@
     }
     const data = { app: "my-kitchen", version: 1, saved: new Date().toISOString(), recipes: S.mine, photos,
       state: { have: [...S.have], equip: [...S.equip], basics: [...S.basics], favs: [...S.favs], hidden: [...S.hidden], shop: S.shop, helper: S.helper,
-        plan: S.plan, notes: S.notes, useSoon: [...S.useSoon], lastCooked: S.lastCooked } };
+        plan: S.plan, notes: S.notes, useSoon: [...S.useSoon], lastCooked: S.lastCooked, stock: S.stock } };
     const backedUp = () => { LS.set("lastBackup", Date.now()); $("#backupNote").hidden = true; };
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
     const name = "my-kitchen-backup-" + new Date().toISOString().slice(0, 10) + ".json";
@@ -1076,6 +1207,7 @@
       if (st.notes) S.notes = st.notes;
       if (st.useSoon) S.useSoon = new Set(st.useSoon);
       if (st.lastCooked) S.lastCooked = st.lastCooked;
+      if (st.stock) S.stock = st.stock;
       S.mine = await dbAll("recipes");
       saveState(); render();
       $("#backupMsg").textContent = "Backup restored.";
@@ -1309,11 +1441,63 @@
     // if you ticked some items (in the cart), only those arrived; the rest stay on the list for next time
     const ticked = S.shop.filter((s) => s.inCart);
     const bought = ticked.length ? ticked : S.shop;
-    let n = 0;
-    for (const s of bought) if (s.keys && s.keys[0]) { S.have.add(s.keys[0]); n++; }
-    S.shop = ticked.length ? S.shop.filter((s) => !s.inCart) : [];
-    saveState(); render();
-    toast((n ? plural(n, "item") + " added to your kitchen" : "Done") + (S.shop.length ? `. ${plural(S.shop.length, "item")} still on the list.` : ""));
+    const finish = () => {
+      let n = 0;
+      for (const s of bought) if (s.keys && s.keys[0]) { S.have.add(s.keys[0]); n++; }
+      S.shop = ticked.length ? S.shop.filter((s) => !s.inCart) : [];
+      saveState(); render();
+      toast((n ? plural(n, "item") + " added to your kitchen" : "Done") + (S.shop.length ? `. ${plural(S.shop.length, "item")} still on the list.` : ""));
+    };
+    const tracked = bought.filter((s) => s.keys && s.keys[0] && MKStock && MKStock.TRACKED[s.keys[0]]);
+    if (!tracked.length) { finish(); return; }
+    S.sheet = "bought";
+    openSheet((panel) => {
+      const inputs = [];
+      panel.append(bar("I bought these"),
+        h("h2", { id: "sheetTitle", text: "How much did you buy?" }),
+        h("p", { class: "meta-line", text: "Set the amount for each one. It is added to your stock." }));
+      for (const s of tracked) {
+        const k = s.keys[0], t = MKStock.TRACKED[k];
+        const input = h("input", { class: "input", type: "number", min: "0", step: t.unit === "pcs" ? "0.5" : "1", inputmode: "decimal", value: t.buy[0], "data-key": k, "aria-label": "Amount of " + s.label, style: "width:100px" });
+        inputs.push([k, input]);
+        panel.append(h("div", { class: "field" },
+          h("label", { text: s.label }),
+          h("div", { class: "row", style: "gap:6px" },
+            ...t.buy.map((b) => h("button", { class: "btn small", type: "button", onclick: () => { input.value = b; } }, MKStock.unitLabel(k, b))),
+            input,
+            h("span", { class: "hint", text: t.unit }))));
+      }
+      panel.append(h("div", { class: "actions" },
+        h("button", { class: "btn primary", type: "button", onclick: () => {
+          for (const [k, input] of inputs) {
+            const v = Math.max(0, +input.value || 0);
+            S.stock[k] = (S.stock[k] || 0) + v;
+            S.have.add(k);
+          }
+          closeSheet(); finish();
+        } }, "Save"),
+        h("button", { class: "btn", type: "button", onclick: () => { closeSheet(); finish(); } }, "Skip amounts")));
+    });
+  });
+  // sending the list on WhatsApp means you bought it: add everything to the kitchen
+  $("#shopWhatsApp").addEventListener("click", () => {
+    if (!S.shop.length) return;
+    adoptKitchen();
+    const items = S.shop.map((s) => {
+      const k = s.keys && s.keys[0];
+      const t = k && MKStock && MKStock.TRACKED[k];
+      return { id: s.id, keys: s.keys || [], label: s.label, amount: t ? shopAmount(s) : null };
+    });
+    for (const it of items) {
+      const k = it.keys[0];
+      if (!k) continue;
+      S.have.add(k);
+      if (it.amount != null) S.stock[k] = (S.stock[k] || 0) + it.amount;
+    }
+    LS.set("lastOrder", { at: Date.now(), items });
+    S.shop = [];
+    saveState();
+    setTimeout(render, 0); // let the link open with its text before the list clears
   });
   $("#shopShare").addEventListener("click", async () => {
     const text = shopText();
@@ -1356,6 +1540,7 @@
   (async function start() {
     netStatus();
     render();
+    checkArrivals();
     // draw as soon as each source answers; never wait on one before showing the other
     dbAll("recipes").then((m) => { S.mine = m || []; render(); backupNudge(); }).catch(() => {});
     const n = await loadFeed(false);
