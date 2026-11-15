@@ -26,6 +26,7 @@
     pepper: ["Black pepper", "basics", "pepper, ground pepper, peppercorns, ground black pepper"],
     oil: ["Cooking oil", "basics", "oil, olive oil, vegetable oil, sunflower oil, canola oil, corn oil, extra virgin olive oil, frying oil"],
     water: ["Water", "basics", "hot water, cold water, boiling water"],
+    ice: ["Ice cubes", "basics", "ice, ice cubes, crushed ice, a handful of ice"],
 
     egg: ["Eggs", "meat", "egg, egg yolk, egg white, yolk"],
     chicken: ["Chicken", "meat", "chicken breast, chicken thigh, chicken thighs, chicken legs, chicken drumsticks, chicken wings, whole chicken, boneless chicken"],
@@ -93,6 +94,10 @@
     avocado: ["Avocado", "salad", "avocados"],
 
     tea: ["Tea", "jar", "black tea, tea bags, tea bag, loose tea, red tea"],
+    green_tea: ["Green tea", "jar", "green tea bags, gunpowder tea, chinese green tea"],
+    coffee: ["Coffee", "jar", "instant coffee, ground coffee, espresso, nescafe, coffee powder, strong coffee"],
+    sparkling_water: ["Sparkling water / soda", "jar", "soda water, sparkling water, club soda, soda"],
+    chia: ["Chia or basil seeds", "jar", "chia seeds, basil seeds, sabja, tukmaria"],
     lemon: ["Lemons or limes", "fruit", "lemon, lime, limes, lemon juice, lime juice, lemon zest, lime zest"],
     banana: ["Bananas", "fruit", "banana"],
     apple: ["Apples", "fruit", "apple"],
@@ -136,6 +141,8 @@
     couscous: ["Couscous", "grain", "cous cous"],
     oats: ["Oats", "grain", "rolled oats, porridge oats, oatmeal, quick oats"],
     breadcrumbs: ["Breadcrumbs", "grain", "panko, bread crumbs"],
+    semolina: ["Semolina (smeed)", "grain", "smeed, semolina flour, sooji, suji, rava"],
+    puff_pastry: ["Puff pastry", "grain", "puff pastry sheets, ready-rolled puff pastry"],
 
     chickpeas: ["Chickpeas", "pulse", "chickpea, garbanzo beans, canned chickpeas, chana"],
     lentils: ["Lentils", "pulse", "red lentils, brown lentils, green lentils, masoor dal, dal, yellow lentils, lentil"],
@@ -184,6 +191,10 @@
     oregano: ["Oregano or mixed herbs", "spice", "dried oregano, mixed herbs, italian seasoning, thyme, dried thyme, rosemary, dried basil"],
     za_atar: ["Za'atar", "spice", "zaatar, zatar"],
     sumac: ["Sumac", "spice", ""],
+    hibiscus: ["Hibiscus (karkade)", "spice", "karkade, dried hibiscus, hibiscus flowers, hibiscus petals"],
+    chamomile: ["Chamomile", "spice", "chamomile tea, chamomile flowers, babounej"],
+    sage: ["Sage (maramiya)", "spice", "maramiya, dried sage, fresh sage, sage leaves"],
+    anise: ["Aniseed / fennel seeds", "spice", "aniseed, anise seeds, star anise, fennel seeds, yansoon"],
     baharat: ["Baharat / 7 spices", "spice", "seven spices, 7 spices, mixed spice, allspice, bzar, bezar, emirati spice mix"],
     sesame: ["Sesame seeds", "spice", "sesame seed"],
     saffron: ["Saffron", "spice", ""],
@@ -206,7 +217,7 @@
 
   // a more specific item also covers the general one (cherry tomatoes work where a recipe says tomatoes)
   const COUNTS_AS = { cherry_tomato: "tomato", red_cabbage: "cabbage", rocket: "lettuce" };
-  const BASICS_DEFAULT = ["salt", "pepper", "oil", "water"];
+  const BASICS_DEFAULT = ["salt", "pepper", "oil", "water", "ice"];
   const EQUIPMENT = { stove: "Stove", oven: "Oven", airfryer: "Air fryer", pressurecooker: "Pressure cooker", blender: "Blender", microwave: "Microwave" };
   const EQUIP_DEFAULT = ["stove", "oven", "airfryer", "pressurecooker", "blender"];
 
@@ -287,7 +298,8 @@
   }
   // Returns {keys:[...], custom:{key,label}|null}
   function matchLine(line) {
-    const parts = String(line).split(/\s+or\s+/i);
+    // brackets are notes ("(beef bacon or block beef bacon)"), so ignore them before splitting on "or"
+    const parts = String(line).replace(/\([^)]*\)/g, " ").split(/\s+or\s+/i);
     const keys = [];
     for (const p of parts) {
       const k = matchOne(p);
@@ -416,9 +428,26 @@
     const m = String(y || "").match(/\d+/);
     return m ? Math.min(20, Math.max(1, +m[0])) : 4;
   }
+  // Tidy website clutter: "(Note 1)", "*", "((double brackets))", a bracket left open at the end, stray commas.
+  function cleanLine(l) {
+    let t = String(l).replace(/\*/g, "").replace(/\(\s*\(/g, "(").replace(/\)\s*\)/g, ")");
+    t = t.replace(/\(\s*(see\s+)?(the\s+)?(recipe\s+)?notes?(\s*#?\d+)?\s*\)/gi, "").replace(/\b(see\s+)?(recipe\s+)?notes?\s*#?\d+\b/gi, "").replace(/\bsee notes?\b\.?/gi, "");
+    for (let i = 0; i < 3; i++) { const o = t.lastIndexOf("("), c = t.lastIndexOf(")"); if (o > c) t = t.slice(0, o); else break; }
+    let depth = 0, out = "";
+    for (const ch of t) { if (ch === "(") depth++; if (ch === ")") { if (!depth) continue; depth--; } out += ch; }
+    return out.replace(/\(\s*\)/g, "").replace(/\(\s+/g, "(").replace(/\s+([,.;)])/g, "$1").replace(/,\s*,/g, ",").replace(/\s{2,}/g, " ").replace(/[\s,;:(]+$/, "").trim();
+  }
+  // Rough total time from the minutes written in the steps, plus 10 minutes to get ready.
+  function estimateMinutes(steps) {
+    let total = 0, found = false;
+    for (const s of steps || []) { const m = stepMinutes(s); if (m) { total += m; found = true; } }
+    return found ? Math.max(5, Math.round((total + 10) / 5) * 5) : null;
+  }
   function finish(r) {
-    r.need = r.need.filter(Boolean);
-    r.extra = r.extra || [];
+    r.need = r.need.filter(Boolean).map(cleanLine).filter(Boolean);
+    r.extra = (r.extra || []).map(cleanLine).filter(Boolean);
+    r.steps = (r.steps || []).map((s) => String(s).replace(/\s{2,}/g, " ").trim()).filter(Boolean);
+    if (!r.minutes) r.minutesEst = estimateMinutes(r.steps);
     swapRecipe(r); // swap first, so "guanciale" -> "beef bacon" counts as meat
     r.diet = r.diet || inferDiet(r.need.concat(r.extra));
     r.equipment = r.equipment && r.equipment.length ? r.equipment : inferEquipment(r.steps);
@@ -526,7 +555,7 @@
     return n > 0 && n <= 600 ? n : null;
   }
 
-  const api = { COUNTS_AS, GROUPS, CATALOG, BASICS_DEFAULT, EQUIPMENT, EQUIP_DEFAULT, matchLine, matchOne, cleanName, scaleLine, swapText, swapRecipe, fromMealDB, fromSchema, fromPaste, splitSteps, stepMinutes, inferDiet, inferEquipment, slug, finish };
+  const api = { cleanLine, estimateMinutes, COUNTS_AS, GROUPS, CATALOG, BASICS_DEFAULT, EQUIPMENT, EQUIP_DEFAULT, matchLine, matchOne, cleanName, scaleLine, swapText, swapRecipe, fromMealDB, fromSchema, fromPaste, splitSteps, stepMinutes, inferDiet, inferEquipment, slug, finish };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.MK = api;
 })(typeof window !== "undefined" ? window : globalThis);

@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 5,
   "updated": "2026-11-15",
   "recipes": [
     {
@@ -861,7 +861,10 @@
         "Flip when bubbles appear on top, about 2 minutes, and cook 1 minute more.",
         "Serve with honey and banana."
       ],
-      "tip": "Don't over-mix the batter, or the pancakes come out flat."
+      "tip": "Don't over-mix the batter, or the pancakes come out flat.",
+      "tags": [
+        "sweet"
+      ]
     },
     {
       "id": "french_toast",
@@ -891,7 +894,10 @@
         "Dip each slice in the egg for a few seconds on each side.",
         "Fry 2 minutes per side until golden. Serve with honey and fruit."
       ],
-      "tip": "Day-old bread soaks better without falling apart."
+      "tip": "Day-old bread soaks better without falling apart.",
+      "tags": [
+        "sweet"
+      ]
     },
     {
       "id": "lemon_chicken_traybake",
@@ -1360,7 +1366,10 @@
         "Drop small balls of batter into the oil using two teaspoons dipped in water. Fry 5 minutes, turning, until golden all over.",
         "Drain on paper, drizzle with date syrup and sprinkle with sesame seeds. Eat warm."
       ],
-      "tip": "If the oil is too hot they brown outside but stay raw inside. Fry a test one first."
+      "tip": "If the oil is too hot they brown outside but stay raw inside. Fry a test one first.",
+      "tags": [
+        "sweet"
+      ]
     },
     {
       "id": "balaleet",
@@ -1390,7 +1399,10 @@
         "Meanwhile beat the eggs with a pinch of salt and cook a thin omelette in a little oil.",
         "Serve the vermicelli with the omelette on top."
       ],
-      "tip": "A classic Emirati breakfast: sweet and salty together."
+      "tip": "A classic Emirati breakfast: sweet and salty together.",
+      "tags": [
+        "sweet"
+      ]
     },
     {
       "id": "chicken_saloona",
@@ -1499,7 +1511,10 @@
         "Cook 2 minutes until bubbles cover the top, flip and cook 1 minute more.",
         "Serve warm with date syrup and cream cheese."
       ],
-      "tip": ""
+      "tip": "",
+      "tags": [
+        "sweet"
+      ]
     },
     {
       "id": "dango",
@@ -1555,7 +1570,11 @@
         "Pour in the milk and bring it up to the boil, then lower the heat as it rises. Do this three times, about 3 minutes.",
         "Strain into cups and serve hot."
       ],
-      "tip": "Letting it rise three times is what makes karak thick and strong."
+      "tip": "Letting it rise three times is what makes karak thick and strong.",
+      "tags": [
+        "drink",
+        "hot"
+      ]
     },
     {
       "id": "samak_mashwi",
@@ -1622,6 +1641,722 @@
         "Rest 5 minutes, top with coriander and serve."
       ],
       "tip": "Roll the dough as thin as you can: it thickens the stew as it cooks."
+    },
+    {
+      "id": "mint_tea",
+      "name": "Fresh mint tea",
+      "cuisine": "Drinks",
+      "minutes": 10,
+      "serves": 2,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "hot",
+        "herbal"
+      ],
+      "need": [
+        "1 tbsp green tea or 2 black tea bags",
+        "a big handful of mint",
+        "2 tbsp sugar"
+      ],
+      "extra": [],
+      "steps": [
+        "Boil 2½ cups water.",
+        "Rinse the tea with a splash of the hot water and pour that away.",
+        "Add the mint, sugar and the rest of the water to the teapot and leave 4 minutes.",
+        "Pour from high up into small glasses so it foams a little."
+      ],
+      "tip": "Go easy on the brewing time with green tea: longer makes it bitter."
+    },
+    {
+      "id": "ginger_lemon_honey",
+      "name": "Ginger, lemon and honey tea",
+      "cuisine": "Drinks",
+      "minutes": 10,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "hot",
+        "herbal"
+      ],
+      "need": [
+        "a thumb-size piece of ginger, sliced",
+        "1 lemon",
+        "2 tbsp honey"
+      ],
+      "extra": [
+        "1 cinnamon stick",
+        "a few mint leaves"
+      ],
+      "steps": [
+        "Simmer the ginger (and cinnamon) in 2½ cups water for 8 minutes.",
+        "Take off the heat and squeeze in half the lemon.",
+        "Stir in the honey once it has cooled a little.",
+        "Pour into mugs with a slice of the remaining lemon."
+      ],
+      "tip": "Good for a sore throat. Don't boil the honey; add it when the tea is just hot."
+    },
+    {
+      "id": "maramiya_tea",
+      "name": "Sage tea (maramiya)",
+      "cuisine": "Drinks",
+      "minutes": 8,
+      "serves": 2,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "hot",
+        "herbal"
+      ],
+      "need": [
+        "2 black tea bags",
+        "1 tsp dried sage",
+        "2 tsp sugar"
+      ],
+      "extra": [],
+      "steps": [
+        "Boil 2½ cups water.",
+        "Add the tea bags, sage and sugar and leave 4 minutes.",
+        "Strain into glasses."
+      ],
+      "tip": "A Levantine favourite after a heavy meal."
+    },
+    {
+      "id": "chamomile_tea",
+      "name": "Chamomile and honey tea",
+      "cuisine": "Drinks",
+      "minutes": 8,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "hot",
+        "herbal"
+      ],
+      "need": [
+        "2 tsp chamomile",
+        "1 tbsp honey"
+      ],
+      "extra": [
+        "a slice of lemon",
+        "¼ tsp aniseed"
+      ],
+      "steps": [
+        "Boil 2½ cups water and pour it over the chamomile (and aniseed).",
+        "Cover and leave 5 minutes.",
+        "Strain and stir in the honey."
+      ],
+      "tip": "Caffeine-free, so it's a good one for the evening."
+    },
+    {
+      "id": "karkade",
+      "name": "Karkade (hibiscus drink)",
+      "cuisine": "Drinks",
+      "minutes": 15,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold",
+        "herbal"
+      ],
+      "need": [
+        "½ cup dried hibiscus (karkade)",
+        "4 tbsp sugar"
+      ],
+      "extra": [
+        "a few mint leaves",
+        "1 lemon",
+        "1 cinnamon stick"
+      ],
+      "steps": [
+        "Boil 4 cups water with the hibiscus (and cinnamon) for 5 minutes.",
+        "Take off the heat, stir in the sugar and leave 10 minutes.",
+        "Strain. Drink hot, or chill it and serve over ice with mint and a squeeze of lemon."
+      ],
+      "tip": "Deep red, sweet and tart. It keeps 3 days in the fridge."
+    },
+    {
+      "id": "peach_iced_tea",
+      "name": "Peach iced tea",
+      "cuisine": "Drinks",
+      "minutes": 20,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "need": [
+        "4 black tea bags",
+        "2 peaches, sliced",
+        "4 tbsp sugar",
+        "2 cups ice"
+      ],
+      "extra": [
+        "1 lemon",
+        "a few mint leaves"
+      ],
+      "steps": [
+        "Simmer the peaches and sugar in 1 cup water for 10 minutes, mashing a little.",
+        "Add 3 cups boiling water and the tea bags and leave 5 minutes.",
+        "Strain, then cool.",
+        "Pour over plenty of ice with lemon slices and mint."
+      ],
+      "tip": "Make it the night before and keep it in the fridge; it's even better cold."
+    },
+    {
+      "id": "lemon_mint",
+      "name": "Lemon mint juice (limonana)",
+      "cuisine": "Drinks",
+      "minutes": 5,
+      "serves": 2,
+      "diet": "vegan",
+      "equipment": [
+        "blender"
+      ],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "need": [
+        "2 lemons, peeled",
+        "a big handful of mint",
+        "3 tbsp sugar",
+        "2 cups ice"
+      ],
+      "extra": [],
+      "steps": [
+        "Put the lemons, mint, sugar, ice and 1 cup cold water in the blender.",
+        "Blend 1 minute until frothy and green.",
+        "Taste, add more sugar if it's too sour, and serve straight away."
+      ],
+      "tip": "Remove the pips first; peel the lemons so it isn't bitter."
+    },
+    {
+      "id": "mango_lassi",
+      "name": "Mango lassi",
+      "cuisine": "Drinks",
+      "minutes": 5,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "blender"
+      ],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "need": [
+        "1 ripe mango, chopped",
+        "1 cup yogurt",
+        "½ cup milk",
+        "2 tbsp sugar"
+      ],
+      "extra": [
+        "¼ tsp cardamom",
+        "a few ice cubes"
+      ],
+      "steps": [
+        "Put everything in the blender.",
+        "Blend 1 minute until smooth.",
+        "Pour into glasses and sprinkle with cardamom."
+      ],
+      "tip": "Frozen mango works well and makes it thicker."
+    },
+    {
+      "id": "watermelon_mint",
+      "name": "Watermelon mint juice",
+      "cuisine": "Drinks",
+      "minutes": 5,
+      "serves": 3,
+      "diet": "vegan",
+      "equipment": [
+        "blender"
+      ],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "need": [
+        "4 cups watermelon, cubed",
+        "a few mint leaves",
+        "1 lime or lemon"
+      ],
+      "extra": [
+        "a few ice cubes",
+        "1 tsp chia or basil seeds"
+      ],
+      "steps": [
+        "Blend the watermelon, mint and lime juice for 30 seconds.",
+        "Strain if you like it smooth.",
+        "Serve over ice (stir in soaked chia or basil seeds if you have them)."
+      ],
+      "tip": "No sugar needed if the watermelon is ripe."
+    },
+    {
+      "id": "date_shake",
+      "name": "Date milkshake",
+      "cuisine": "Drinks",
+      "minutes": 5,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "blender"
+      ],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "need": [
+        "8 dates, pitted",
+        "2 cups milk"
+      ],
+      "extra": [
+        "1 banana",
+        "¼ tsp cinnamon",
+        "a few ice cubes",
+        "1 tbsp tahini"
+      ],
+      "steps": [
+        "Soak the dates in a little hot water for 5 minutes if they're dry.",
+        "Blend everything for 1 minute until smooth.",
+        "Serve cold."
+      ],
+      "tip": "Naturally sweet, so no sugar needed."
+    },
+    {
+      "id": "iced_coffee",
+      "name": "Iced coffee",
+      "cuisine": "Drinks",
+      "minutes": 5,
+      "serves": 1,
+      "diet": "veg",
+      "equipment": [],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "need": [
+        "2 tsp instant coffee",
+        "1 cup milk",
+        "1 cup ice"
+      ],
+      "extra": [
+        "2 tbsp condensed milk or 1 tbsp sugar"
+      ],
+      "steps": [
+        "Dissolve the coffee (and sugar) in 2 tbsp hot water.",
+        "Fill a glass with ice, pour in the milk, then the coffee.",
+        "For a Spanish latte, stir condensed milk into the glass first."
+      ],
+      "tip": ""
+    },
+    {
+      "id": "energy_balls",
+      "name": "Date and nut energy balls",
+      "cuisine": "Sweets",
+      "minutes": 15,
+      "serves": 12,
+      "diet": "vegan",
+      "equipment": [
+        "blender"
+      ],
+      "tags": [
+        "sweet",
+        "healthy"
+      ],
+      "need": [
+        "1 cup dates, pitted",
+        "1 cup nuts",
+        "½ cup oats"
+      ],
+      "extra": [
+        "2 tbsp cocoa powder",
+        "3 tbsp desiccated coconut, to roll",
+        "1 tbsp peanut butter"
+      ],
+      "steps": [
+        "Blend the nuts and oats until finely chopped.",
+        "Add the dates (and cocoa and peanut butter) and blend until the mix sticks together when pressed. Add 1 tbsp water if it's dry.",
+        "Roll into 12 small balls and roll them in coconut.",
+        "Chill 15 minutes. They keep a week in the fridge."
+      ],
+      "tip": "No added sugar: the dates do the sweetening."
+    },
+    {
+      "id": "chia_pudding",
+      "name": "Chia pudding",
+      "cuisine": "Sweets",
+      "minutes": 5,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [],
+      "tags": [
+        "sweet",
+        "healthy"
+      ],
+      "need": [
+        "4 tbsp chia seeds",
+        "1 cup milk",
+        "1 tbsp honey"
+      ],
+      "extra": [
+        "a handful of berries or mango",
+        "a few drops of vanilla flavouring",
+        "1 tbsp nuts, chopped"
+      ],
+      "steps": [
+        "Stir the chia seeds, milk, honey and vanilla together.",
+        "Wait 5 minutes and stir again so it doesn't clump.",
+        "Cover and chill at least 2 hours or overnight.",
+        "Top with fruit and nuts."
+      ],
+      "tip": "Make it before bed for a ready breakfast."
+    },
+    {
+      "id": "yogurt_parfait",
+      "name": "Yogurt and fruit parfait",
+      "cuisine": "Sweets",
+      "minutes": 5,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [],
+      "tags": [
+        "sweet",
+        "healthy"
+      ],
+      "need": [
+        "2 cups yogurt",
+        "1 cup berries or 1 banana or 1 mango",
+        "4 tbsp oats"
+      ],
+      "extra": [
+        "1 tbsp honey",
+        "2 tbsp nuts, chopped",
+        "1 tbsp chia seeds"
+      ],
+      "steps": [
+        "Chop the fruit.",
+        "Layer yogurt, fruit and oats in two glasses, twice.",
+        "Drizzle with honey and top with nuts."
+      ],
+      "tip": "Greek yogurt makes it thicker and higher in protein."
+    },
+    {
+      "id": "banana_oat_cookies",
+      "name": "Banana oat cookies",
+      "cuisine": "Sweets",
+      "minutes": 20,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "oven|airfryer"
+      ],
+      "tags": [
+        "sweet",
+        "healthy"
+      ],
+      "need": [
+        "2 ripe bananas",
+        "1 cup oats"
+      ],
+      "extra": [
+        "¼ cup raisins or chopped dates",
+        "½ tsp cinnamon",
+        "1 tbsp peanut butter",
+        "2 tbsp chocolate chips"
+      ],
+      "steps": [
+        "Mash the bananas well and stir in the oats and extras.",
+        "Leave 5 minutes so the oats soften.",
+        "Drop 12 spoonfuls on a lined tray and flatten a little.",
+        "Bake at 180°C for 15 minutes until golden at the edges (air fryer: 170°C for 9 minutes)."
+      ],
+      "tip": "The riper (spottier) the bananas, the sweeter the cookies."
+    },
+    {
+      "id": "baked_apples",
+      "name": "Baked cinnamon apples",
+      "cuisine": "Sweets",
+      "minutes": 30,
+      "serves": 4,
+      "diet": "veg",
+      "equipment": [
+        "oven|airfryer"
+      ],
+      "tags": [
+        "sweet",
+        "healthy"
+      ],
+      "need": [
+        "4 apples",
+        "1 tsp cinnamon",
+        "2 tbsp honey"
+      ],
+      "extra": [
+        "2 tbsp nuts, chopped",
+        "2 tbsp raisins",
+        "yogurt, to serve"
+      ],
+      "steps": [
+        "Cut the apples in half and scoop out the cores.",
+        "Fill with nuts and raisins, sprinkle with cinnamon and drizzle with honey.",
+        "Bake at 190°C for 25 minutes until soft (air fryer: 180°C for 15 minutes).",
+        "Serve warm with a spoon of yogurt."
+      ],
+      "tip": ""
+    },
+    {
+      "id": "nice_cream",
+      "name": "Banana ice cream (no sugar)",
+      "cuisine": "Sweets",
+      "minutes": 5,
+      "serves": 2,
+      "diet": "vegan",
+      "equipment": [
+        "blender"
+      ],
+      "tags": [
+        "sweet",
+        "healthy"
+      ],
+      "need": [
+        "3 ripe bananas, sliced and frozen"
+      ],
+      "extra": [
+        "1 tbsp cocoa powder",
+        "1 tbsp peanut butter",
+        "2 dates",
+        "a splash of milk"
+      ],
+      "steps": [
+        "Slice the bananas and freeze them for at least 4 hours (overnight is best).",
+        "Blend the frozen slices, stopping to scrape down, until smooth like soft-serve.",
+        "Blend in cocoa, peanut butter or dates if you like.",
+        "Eat straight away, or freeze 1 hour for a firmer scoop."
+      ],
+      "tip": "Keep a bag of sliced ripe bananas in the freezer for this."
+    },
+    {
+      "id": "umm_ali",
+      "name": "Umm Ali",
+      "cuisine": "Sweets",
+      "minutes": 45,
+      "serves": 6,
+      "diet": "veg",
+      "equipment": [
+        "oven"
+      ],
+      "tags": [
+        "sweet"
+      ],
+      "need": [
+        "1 pack puff pastry",
+        "1 litre milk",
+        "½ cup sugar",
+        "½ cup nuts, chopped"
+      ],
+      "extra": [
+        "½ cup cream",
+        "¼ cup raisins",
+        "3 tbsp desiccated coconut",
+        "½ tsp cinnamon",
+        "a few drops of vanilla flavouring"
+      ],
+      "steps": [
+        "Bake the puff pastry at 200°C for 15 minutes until puffed and golden, then break it into pieces in a baking dish.",
+        "Scatter over the nuts, raisins and coconut.",
+        "Heat the milk with the sugar, cinnamon and vanilla until steaming, then pour it over the pastry.",
+        "Pour the cream on top and bake at 220°C for 15 minutes until the top is golden.",
+        "Serve warm."
+      ],
+      "tip": "Egypt's favourite bread pudding. Croissants or bread work instead of puff pastry."
+    },
+    {
+      "id": "basbousa",
+      "name": "Basbousa (semolina cake)",
+      "cuisine": "Sweets",
+      "minutes": 50,
+      "serves": 10,
+      "diet": "veg",
+      "equipment": [
+        "oven"
+      ],
+      "tags": [
+        "sweet"
+      ],
+      "need": [
+        "2 cups semolina",
+        "1 cup yogurt",
+        "¾ cup sugar",
+        "½ cup butter, melted",
+        "1 tsp baking powder",
+        "½ cup desiccated coconut"
+      ],
+      "extra": [
+        "almonds, to decorate",
+        "1 tbsp rose water",
+        "½ lemon, for the syrup"
+      ],
+      "steps": [
+        "For the syrup, boil 1 cup sugar with ¾ cup water and a squeeze of lemon for 5 minutes. Add the rose water and let it cool.",
+        "Mix the semolina, sugar, coconut, baking powder, yogurt and melted butter into a thick batter.",
+        "Spread in a buttered 25 cm tray, smooth the top and mark diamonds with a knife. Press an almond into each.",
+        "Bake at 180°C for 30 minutes until golden.",
+        "Pour the cool syrup over the hot cake and leave 30 minutes to soak before cutting."
+      ],
+      "tip": "Cool syrup on hot cake (or the other way round) stops it going soggy."
+    },
+    {
+      "id": "rice_pudding",
+      "name": "Rice pudding (roz bel laban)",
+      "cuisine": "Sweets",
+      "minutes": 40,
+      "serves": 4,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "sweet"
+      ],
+      "need": [
+        "½ cup rice",
+        "4 cups milk",
+        "⅓ cup sugar"
+      ],
+      "extra": [
+        "1 tbsp cornflour",
+        "1 tbsp rose water",
+        "¼ tsp cardamom",
+        "2 tbsp pistachios, chopped"
+      ],
+      "steps": [
+        "Simmer the rice in 1 cup water for 10 minutes until the water is absorbed.",
+        "Add the milk and simmer on low, stirring often, for 25 minutes until thick and creamy.",
+        "Stir in the sugar, cardamom and rose water (and the cornflour mixed with a little cold milk for a thicker set) for 3 minutes.",
+        "Pour into bowls, cool and top with pistachios. Eat warm or cold."
+      ],
+      "tip": "Stir from the bottom so the milk doesn't catch."
+    },
+    {
+      "id": "muhallabia",
+      "name": "Muhallabia (milk pudding)",
+      "cuisine": "Sweets",
+      "minutes": 20,
+      "serves": 4,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "sweet"
+      ],
+      "need": [
+        "3 cups milk",
+        "4 tbsp cornflour",
+        "4 tbsp sugar"
+      ],
+      "extra": [
+        "1 tbsp rose water",
+        "2 tbsp pistachios, chopped",
+        "a pinch of saffron"
+      ],
+      "steps": [
+        "Whisk the cornflour into 1 cup of the cold milk until smooth.",
+        "Heat the rest of the milk with the sugar, then whisk in the cornflour milk.",
+        "Stir over medium heat for 8 minutes until thick enough to coat the spoon. Stir in the rose water.",
+        "Pour into small bowls, cool, then chill 2 hours. Top with pistachios."
+      ],
+      "tip": ""
+    },
+    {
+      "id": "brownies",
+      "name": "Chocolate brownies",
+      "cuisine": "Sweets",
+      "minutes": 40,
+      "serves": 12,
+      "diet": "veg",
+      "equipment": [
+        "oven"
+      ],
+      "tags": [
+        "sweet"
+      ],
+      "need": [
+        "200 g dark chocolate or ½ cup cocoa powder",
+        "150 g butter",
+        "1 cup sugar",
+        "3 eggs",
+        "¾ cup flour"
+      ],
+      "extra": [
+        "½ cup nuts, chopped",
+        "a few drops of vanilla flavouring"
+      ],
+      "steps": [
+        "Melt the chocolate and butter together over low heat (with cocoa, just melt the butter and stir the cocoa in).",
+        "Whisk in the sugar, then the eggs one at a time, and the vanilla.",
+        "Fold in the flour and a pinch of salt (and the nuts).",
+        "Spread in a lined 20 cm tin and bake at 180°C for 25 minutes. The middle should still be a little soft.",
+        "Cool completely before cutting into squares."
+      ],
+      "tip": "Take them out while the middle still wobbles slightly: they firm up as they cool."
+    },
+    {
+      "id": "sheer_khurma",
+      "name": "Sheer khurma",
+      "cuisine": "Sweets",
+      "minutes": 30,
+      "serves": 6,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "sweet"
+      ],
+      "need": [
+        "100 g vermicelli",
+        "1 litre milk",
+        "6 dates, chopped",
+        "⅓ cup sugar",
+        "½ cup nuts, chopped"
+      ],
+      "extra": [
+        "2 tbsp ghee",
+        "4 cardamom pods",
+        "2 tbsp raisins",
+        "a pinch of saffron"
+      ],
+      "steps": [
+        "Fry the vermicelli in the ghee for 3 minutes until golden. Take it out.",
+        "Briefly fry the nuts, dates and raisins in the same pan.",
+        "Add the milk and cardamom and simmer 15 minutes, stirring, until a little thicker.",
+        "Add the vermicelli, sugar and saffron and simmer 5 minutes more.",
+        "Serve warm or chilled."
+      ],
+      "tip": "The traditional Eid breakfast in Pakistan and India."
     }
   ]
 }

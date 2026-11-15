@@ -217,6 +217,14 @@ a.btn.wa { background: #1f9d55; border-color: #1f9d55; color: #fff; }
 a.btn.primary { color: var(--basil-ink); }
 .btn.big { min-height: 56px; font-size: 1.1rem; padding: 10px 24px; }
 .shop-item { font-size: 2.2rem; margin: 6px 0 4px; }
+/* one round "+" icon: add a recipe by hand */
+.fab {
+  position: fixed; z-index: 30; right: calc(20px + env(safe-area-inset-right, 0px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  width: 64px; height: 64px; border: 0; border-radius: 50%; background: var(--basil); color: var(--basil-ink);
+  font-size: 2.2rem; line-height: 1; display: grid; place-items: center; box-shadow: 0 8px 22px rgba(27,42,31,.3);
+}
+.fab:hover { filter: brightness(1.08); }
+body:has(.timer) .fab { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
 /* use soon */
 .chip.soon { border-color: var(--saffron); background: var(--saffron-soft); }
 .chip.soon[aria-pressed="true"]::before { content: none; }
@@ -262,6 +270,7 @@ a.btn.primary { color: var(--basil-ink); }
       <h1>My Kitchen</h1>
     </div>
     <span class="status" id="netStatus"><span class="dot"></span><span>Online</span></span>
+    <button class="btn small" id="updateTop" type="button" title="Get new recipes">↻ Update</button>
     <button class="btn small" id="installBtn" hidden>Install app</button>
   </div>
   <nav class="tabs" aria-label="Sections">
@@ -304,6 +313,11 @@ a.btn.primary { color: var(--basil-ink); }
         <span>It's been a while since your last backup. Save one so a tablet reset can't lose your recipes.</span>
         <span class="row"><button class="btn small primary" id="backupNow">Save backup</button><button class="btn small quiet" id="backupLater">Later</button></span>
       </div>
+      <div class="row" style="margin-bottom:10px">
+        <label class="sr" for="cookQ">Search dishes</label>
+        <input class="input" id="cookQ" type="search" placeholder="Search a dish or drink, e.g. biryani, iced tea" style="flex:1;min-width:200px" autocomplete="off">
+      </div>
+      <div class="filters" id="cuisinePick" role="group" aria-label="Cuisine"></div>
       <div class="filters" role="group" aria-label="Filters">
         <button class="chip" id="fQuick" aria-pressed="false">Quick (20 min or less)</button>
         <button class="chip" id="fVeg" aria-pressed="false">Vegetarian</button>
@@ -446,6 +460,7 @@ a.btn.primary { color: var(--basil-ink); }
 <div class="sheet" id="sheet" hidden>
   <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" id="sheetPanel"></div>
 </div>
+<button class="fab" id="fabAdd" type="button" aria-label="Add a recipe by hand" title="Add a recipe by hand">＋</button>
 <div class="timers" id="timers" aria-live="polite"></div>
 <div class="toast" id="toast" role="status" hidden></div>
 
