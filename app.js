@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 15; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 16; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -177,6 +177,9 @@
     "Drinks": isDrink,
     "Healthy sweets": (r) => isSweet(r) && isHealthy(r),
     "Regular sweets": (r) => isSweet(r) && !isHealthy(r),
+    "Soups": (r) => (r.tags || []).includes("soup"),
+    "Light dinners": (r) => (r.tags || []).includes("light"),
+    "Breakfast": (r) => (r.tags || []).includes("breakfast"),
   };
   function passFilters(r) {
     const f = S.filters;
@@ -213,7 +216,7 @@
   // after start, quietly fetch every built-in photo once so they're all there offline
   function prefetchPhotos() {
     if (!navigator.onLine || !("serviceWorker" in navigator) || LS.get("photosFetched", 0) === S.feed.version) return;
-    const urls = S.builtin.map((r) => r.image).filter(Boolean);
+    const urls = S.builtin.filter((r) => !S.hidden.has(r.id)).map((r) => r.image).filter(Boolean);
     let i = 0;
     const next = () => {
       if (i >= urls.length) { LS.set("photosFetched", S.feed.version); return; }
@@ -424,7 +427,10 @@
     $("#cuisinePick").replaceChildren(chip("All", !S.cuisine, () => pickCuisine("")), ...cuisines.map((c) => chip((ICON[c] ? ICON[c] + " " : "") + c, S.cuisine === c, () => pickCuisine(c))),
       chip("🥤 Drinks", S.cuisine === "Drinks", () => pickCuisine("Drinks")),
       chip("🥗 Healthy sweets", S.cuisine === "Healthy sweets", () => pickCuisine("Healthy sweets")),
-      chip("🍰 Regular sweets", S.cuisine === "Regular sweets", () => pickCuisine("Regular sweets")));
+      chip("🍰 Regular sweets", S.cuisine === "Regular sweets", () => pickCuisine("Regular sweets")),
+      chip("🍲 Soups", S.cuisine === "Soups", () => pickCuisine("Soups")),
+      chip("🌙 Light dinners", S.cuisine === "Light dinners", () => pickCuisine("Light dinners")),
+      chip("🍳 Breakfast", S.cuisine === "Breakfast", () => pickCuisine("Breakfast")));
     const filtered = all.filter(passFilters);
     // drinks and sweets get their own rows unless you picked one of those filters or are searching
     const apart = !SPECIAL[S.cuisine] && !S.cookQ;
@@ -478,7 +484,7 @@
   }
 
   // ---------- sheet ----------
-  let lastFocus = null, wakeLock = null;
+  let lastFocus = null, wakeLock = null, editorHist = false;
   function openSheet(build) {
     lastFocus = document.activeElement;
     const panel = $("#sheetPanel");
@@ -489,10 +495,14 @@
     panel.scrollTop = 0;
     const c = panel.querySelector(".close"); if (c) c.focus();
   }
-  function closeSheet() {
+  function closeSheet(force) {
+    if (force !== true && S.sheetGuard && !S.sheetGuard()) return;
+    if (editorHist) { editorHist = false; history.back(); }
     $("#sheet").hidden = true;
     document.body.style.overflow = "";
     S.sheet = null;
+    S.sheetGuard = null;
+    S.editorDirty = false;
     releaseWake();
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
@@ -816,8 +826,8 @@
   }
   function openEditor(src, fromPreview) {
     const r = src ? JSON.parse(JSON.stringify(src)) : { id: "", name: "", cuisine: "", minutes: null, serves: 4, diet: "", equipment: ["stove"], need: [], extra: [], steps: [], tip: "", source: "mine" };
-    S.sheet = "edit";
-    let photoBlob = null, photoRemoved = false;
+    S.sheet = "editor";
+    let dirty = false, photoBlob = null, photoRemoved = false;
     openSheet(async (panel) => {
       const isNew = !src || fromPreview || !byId(src.id);
       panel.append(bar(isNew ? "New recipe" : "Edit recipe"));
@@ -846,14 +856,14 @@
       // photo
       const pPrev = h("div");
       const pInput = h("input", { type: "file", id: "edPhoto", accept: "image/*", hidden: true });
-      const pRemove = h("button", { class: "btn quiet small", type: "button", hidden: true, onclick: () => { photoBlob = null; photoRemoved = true; pPrev.replaceChildren(); pRemove.hidden = true; } }, "Remove photo");
+      const pRemove = h("button", { class: "btn quiet small", type: "button", hidden: true, onclick: () => { photoBlob = null; photoRemoved = true; dirty = true; S.editorDirty = true; pPrev.replaceChildren(); pRemove.hidden = true; } }, "Remove photo");
       const showPhoto = (u) => { pPrev.replaceChildren(h("img", { src: u, alt: "Recipe photo" })); pRemove.hidden = false; };
       if (src) photoUrl(src).then((u) => u && showPhoto(u));
       pInput.addEventListener("change", async () => {
         const file = pInput.files[0]; if (!file) return;
         const b = await resizeImage(file);
         if (!b) { toast("That file couldn't be read as a picture"); return; }
-        photoBlob = b; photoRemoved = false; showPhoto(URL.createObjectURL(b));
+        photoBlob = b; photoRemoved = false; dirty = true; S.editorDirty = true; showPhoto(URL.createObjectURL(b));
       });
       const drawParsed = () => {
         const ex = extras();
@@ -873,6 +883,10 @@
         fld("Pressure cooker way (optional)", pressure, "How to make it faster in a pressure cooker. Write the minutes and a timer button appears."),
         fld("Tip (optional)", tip), fld("Original link (optional)", url), err,
         h("div", { class: "actions" }, h("button", { class: "btn primary", type: "submit" }, "Save recipe"), h("button", { class: "btn", type: "button", onclick: closeSheet }, "Cancel")));
+      f.addEventListener("input", () => { dirty = true; S.editorDirty = true; });
+      f.addEventListener("change", () => { dirty = true; S.editorDirty = true; });
+      S.sheetGuard = () => !dirty || confirm("You have unsaved changes. Leave without saving?");
+      history.pushState({ mkEditor: 1 }, ""); editorHist = true;
       f.addEventListener("submit", async (e) => {
         e.preventDefault();
         // strip bullets everywhere, and "1." style numbers only from steps (amounts in ingredients start with numbers)
@@ -895,6 +909,7 @@
         else if (fromPreview && r.imageUrl && !r.photo) await fetchPhoto(out);
         await saveMine(out);
         toast("Recipe saved");
+        dirty = false; S.editorDirty = false;
         closeSheet(); render();
         openRecipe(out.id);
       });
@@ -984,6 +999,42 @@
       h("span", { class: "hint", text: t.unit }));
   }
   // next start after a WhatsApp send: did everything arrive?
+  let sentPending = false;
+  // after a WhatsApp send: did you actually send it? (backing out should not count as bought)
+  function askSent() {
+    const order = LS.get("lastOrder", null);
+    if (!order || order.confirmed || order.sent || S.sheet) return;
+    S.sheet = "sent";
+    openSheet((panel) => {
+      panel.append(bar("Did you send it?"),
+        h("h2", { id: "sheetTitle", text: "Did you send it?" }),
+        h("p", { class: "meta-line", text: "If you closed WhatsApp without sending, tap Not sent and your list comes back." }));
+      panel.append(h("div", { class: "actions" },
+        h("button", { class: "btn primary", type: "button", onclick: () => {
+          LS.set("lastOrder", { ...order, sent: true });
+          closeSheet(); render();
+        } }, "Yes, sent"),
+        h("button", { class: "btn", type: "button", onclick: () => {
+          const undo = (order.items || []).filter((it) => !it.sent);
+          for (const it of undo) {
+            const k = it.keys && it.keys[0];
+            if (k && !it.had) S.have.delete(k);
+            if (k && it.amount != null) {
+              S.stock[k] = (S.stock[k] || 0) - it.amount;
+              if (S.stock[k] <= 0) delete S.stock[k];
+            }
+          }
+          const back = undo.map((it) => ({ id: it.id, keys: it.keys, label: it.label, amount: it.amountShown ?? it.amount }));
+          const ids = new Set(back.map((b) => b.id));
+          S.shop = back.concat(S.shop.filter((s) => !ids.has(s.id)));
+          const stillSent = (order.items || []).filter((it) => it.sent);
+          if (stillSent.length) LS.set("lastOrder", { ...order, items: stillSent, sent: true });
+          else LS.set("lastOrder", null);
+          saveState(); closeSheet(); render(); toast("Your list is back");
+        } }, "Not sent")));
+    });
+  }
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && sentPending) { sentPending = false; askSent(); } });
   function checkArrivals() {
     const order = LS.get("lastOrder", null);
     if (!order || order.confirmed || !order.items || !order.items.length) return;
@@ -1004,7 +1055,7 @@
             if (ticked.has(i)) return;
             const k = it.keys && it.keys[0];
             if (k) {
-              S.have.delete(k);
+              if (!it.had) S.have.delete(k);
               if (it.amount != null) {
                 S.stock[k] = (S.stock[k] || 0) - it.amount;
                 if (S.stock[k] <= 0) delete S.stock[k];
@@ -1417,6 +1468,8 @@
   filt("#fQuick", "quick"); filt("#fVeg", "veg", "vegan"); filt("#fVegan", "vegan", "veg"); filt("#fFav", "fav");
   $("#sheet").addEventListener("click", (e) => { if (e.target.id === "sheet") closeSheet(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#sheet").hidden) closeSheet(); });
+  window.addEventListener("popstate", () => { if (!editorHist) return; editorHist = false; if (S.sheetGuard && !S.sheetGuard()) { history.pushState({ mkEditor: 1 }, ""); editorHist = true; return; } closeSheet(true); });
+  window.addEventListener("beforeunload", (e) => { if (S.editorDirty) { e.preventDefault(); e.returnValue = ""; } });
   $("#addBtn").addEventListener("click", () => openEditor(null));
   $("#pasteBtn").addEventListener("click", openPaste);
   $("#pasteBtn2").addEventListener("click", openPaste);
@@ -1483,10 +1536,11 @@
   $("#shopWhatsApp").addEventListener("click", () => {
     if (!S.shop.length) return;
     adoptKitchen();
-    const items = S.shop.map((s) => {
+    sentPending = true;
+    let items = S.shop.map((s) => {
       const k = s.keys && s.keys[0];
       const t = k && MKStock && MKStock.TRACKED[k];
-      return { id: s.id, keys: s.keys || [], label: s.label, amount: t ? shopAmount(s) : null };
+      return { id: s.id, keys: s.keys || [], label: s.label, amount: t ? shopAmount(s) : null, had: !!(k && S.have.has(k)), amountShown: s.amount };
     });
     for (const it of items) {
       const k = it.keys[0];
@@ -1494,6 +1548,8 @@
       S.have.add(k);
       if (it.amount != null) S.stock[k] = (S.stock[k] || 0) + it.amount;
     }
+    const prev = LS.get("lastOrder", null);
+    if (prev && !prev.confirmed) items = (prev.items || []).map((it) => ({ ...it, sent: true })).concat(items);
     LS.set("lastOrder", { at: Date.now(), items });
     S.shop = [];
     saveState();
@@ -1540,7 +1596,7 @@
   (async function start() {
     netStatus();
     render();
-    checkArrivals();
+    { const o = LS.get("lastOrder", null); if (o && !o.confirmed && !o.sent) askSent(); else checkArrivals(); }
     // draw as soon as each source answers; never wait on one before showing the other
     dbAll("recipes").then((m) => { S.mine = m || []; render(); backupNudge(); }).catch(() => {});
     const n = await loadFeed(false);

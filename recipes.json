@@ -1,5 +1,5 @@
 {
-  "version": 6,
+  "version": 7,
   "updated": "2026-11-15",
   "recipes": [
     {
@@ -39,7 +39,10 @@
         "artist": "Calliopejen1",
         "license": "CC BY-SA 3.0",
         "page": "https://commons.wikimedia.org/wiki/File:Shakshuka_by_Calliopejen1.jpg"
-      }
+      },
+      "tags": [
+        "breakfast"
+      ]
     },
     {
       "id": "hummus",
@@ -115,7 +118,10 @@
         "artist": "Andy Li",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Homemade_Lentil_Soup_-_Lavash_2025-02-10.jpg"
-      }
+      },
+      "tags": [
+        "soup"
+      ]
     },
     {
       "id": "shawarma_wraps",
@@ -305,7 +311,10 @@
         "artist": "Habib M'henni",
         "license": "CC BY-SA 3.0",
         "page": "https://commons.wikimedia.org/wiki/File:Foul_Mdammis,_Tunisie.jpg"
-      }
+      },
+      "tags": [
+        "breakfast"
+      ]
     },
     {
       "id": "machboos",
@@ -760,7 +769,10 @@
         "artist": "Saileshpat",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Indian_Omelette_Odisha.jpg"
-      }
+      },
+      "tags": [
+        "breakfast"
+      ]
     },
     {
       "id": "bhindi_masala",
@@ -974,7 +986,16 @@
         "Put a plate over the pan, flip the omelette onto it and slide it back in. Cook 3 minutes more.",
         "Serve warm or cold, in wedges."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/spanish_tortilla.jpg",
+      "imageCredit": {
+        "artist": "Juan Emilio Prades Bel",
+        "license": "CC BY 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Tortilla_espa%C3%B1ola_con_patatas_y_cebolla.jpg"
+      },
+      "tags": [
+        "breakfast"
+      ]
     },
     {
       "id": "pancakes",
@@ -1007,7 +1028,8 @@
       ],
       "tip": "Don't over-mix the batter, or the pancakes come out flat.",
       "tags": [
-        "sweet"
+        "sweet",
+        "breakfast"
       ],
       "image": "photos/pancakes.jpg",
       "imageCredit": {
@@ -1046,7 +1068,8 @@
       ],
       "tip": "Day-old bread soaks better without falling apart.",
       "tags": [
-        "sweet"
+        "sweet",
+        "breakfast"
       ],
       "image": "photos/french_toast.jpg",
       "imageCredit": {
@@ -1265,7 +1288,13 @@
         "Add the noodles, soy sauce, honey and sesame oil. Toss 1 minute.",
         "Top with spring onions and a fried egg."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/garlic_soy_noodles.jpg",
+      "imageCredit": {
+        "artist": "Eric T Gunther",
+        "license": "CC BY-SA 3.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Lo_Mein_American_Style.JPG"
+      }
     },
     {
       "id": "peanut_noodles",
@@ -1641,7 +1670,8 @@
       ],
       "tip": "A classic Emirati breakfast: sweet and salty together.",
       "tags": [
-        "sweet"
+        "sweet",
+        "breakfast"
       ],
       "image": "photos/balaleet.jpg",
       "imageCredit": {
@@ -1765,7 +1795,8 @@
       ],
       "tip": "",
       "tags": [
-        "sweet"
+        "sweet",
+        "breakfast"
       ]
     },
     {
@@ -1826,7 +1857,13 @@
       "tags": [
         "drink",
         "hot"
-      ]
+      ],
+      "image": "photos/karak_chai.jpg",
+      "imageCredit": {
+        "artist": "Gaurav Dhwaj Khadka",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Milk_Masala_Tea.jpg"
+      }
     },
     {
       "id": "samak_mashwi",
@@ -2343,7 +2380,8 @@
       "equipment": [],
       "tags": [
         "sweet",
-        "healthy"
+        "healthy",
+        "breakfast"
       ],
       "need": [
         "4 tbsp chia seeds",
@@ -2361,7 +2399,13 @@
         "Cover and chill at least 2 hours or overnight.",
         "Top with fruit and nuts."
       ],
-      "tip": "Make it before bed for a ready breakfast."
+      "tip": "Make it before bed for a ready breakfast.",
+      "image": "photos/chia_pudding.jpg",
+      "imageCredit": {
+        "artist": "Miscellaneous contributor",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Chia_seed_pudding_in_a_tea_cup.jpg"
+      }
     },
     {
       "id": "yogurt_parfait",
@@ -2373,7 +2417,8 @@
       "equipment": [],
       "tags": [
         "sweet",
-        "healthy"
+        "healthy",
+        "breakfast"
       ],
       "need": [
         "2 cups yogurt",
@@ -2503,7 +2548,13 @@
         "Blend in cocoa, peanut butter or dates if you like.",
         "Eat straight away, or freeze 1 hour for a firmer scoop."
       ],
-      "tip": "Keep a bag of sliced ripe bananas in the freezer for this."
+      "tip": "Keep a bag of sliced ripe bananas in the freezer for this.",
+      "image": "photos/nice_cream.jpg",
+      "imageCredit": {
+        "artist": "Nitsan Simantov",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Vegan_ice_cream,_banana_nice_cream.jpg"
+      }
     },
     {
       "id": "umm_ali",
@@ -2734,7 +2785,13 @@
         "Add the vermicelli, sugar and saffron and simmer 5 minutes more.",
         "Serve warm or chilled."
       ],
-      "tip": "The traditional Eid breakfast in Pakistan and India."
+      "tip": "The traditional Eid breakfast in Pakistan and India.",
+      "image": "photos/sheer_khurma.jpg",
+      "imageCredit": {
+        "artist": "Mducityman",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Sheer_Korma.JPG"
+      }
     },
     {
       "id": "joojeh_kabab",
@@ -3028,7 +3085,13 @@
         "Serve with rice, topped with the crispy fries."
       ],
       "pressure": "After step 2, add the split peas, dried limes, salt and 2½ cups water. Cook 20 minutes at high pressure and let the pressure drop by itself.",
-      "tip": ""
+      "tip": "",
+      "image": "photos/khoresh_gheymeh.jpg",
+      "imageCredit": {
+        "artist": "Diako1971",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Gheyme.jpg"
+      }
     },
     {
       "id": "greek_salad",
@@ -3211,7 +3274,16 @@
         "Pour in the beaten eggs and stir gently until just set but still soft.",
         "Top with feta and chili flakes and eat with bread."
       ],
-      "tip": ""
+      "tip": "",
+      "image": "photos/menemen.jpg",
+      "imageCredit": {
+        "artist": "E4024",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Turkish_egg_dish_Menemen.jpg"
+      },
+      "tags": [
+        "breakfast"
+      ]
     },
     {
       "id": "minestrone",
@@ -3251,7 +3323,10 @@
         "artist": "Katrin Morenz from Aachen, Deutschland",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Minestrone_soup.jpg"
-      }
+      },
+      "tags": [
+        "soup"
+      ]
     },
     {
       "id": "chicken_fajitas",
@@ -3703,7 +3778,10 @@
         "artist": "Ocdp",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Pholiota_microspora_miso_soup_001.jpg"
-      }
+      },
+      "tags": [
+        "soup"
+      ]
     },
     {
       "id": "chili_con_carne",
@@ -3933,6 +4011,726 @@
         "artist": "Andy Li",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Caesar_Salad_-_Purezza_2023-11-22.jpg"
+      }
+    },
+    {
+      "id": "harira",
+      "name": "Harira (Moroccan lentil and chickpea soup)",
+      "cuisine": "Gulf & Arabic",
+      "minutes": 45,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "soup"
+      ],
+      "need": [
+        "1 onion, chopped",
+        "2 celery sticks, chopped",
+        "½ cup red lentils, rinsed",
+        "1 can chickpeas, drained",
+        "1 can chopped tomatoes",
+        "1 tsp turmeric",
+        "1 tsp cinnamon"
+      ],
+      "extra": [
+        "1 tbsp tomato paste",
+        "1 tsp ginger, grated",
+        "1 bunch coriander, chopped",
+        "1 bunch parsley, chopped",
+        "½ cup vermicelli",
+        "1 lemon, in wedges",
+        "dates, to serve"
+      ],
+      "steps": [
+        "Heat 2 tbsp oil in a big pot. Cook the onion and celery for 5 minutes.",
+        "Stir in the turmeric, cinnamon, ginger and tomato paste for 1 minute.",
+        "Add the lentils, tomatoes and 6 cups water. Simmer 25 minutes until the lentils are soft.",
+        "Add the chickpeas, vermicelli and half the herbs. Simmer 5 minutes more. Add salt and pepper.",
+        "Serve with the rest of the herbs, lemon wedges and dates."
+      ],
+      "tip": "For a meat version, brown 250 g diced lamb with the onion and simmer 20 minutes longer.",
+      "image": "photos/harira.jpg",
+      "imageCredit": {
+        "artist": "-ani",
+        "license": "FAL",
+        "page": "https://commons.wikimedia.org/wiki/File:Harira_vegetarisch.jpg"
+      }
+    },
+    {
+      "id": "chicken_veg_soup",
+      "name": "Chicken and vegetable soup",
+      "cuisine": "Western",
+      "minutes": 45,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "soup"
+      ],
+      "need": [
+        "500 g chicken pieces",
+        "1 onion, chopped",
+        "2 carrots, sliced",
+        "2 celery sticks, sliced",
+        "2 potatoes, diced",
+        "2 cloves garlic"
+      ],
+      "extra": [
+        "1 stock cube",
+        "½ cup peas",
+        "1 bay leaf",
+        "1 tsp oregano",
+        "1 bunch parsley, chopped",
+        "bread, to serve"
+      ],
+      "steps": [
+        "Put the chicken, onion, garlic, bay leaf and 7 cups water in a pot. Bring to the boil, skim, and simmer 20 minutes.",
+        "Lift out the chicken. Add the carrots, celery, potatoes, stock cube and oregano and simmer 15 minutes.",
+        "Shred the chicken off the bones and put it back with the peas. Simmer 3 minutes.",
+        "Add salt, pepper and parsley. Serve with bread."
+      ],
+      "tip": "Boneless chicken works too: cut it small and add it with the vegetables.",
+      "image": "photos/chicken_veg_soup.jpg",
+      "imageCredit": {
+        "artist": "Scott Teresi",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Simple_vegetable_soup_2009.jpg"
+      }
+    },
+    {
+      "id": "tomato_soup",
+      "name": "Tomato soup",
+      "cuisine": "Western",
+      "minutes": 30,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "soup"
+      ],
+      "need": [
+        "2 cans chopped tomatoes",
+        "1 onion, chopped",
+        "2 cloves garlic",
+        "1 carrot, chopped"
+      ],
+      "extra": [
+        "1 stock cube",
+        "1 tsp sugar",
+        "½ cup cream",
+        "1 bunch basil",
+        "bread, to serve"
+      ],
+      "steps": [
+        "Heat 2 tbsp oil in a pot. Cook the onion and carrot for 6 minutes, then the garlic for 1 minute.",
+        "Add the tomatoes, 2 cups water, the stock cube and sugar. Simmer 15 minutes.",
+        "Blend until smooth. Add salt and pepper.",
+        "Stir in the cream if you like, and serve with basil and bread."
+      ],
+      "tip": "Grilled cheese sandwiches turn this into a full dinner.",
+      "image": "photos/tomato_soup.jpg",
+      "imageCredit": {
+        "artist": "JIP",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Tomato_soup_at_restaurant_Treffi_Pub.jpg"
+      }
+    },
+    {
+      "id": "pumpkin_soup",
+      "name": "Creamy pumpkin soup",
+      "cuisine": "Western",
+      "minutes": 35,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "soup"
+      ],
+      "need": [
+        "800 g pumpkin, peeled and cubed",
+        "1 onion, chopped",
+        "2 cloves garlic",
+        "1 tsp cumin"
+      ],
+      "extra": [
+        "1 potato, diced",
+        "1 stock cube",
+        "½ cup cream or coconut milk",
+        "1 tsp ginger, grated",
+        "a few toasted nuts, to serve"
+      ],
+      "steps": [
+        "Heat 2 tbsp oil in a pot. Cook the onion for 5 minutes, then the garlic, ginger and cumin for 1 minute.",
+        "Add the pumpkin, potato, stock cube and 4 cups water. Simmer 20 minutes until soft.",
+        "Blend until smooth. Stir in the cream or coconut milk and add salt and pepper.",
+        "Serve with a few seeds on top."
+      ],
+      "tip": "Butternut squash or sweet potato work the same way.",
+      "image": "photos/pumpkin_soup.jpg",
+      "imageCredit": {
+        "artist": "Cala cala_maffia",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Autumn_Soup_(Unsplash)_cropped.jpg"
+      }
+    },
+    {
+      "id": "chicken_corn_soup",
+      "name": "Chicken corn soup",
+      "cuisine": "Indian & Pakistani",
+      "minutes": 30,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "soup"
+      ],
+      "need": [
+        "300 g chicken breast",
+        "1 can corn",
+        "2 eggs, beaten",
+        "3 tbsp cornflour"
+      ],
+      "extra": [
+        "1 stock cube",
+        "1 tbsp soy sauce",
+        "1 tsp ginger, grated",
+        "2 spring onions, sliced",
+        "hot sauce, to serve",
+        "vinegar, to serve"
+      ],
+      "steps": [
+        "Simmer the chicken and ginger in 6 cups water for 15 minutes. Lift out the chicken and shred it.",
+        "Add the corn, stock cube, soy sauce and shredded chicken to the pot and bring back to a simmer.",
+        "Mix the cornflour with ½ cup cold water and stir it in until the soup thickens.",
+        "Pour in the eggs in a thin stream while stirring slowly, so they set in ribbons.",
+        "Serve with spring onions, and hot sauce and vinegar at the table."
+      ],
+      "tip": "Creamed corn makes it thicker and sweeter, like the street-stall version.",
+      "image": "photos/chicken_corn_soup.jpg",
+      "imageCredit": {
+        "artist": "Daderot",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Corn_soup_with_chicken_and_black_pepper,_chilled_-_Aington,_MA.jpg"
+      }
+    },
+    {
+      "id": "shorbat_dajaj",
+      "name": "Chicken vermicelli soup (Shorbat dajaj)",
+      "cuisine": "Gulf & Arabic",
+      "minutes": 40,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "soup"
+      ],
+      "need": [
+        "500 g chicken pieces",
+        "1 onion, quartered",
+        "½ cup vermicelli",
+        "1 carrot, diced"
+      ],
+      "extra": [
+        "3 cardamom pods",
+        "1 cinnamon stick",
+        "1 bay leaf",
+        "1 stock cube",
+        "1 bunch parsley, chopped",
+        "1 lemon, in wedges"
+      ],
+      "steps": [
+        "Put the chicken, onion, cardamom, cinnamon, bay leaf and 7 cups water in a pot. Simmer 25 minutes, skimming the top.",
+        "Lift out the chicken, strain the broth and put it back in the pot. Shred the chicken.",
+        "Toast the vermicelli in 1 tbsp oil until golden, then add it to the broth with the carrot and stock cube. Simmer 8 minutes.",
+        "Add the chicken back, salt and pepper. Serve with parsley and lemon."
+      ],
+      "tip": "A popular Ramadan starter; a squeeze of lemon at the table makes it.",
+      "image": "photos/shorbat_dajaj.jpg",
+      "imageCredit": {
+        "artist": "HaJunkiyada",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Liat_Portal_for_Foodie_Disorder_-_Chicken_Soup_with_Rice_Noodles.jpg"
+      }
+    },
+    {
+      "id": "coconut_chicken_soup",
+      "name": "Thai coconut chicken soup",
+      "cuisine": "Asian",
+      "minutes": 25,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "soup"
+      ],
+      "need": [
+        "400 g chicken breast, sliced thin",
+        "1 can coconut milk",
+        "200 g mushrooms, sliced",
+        "2 stalks lemongrass, bashed",
+        "1 thumb ginger, sliced"
+      ],
+      "extra": [
+        "1 stock cube",
+        "2 tbsp fish sauce",
+        "1 lemon, juiced",
+        "1 green chili, sliced",
+        "1 bunch coriander"
+      ],
+      "steps": [
+        "Simmer the lemongrass and ginger in 3 cups water with the stock cube for 5 minutes.",
+        "Add the coconut milk and chicken and simmer gently for 6 minutes.",
+        "Add the mushrooms and chili and cook 3 minutes more.",
+        "Turn off the heat. Stir in the fish sauce and lemon juice, and taste. Serve with coriander."
+      ],
+      "tip": "Don't eat the lemongrass and ginger pieces; they're only for flavour.",
+      "image": "photos/coconut_chicken_soup.jpg",
+      "imageCredit": {
+        "artist": "Evan Joshua Swigart (TheCulinaryGeek) from Chicago, Illinois, USA; hometown of A",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Flickr_preppybyday_4711943668--Tom_kha_gai.jpg"
+      }
+    },
+    {
+      "id": "tortilla_soup",
+      "name": "Mexican chicken tortilla soup",
+      "cuisine": "Mexican",
+      "minutes": 35,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "soup"
+      ],
+      "need": [
+        "400 g chicken breast",
+        "1 can chopped tomatoes",
+        "1 onion, chopped",
+        "2 cloves garlic",
+        "1 tsp cumin",
+        "4 tortillas, cut in strips"
+      ],
+      "extra": [
+        "1 can beans, drained",
+        "1 stock cube",
+        "1 tsp paprika",
+        "1 avocado, diced",
+        "grated cheese",
+        "1 lemon, in wedges",
+        "1 bunch coriander"
+      ],
+      "steps": [
+        "Fry the tortilla strips in a little oil until crisp. Drain on paper.",
+        "In a pot, cook the onion 5 minutes, then the garlic, cumin and paprika for 1 minute.",
+        "Add the tomatoes, chicken, stock cube and 5 cups water. Simmer 15 minutes. Shred the chicken and add the beans.",
+        "Serve topped with tortilla strips, avocado, cheese, coriander and lemon."
+      ],
+      "tip": "Short on time? Bake the tortilla strips at 200 °C for 8 minutes instead of frying.",
+      "image": "photos/tortilla_soup.jpg",
+      "imageCredit": {
+        "artist": "Wikiwrimo",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Tortilla_Soup.jpg"
+      }
+    },
+    {
+      "id": "avgolemono",
+      "name": "Greek lemon chicken soup (Avgolemono)",
+      "cuisine": "Mediterranean",
+      "minutes": 35,
+      "serves": 4,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "soup"
+      ],
+      "need": [
+        "300 g chicken breast",
+        "½ cup rice",
+        "2 eggs",
+        "2 lemons, juiced"
+      ],
+      "extra": [
+        "1 stock cube",
+        "1 onion, halved",
+        "1 bunch dill, chopped"
+      ],
+      "steps": [
+        "Simmer the chicken and onion in 6 cups water with the stock cube for 15 minutes. Lift out the chicken and shred it; discard the onion.",
+        "Add the rice and simmer 12 minutes until soft.",
+        "Whisk the eggs and lemon juice. Slowly whisk in 2 ladles of hot broth, then pour it all back into the pot off the heat.",
+        "Stir until silky (don't boil again or the eggs split). Add the chicken, salt, pepper and dill."
+      ],
+      "tip": "Reheat gently; boiling turns it grainy.",
+      "image": "photos/avgolemono.jpg",
+      "imageCredit": {
+        "artist": "Missvain",
+        "license": "CC BY 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Avgolemono_-_Sarah_Stierch.jpg"
+      }
+    },
+    {
+      "id": "tabbouleh_chicken",
+      "name": "Grilled chicken with tabbouleh",
+      "cuisine": "Mediterranean",
+      "minutes": 30,
+      "serves": 2,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "light"
+      ],
+      "need": [
+        "2 chicken breasts",
+        "½ cup fine bulgur",
+        "2 bunches parsley, chopped",
+        "2 tomatoes, diced",
+        "1 cucumber, diced",
+        "2 lemons, juiced"
+      ],
+      "extra": [
+        "1 bunch mint, chopped",
+        "2 spring onions, sliced",
+        "1 tsp sumac",
+        "1 tsp paprika",
+        "2 cloves garlic"
+      ],
+      "steps": [
+        "Soak the bulgur in ½ cup boiling water for 15 minutes.",
+        "Rub the chicken with oil, garlic, paprika, salt and half the lemon juice. Cook in a hot pan 6 minutes a side.",
+        "Mix the bulgur with the parsley, mint, tomato, cucumber, spring onion, the rest of the lemon juice, 3 tbsp oil and salt.",
+        "Slice the chicken and serve on the tabbouleh with sumac."
+      ],
+      "tip": "Real tabbouleh is mostly parsley; don't skimp on it.",
+      "image": "photos/tabbouleh_chicken.jpg",
+      "imageCredit": {
+        "artist": "cyclonebill",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Flickr_-_cyclonebill_-_Tabbouleh.jpg"
+      }
+    },
+    {
+      "id": "fish_in_foil",
+      "name": "Lemon herb fish in foil",
+      "cuisine": "Mediterranean",
+      "minutes": 25,
+      "serves": 2,
+      "diet": "meat",
+      "equipment": [
+        "oven"
+      ],
+      "tags": [
+        "light"
+      ],
+      "need": [
+        "2 fish fillets",
+        "1 zucchini, sliced thin",
+        "1 cup cherry tomatoes",
+        "1 lemon, sliced",
+        "2 cloves garlic"
+      ],
+      "extra": [
+        "1 bunch dill",
+        "1 tsp oregano",
+        "olives"
+      ],
+      "steps": [
+        "Heat the oven to 200 °C. Lay out two big sheets of foil.",
+        "Put the zucchini on each, then the fish, tomatoes, garlic, olives and lemon slices. Add oregano, salt, pepper and 1 tbsp oil each.",
+        "Fold the foil into sealed parcels and bake 15 minutes.",
+        "Open carefully (hot steam) and add dill."
+      ],
+      "tip": "Any white fish works: hammour, sea bream, tilapia or frozen fillets."
+    },
+    {
+      "id": "balela",
+      "name": "Chickpea salad (Balela)",
+      "cuisine": "Gulf & Arabic",
+      "minutes": 15,
+      "serves": 2,
+      "diet": "vegan",
+      "equipment": [],
+      "tags": [
+        "light"
+      ],
+      "need": [
+        "1 can chickpeas, drained",
+        "2 tomatoes, diced",
+        "1 cucumber, diced",
+        "1 bunch parsley, chopped",
+        "1 lemon, juiced"
+      ],
+      "extra": [
+        "1 bunch mint, chopped",
+        "½ red onion, chopped",
+        "1 tsp sumac",
+        "olives",
+        "flatbread, to serve"
+      ],
+      "steps": [
+        "Put the chickpeas, tomato, cucumber, onion, parsley and mint in a bowl.",
+        "Dress with the lemon juice, 3 tbsp oil, sumac and salt.",
+        "Leave 10 minutes so the flavours soak in, then serve with flatbread."
+      ],
+      "tip": "Add a tin of tuna or a boiled egg for more protein.",
+      "image": "photos/balela.jpg",
+      "imageCredit": {
+        "artist": "Cajsa Lilliehook from Portland",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Chickpea_Chop_Salad_(9484308160).jpg"
+      }
+    },
+    {
+      "id": "chicken_lettuce_wraps",
+      "name": "Chicken lettuce wraps",
+      "cuisine": "Asian",
+      "minutes": 20,
+      "serves": 2,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "light"
+      ],
+      "need": [
+        "300 g chicken breast, chopped small",
+        "1 lettuce, leaves separated",
+        "2 tbsp soy sauce",
+        "2 cloves garlic",
+        "1 tsp ginger, grated"
+      ],
+      "extra": [
+        "1 carrot, grated",
+        "2 spring onions, sliced",
+        "1 tsp sesame oil",
+        "1 tbsp honey",
+        "hot sauce",
+        "sesame seeds"
+      ],
+      "steps": [
+        "Heat 1 tbsp oil in a hot pan. Cook the chicken 5 minutes until browned.",
+        "Add the garlic and ginger for 1 minute, then the soy sauce, honey and sesame oil. Toss 1 minute.",
+        "Spoon into lettuce leaves and top with carrot, spring onion and sesame seeds."
+      ],
+      "tip": "Iceberg or little gem leaves make the best cups.",
+      "image": "photos/chicken_lettuce_wraps.jpg",
+      "imageCredit": {
+        "artist": "Jen Arrr",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Lettuce_wraps_(8477450648).jpg"
+      }
+    },
+    {
+      "id": "garlic_tofu_broccoli",
+      "name": "Garlic tofu with broccoli",
+      "cuisine": "Asian",
+      "minutes": 20,
+      "serves": 2,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "light"
+      ],
+      "need": [
+        "400 g firm tofu, cubed",
+        "1 broccoli, in small florets",
+        "3 cloves garlic",
+        "2 tbsp soy sauce"
+      ],
+      "extra": [
+        "1 tbsp cornflour",
+        "1 tsp sesame oil",
+        "1 tsp honey",
+        "chili flakes",
+        "sesame seeds",
+        "rice, to serve"
+      ],
+      "steps": [
+        "Pat the tofu dry and toss in the cornflour. Fry in 2 tbsp oil until golden on all sides. Set aside.",
+        "Stir-fry the broccoli 3 minutes with a splash of water.",
+        "Add the garlic for 1 minute, then the tofu, soy sauce, honey and sesame oil. Toss until coated.",
+        "Top with chili flakes and sesame seeds. Eat as it is, or with a little rice."
+      ],
+      "tip": "Press the tofu between kitchen paper for 10 minutes first for a crispier result."
+    },
+    {
+      "id": "chicken_tikka_raita",
+      "name": "Chicken tikka with cucumber raita",
+      "cuisine": "Indian & Pakistani",
+      "minutes": 30,
+      "serves": 2,
+      "diet": "meat",
+      "equipment": [
+        "airfryer|oven|stove"
+      ],
+      "tags": [
+        "light"
+      ],
+      "need": [
+        "2 chicken breasts, cubed",
+        "1 cup yogurt",
+        "2 tsp garam masala",
+        "1 tsp ginger, grated",
+        "2 cloves garlic",
+        "1 cucumber, grated"
+      ],
+      "extra": [
+        "1 tsp paprika",
+        "1 lemon, juiced",
+        "1 bunch mint, chopped",
+        "1 onion, in rings",
+        "salad leaves"
+      ],
+      "steps": [
+        "Mix half the yogurt with the garam masala, paprika, ginger, garlic, lemon juice and salt. Coat the chicken (10 minutes or up to a day).",
+        "Cook: air fryer 200 °C for 12 minutes, oven 220 °C for 18 minutes, or a hot oiled pan 10 minutes, turning.",
+        "For the raita, squeeze the cucumber and mix with the rest of the yogurt, mint and a pinch of salt.",
+        "Serve the chicken with raita, onion rings and salad."
+      ],
+      "tip": "Thread the chicken on skewers if you have them.",
+      "image": "photos/chicken_tikka_raita.jpg",
+      "imageCredit": {
+        "artist": "Satdeep Gill",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Chicken_tikka_in_Araku_Valley,_Andhra_Pradesh_01.jpg"
+      }
+    },
+    {
+      "id": "adasi",
+      "name": "Persian lentil stew (Adasi)",
+      "cuisine": "Persian",
+      "minutes": 40,
+      "serves": 3,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "light",
+        "breakfast"
+      ],
+      "need": [
+        "1 cup brown lentils, rinsed",
+        "1 onion, sliced",
+        "1 potato, diced",
+        "1 tsp turmeric",
+        "1 tsp cumin"
+      ],
+      "extra": [
+        "2 cloves garlic",
+        "1 tsp mint, dried or fresh",
+        "1 lemon, in wedges",
+        "flatbread, to serve",
+        "yogurt, to serve"
+      ],
+      "steps": [
+        "Simmer the lentils and potato in 4 cups water for 25 minutes until soft.",
+        "Meanwhile fry the onion in 3 tbsp oil until deep golden, about 12 minutes. Add the garlic, turmeric and cumin for 1 minute.",
+        "Stir half the onions into the lentils and mash a little so it thickens. Add salt and pepper.",
+        "Serve topped with the rest of the onions and the mint, with lemon and bread."
+      ],
+      "tip": "In Iran this is eaten for breakfast or a light dinner on cold days."
+    },
+    {
+      "id": "black_bean_corn_salad",
+      "name": "Black bean and corn salad",
+      "cuisine": "Mexican",
+      "minutes": 15,
+      "serves": 2,
+      "diet": "vegan",
+      "equipment": [],
+      "tags": [
+        "light"
+      ],
+      "need": [
+        "1 can beans, drained",
+        "1 can corn, drained",
+        "2 tomatoes, diced",
+        "1 avocado, diced",
+        "1 lemon, juiced"
+      ],
+      "extra": [
+        "½ red onion, chopped",
+        "1 bunch coriander",
+        "1 tsp cumin",
+        "1 bell pepper, diced",
+        "tortilla chips or tortillas"
+      ],
+      "steps": [
+        "Mix the beans, corn, tomato, pepper and onion in a bowl.",
+        "Dress with the lemon juice, 2 tbsp oil, cumin and salt.",
+        "Fold in the avocado and coriander just before serving, with tortillas or chips."
+      ],
+      "tip": "Black beans are best, but kidney beans work too.",
+      "image": "photos/black_bean_corn_salad.jpg",
+      "imageCredit": {
+        "artist": "Daniel Sone (Photographer)",
+        "license": "Public domain",
+        "page": "https://commons.wikimedia.org/wiki/File:Corn_and_black_bean_salad.jpg"
+      }
+    },
+    {
+      "id": "tuna_egg_salad",
+      "name": "Tuna, egg and green bean salad",
+      "cuisine": "Western",
+      "minutes": 25,
+      "serves": 2,
+      "diet": "meat",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "light"
+      ],
+      "need": [
+        "1 can tuna, drained",
+        "3 eggs",
+        "200 g green beans",
+        "2 potatoes, cubed",
+        "1 lettuce"
+      ],
+      "extra": [
+        "1 cup cherry tomatoes",
+        "olives",
+        "1 tsp mustard",
+        "1 tbsp vinegar"
+      ],
+      "steps": [
+        "Boil the potatoes 10 minutes. Add the eggs and green beans for the last 7 minutes.",
+        "Drain, cool the eggs in cold water and peel them.",
+        "Whisk the mustard, vinegar, 3 tbsp oil, salt and pepper.",
+        "Arrange the lettuce, potatoes, beans, tomatoes, olives, tuna and halved eggs. Pour over the dressing."
+      ],
+      "tip": "Skip the potatoes for an even lighter plate.",
+      "image": "photos/tuna_egg_salad.jpg",
+      "imageCredit": {
+        "artist": "Katrin Gilger",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:French_Salade_nicoise_(4520629896).jpg"
       }
     }
   ]
