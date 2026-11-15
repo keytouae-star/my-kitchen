@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 17; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 18; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -992,13 +992,40 @@
     const txt = MKStock.unitLabel(key, amount);
     return t.unit === "pcs" ? " × " + txt : " " + txt;
   }
+  // the pcs/kg button, shared by the stock screen and every amount field
+  function unitSwitchButton(k, ex, after, shown) {
+    const t = MKStock.item(k) || { unit: "pcs" };
+    if (!t.canSwitch) return h("span", { class: "hint", text: shown || t.unit });
+    return h("button", { class: "btn quiet small", type: "button", "aria-label": "Switch unit for " + label(k, ex), onclick: () => { const from = t.unit, to = switchUnit(k, ex); if (after) after(from, to); } }, t.unit === "pcs" ? "pcs" : "kg");
+  }
+  // [−] [input] [+] unit. Pieces show as pieces, weight as kg, liquid as L.
+  // Stock is always stored in the base unit, so onChange always receives the base value.
+  function amountField(key, value, onChange, after) {
+    const t = MKStock.item(key) || { unit: "pcs" };
+    const isPcs = t.unit === "pcs";
+    const toShown = (b) => (isPcs ? Math.round(b * 2) / 2 : Math.round((b / 1000) * 100) / 100);
+    const toBase = (v) => (isPcs ? Math.max(0, Math.round(v * 2) / 2) : Math.max(0, Math.round(v * 1000)));
+    const shownUnit = isPcs ? "pcs" : t.unit === "ml" ? "L" : "kg";
+    let cur = value == null ? 0 : value;
+    const inp = h("input", { class: "input amount-input", type: "number", min: "0", step: isPcs ? "0.5" : "0.1", inputmode: "decimal", value: toShown(cur), "data-key": key, "data-base": cur, "aria-label": "Amount of " + label(key), style: "width:90px" });
+    const apply = (b) => { cur = b; inp.value = toShown(b); inp.dataset.base = String(b); if (onChange) onChange(b); };
+    const nudge = (d) => apply(toBase(toShown(cur) + d));
+    inp.addEventListener("change", () => apply(toBase(+inp.value || 0)));
+    const row = h("div", { class: "row", style: "gap:6px;margin-top:4px" },
+      h("button", { class: "btn small", type: "button", "aria-label": "Less " + label(key), onclick: () => nudge(isPcs ? -1 : -0.25) }, "−"),
+      inp,
+      h("button", { class: "btn small", type: "button", "aria-label": "More " + label(key), onclick: () => nudge(isPcs ? 1 : 0.25) }, "+"),
+      unitSwitchButton(key, null, after, shownUnit));
+    row.setBase = apply;
+    return row;
+  }
   function amountRow(s, t) {
     const key = s.keys[0];
     const set = (v) => { s.amount = v; saveState(); renderShop(); };
-    return h("div", { class: "row", style: "gap:6px;margin-top:6px" },
-      ...t.buy.map((b) => h("button", { class: "btn small", type: "button", onclick: () => set(b) }, MKStock.unitLabel(key, b))),
-      h("input", { class: "input amount-input", type: "number", min: "0", step: t.unit === "pcs" ? "0.5" : "50", inputmode: "decimal", value: shopAmount(s), "data-key": key, "aria-label": "Amount of " + s.label, style: "width:100px", onchange: (e) => set(Math.max(0, +e.target.value || 0)) }),
-      h("span", { class: "hint", text: t.unit }));
+    const field = amountField(key, shopAmount(s), set);
+    return h("div", { class: "row", style: "gap:6px;margin-top:6px;flex-wrap:wrap" },
+      ...t.buy.map((b) => h("button", { class: "btn small", type: "button", onclick: () => field.setBase(b) }, MKStock.unitLabel(key, b))),
+      field);
   }
   // next start after a WhatsApp send: did everything arrive?
   let sentPending = false;
@@ -1043,36 +1070,58 @@
     S.sheet = "arrivals";
     openSheet((panel) => {
       const ticked = new Set(order.items.map((_, i) => i));
-      panel.append(bar("Did everything arrive?"),
-        h("h2", { id: "sheetTitle", text: "Did everything arrive?" }),
-        h("p", { class: "meta-line", text: "Everything is ticked. Untick anything that didn't arrive and it goes back on your shopping list." }));
-      panel.append(h("div", { class: "chips" }, order.items.map((it, i) => {
-        const b = chip(it.label + amountLabel(it.keys && it.keys[0], it.amount), true, () => { ticked.has(i) ? ticked.delete(i) : ticked.add(i); b.setAttribute("aria-pressed", String(ticked.has(i))); });
-        return b;
-      })));
-      panel.append(h("div", { class: "actions" },
-        h("button", { class: "btn primary", type: "button", onclick: () => {
-          const back = [];
-          order.items.forEach((it, i) => {
-            if (ticked.has(i)) return;
-            const k = it.keys && it.keys[0];
-            if (k) {
-              if (!it.had) S.have.delete(k);
-              if (it.amount != null) {
-                S.stock[k] = (S.stock[k] || 0) - it.amount;
-                if (S.stock[k] <= 0) delete S.stock[k];
-              }
-            }
-            back.push({ keys: it.keys || [], label: it.label, amount: it.amount });
+      const received = new Map();               // index -> base amount that actually came
+      order.items.forEach((it, i) => { if (it.amount != null) received.set(i, it.amount); });
+      let changed = false;
+      const draw = () => {
+        const chips = h("div", { class: "chips" }, order.items.map((it, i) => chip(it.label + amountLabel(it.keys && it.keys[0], it.amount), ticked.has(i), () => { ticked.has(i) ? ticked.delete(i) : ticked.add(i); draw(); })));
+        const rows = [];
+        order.items.forEach((it, i) => {
+          if (!ticked.has(i)) return;
+          const k = it.keys && it.keys[0], t = k && MKStock.item(k);
+          if (!t || it.amount == null) return;
+          const field = amountField(k, received.has(i) ? received.get(i) : it.amount, (b) => { received.set(i, b); if (b !== it.amount) changed = true; }, (from, to) => {
+            if (from !== to) for (const [j, v] of received) { const o = order.items[j]; if (o && o.keys && o.keys[0] === k) received.set(j, MKStock.convert(k, v, from, to)); }
+            const fresh = LS.get("lastOrder", null); if (fresh && fresh.items) order.items = fresh.items;
+            draw();
           });
-          for (const b of back) {
-            const id = (b.keys || []).join("/") || "t_" + b.label.toLowerCase();
-            if (!S.shop.some((s) => s.id === id)) S.shop.push({ id, keys: b.keys, label: b.label, amount: b.amount });
+          rows.push(h("div", { class: "field" }, h("label", { text: it.label }), field));
+        });
+        panel.replaceChildren(bar("Did everything arrive?"),
+          h("h2", { id: "sheetTitle", text: "Did everything arrive?" }),
+          h("p", { class: "meta-line", text: "Everything is ticked. Untick anything that didn't arrive and it goes back on your shopping list." }),
+          chips, rows.length ? h("p", { class: "meta-line", text: "How much came?" }) : null, ...rows,
+          h("div", { class: "actions" }, h("button", { class: "btn primary", type: "button", onclick: confirmArrivals }, "Confirm")));
+      };
+      function confirmArrivals() {
+        const back = [];
+        let diff = false;
+        order.items.forEach((it, i) => {
+          const k = it.keys && it.keys[0];
+          if (ticked.has(i)) {
+            if (!k || it.amount == null) return;
+            const got = received.has(i) ? received.get(i) : it.amount;
+            if (got !== it.amount) { diff = true; S.stock[k] = (S.stock[k] || 0) + got - it.amount; if (S.stock[k] <= 0) delete S.stock[k]; }
+            return;
           }
-          LS.set("lastOrder", { ...order, confirmed: true });
-          saveState(); closeSheet(); render();
-          toast(back.length ? plural(back.length, "item") + " back on your shopping list" : "All arrived. Your kitchen is updated.");
-        } }, "Confirm")));
+          if (k) {
+            if (!it.had) S.have.delete(k);
+            if (it.amount != null) {
+              S.stock[k] = (S.stock[k] || 0) - it.amount;
+              if (S.stock[k] <= 0) delete S.stock[k];
+            }
+          }
+          back.push({ keys: it.keys || [], label: it.label, amount: it.amount });
+        });
+        for (const b of back) {
+          const id = (b.keys || []).join("/") || "t_" + b.label.toLowerCase();
+          if (!S.shop.some((s) => s.id === id)) S.shop.push({ id, keys: b.keys, label: b.label, amount: b.amount });
+        }
+        LS.set("lastOrder", { ...order, confirmed: true });
+        saveState(); closeSheet(); render();
+        toast(back.length ? plural(back.length, "item") + " back on your shopping list" : diff ? "Kitchen updated with what came" : "All arrived. Your kitchen is updated.");
+      }
+      draw();
     });
   }
 
@@ -1215,6 +1264,7 @@
     MKStock.setUnits(S.units);
     saveState(); renderSettings();
     toast(`${label(k, ex)} now counted in ${to === "pcs" ? "pieces" : "kg"}`);
+    return to;
   }
   function renderSettings() {
     const ex = extras();
@@ -1222,13 +1272,9 @@
     $("#helperUrl").value = S.helper;
     const stockKeys = Object.keys(S.stock);
     $("#stockList").replaceChildren(...(stockKeys.length ? stockKeys.map((k) => {
-      const t = MKStock.item(k) || { unit: "pcs" };
-      const inp = h("input", { class: "input", type: "number", min: "0", step: t.unit === "pcs" ? "0.5" : "50", inputmode: "decimal", value: S.stock[k], "data-key": k, "aria-label": "Amount of " + label(k, ex), style: "width:100px", onchange: (e) => { S.stock[k] = Math.max(0, +e.target.value || 0); saveState(); } });
+      const field = amountField(k, S.stock[k], (b) => { S.stock[k] = b; saveState(); }, () => renderSettings());
       return h("div", { class: "row", style: "gap:8px;margin-bottom:8px" },
-        h("span", { class: "grow", text: label(k, ex) }), inp,
-        t.canSwitch
-          ? h("button", { class: "btn quiet small", type: "button", "aria-label": "Switch unit for " + label(k, ex), onclick: () => switchUnit(k, ex) }, t.unit === "pcs" ? "pcs" : "kg")
-          : h("span", { class: "hint", text: t.unit }),
+        h("span", { class: "grow", text: label(k, ex) }), field,
         h("button", { class: "btn quiet small", type: "button", onclick: () => { delete S.stock[k]; saveState(); renderSettings(); } }, "Remove"));
     }) : [h("p", { class: "hint", text: "No stock counted yet. Send a shopping list on WhatsApp or use \"I bought these\"." })]));
     const mineN = S.mine.length;
@@ -1539,19 +1585,19 @@
         h("p", { class: "meta-line", text: "Set the amount for each one. It is added to your stock." }));
       for (const s of tracked) {
         const k = s.keys[0], t = MKStock.item(k);
-        const input = h("input", { class: "input", type: "number", min: "0", step: t.unit === "pcs" ? "0.5" : "50", inputmode: "decimal", value: t.buy[0], "data-key": k, "aria-label": "Amount of " + s.label, style: "width:100px" });
-        inputs.push([k, input]);
+        let got = shopAmount(s);
+        const field = amountField(k, got, (b) => { got = b; }, (from, to) => { got = MKStock.convert(k, got, from, to); field.setBase(got); });
+        inputs.push([k, () => got]);
         panel.append(h("div", { class: "field" },
           h("label", { text: s.label }),
           h("div", { class: "row", style: "gap:6px" },
-            ...t.buy.map((b) => h("button", { class: "btn small", type: "button", onclick: () => { input.value = b; } }, MKStock.unitLabel(k, b))),
-            input,
-            h("span", { class: "hint", text: t.unit }))));
+            ...t.buy.map((b) => h("button", { class: "btn small", type: "button", onclick: () => field.setBase(b) }, MKStock.unitLabel(k, b))),
+            field)));
       }
       panel.append(h("div", { class: "actions" },
         h("button", { class: "btn primary", type: "button", onclick: () => {
-          for (const [k, input] of inputs) {
-            const v = Math.max(0, +input.value || 0);
+          for (const [k, get] of inputs) {
+            const v = get();
             S.stock[k] = (S.stock[k] || 0) + v;
             S.have.add(k);
           }
