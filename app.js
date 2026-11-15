@@ -4,7 +4,7 @@
   const MK = window.MK;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 11; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 12; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -84,7 +84,7 @@
     useSoon: new Set(LS.get("useSoon", [])),
     lastCooked: LS.get("lastCooked", {}), // { recipeId: "YYYY-MM-DD" }
     speak: LS.get("speak", true),
-    openGroups: new Set(LS.get("openGroups", ["meat", "veg", "dairy", "grain"])),
+    openGroups: new Set(LS.get("openGroups", ["meat", "veg", "salad", "fruit", "dairy", "grain"])),
     view: "cook", showMore: false, sheet: null,
   };
   function saveState() {
@@ -115,6 +115,8 @@
   S.plan = S.plan.filter((p) => p.day >= todayKey());
   function adoptKitchen() { if (S.example) { S.example = false; } }
   // one-time: the owner has a pressure cooker (added Nov 15, 2026), so tick it on devices that saved equipment before it existed
+  // one-time: open the new "Salad & leafy greens" and "Fruit" groups on devices that saved their open groups earlier
+  if (!LS.get("saladOpened", false)) { S.openGroups.add("salad"); S.openGroups.add("fruit"); LS.set("openGroups", [...S.openGroups]); LS.set("saladOpened", true); }
   if (!LS.get("pcAdded", false)) { S.equip.add("pressurecooker"); LS.set("equip", [...S.equip]); LS.set("pcAdded", true); }
 
   // ---------- recipes and matching ----------
@@ -148,7 +150,7 @@
   }
   // "Missing: …" text with duplicates removed (two kinds of pepper are one shopping item)
   const missText = (miss, ex) => [...new Set(miss.map((x) => x.keys.map((k) => label(k, ex)).join(" or ")))].join(", ");
-  const hasKey = (k) => S.have.has(k) || S.basics.has(k);
+  const hasKey = (k) => S.have.has(k) || S.basics.has(k) || [...S.have].some((x) => MK.COUNTS_AS[x] === k);
   const sat = (x) => x.keys.some(hasKey);
   function eqOK(r) { return (r.equipment || []).every((g) => g.split("|").some((k) => S.equip.has(k))); }
   function score(r) {

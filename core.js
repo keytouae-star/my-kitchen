@@ -11,6 +11,7 @@
     ["meat", "Meat, fish & eggs"],
     ["dairy", "Dairy"],
     ["veg", "Vegetables"],
+    ["salad", "Salad & leafy greens"],
     ["fruit", "Fruit"],
     ["herb", "Fresh herbs"],
     ["grain", "Rice, grains & bread"],
@@ -55,26 +56,41 @@
     spring_onion: ["Spring onions", "veg", "spring onion, green onion, green onions, scallion, scallions"],
     garlic: ["Garlic", "veg", "garlic clove, garlic cloves, garlic powder, minced garlic, garlic paste"],
     ginger: ["Ginger", "veg", "fresh ginger, ginger paste, ground ginger, root ginger"],
-    tomato: ["Tomatoes", "veg", "tomato, cherry tomatoes, plum tomatoes, ripe tomatoes, fresh tomatoes"],
+    tomato: ["Tomatoes", "veg", "tomato, plum tomatoes, ripe tomatoes, fresh tomatoes"],
     potato: ["Potatoes", "veg", "potato, baby potatoes, new potatoes"],
     sweet_potato: ["Sweet potatoes", "veg", "sweet potato"],
     carrot: ["Carrots", "veg", "carrot"],
     bell_pepper: ["Bell peppers", "veg", "bell pepper, capsicum, red pepper, green pepper, yellow pepper, sweet pepper, red peppers, green peppers"],
     green_chili: ["Green chilies", "veg", "green chili, green chilli, green chillies, chili, chilli, chillies, fresh chili, jalapeno, red chili, red chilli, bird's eye chili"],
-    spinach: ["Spinach", "veg", "baby spinach"],
-    cucumber: ["Cucumbers", "veg", "cucumber"],
-    lettuce: ["Lettuce", "veg", "iceberg, romaine, salad leaves, rocket, arugula"],
+    spinach: ["Spinach", "salad", "baby spinach"],
+    cucumber: ["Cucumbers", "salad", "cucumber"],
+    lettuce: ["Lettuce / salad leaves", "salad", "lettuce, iceberg, romaine, salad leaves, mixed salad, mixed greens, baby leaves, little gem"],
+    rocket: ["Rocket (jarjeer)", "salad", "rocket, arugula, jarjeer, rucola"],
+    kale: ["Kale", "salad", "curly kale"],
+    radish: ["Radishes", "salad", "radish, red radish, white radish, mooli"],
+    beetroot: ["Beetroot", "veg", "beets, beet, beetroots"],
+    celery: ["Celery", "salad", "celery sticks, celery stalks"],
+    leek: ["Leeks", "veg", "leek"],
+    pumpkin: ["Pumpkin / squash", "veg", "pumpkin, butternut squash, butternut, squash"],
+    turnip: ["Turnips", "veg", "turnip"],
+    asparagus: ["Asparagus", "veg", ""],
+    bean_sprouts: ["Bean sprouts", "salad", "sprouts, mung bean sprouts"],
+    cherry_tomato: ["Cherry tomatoes", "salad", "cherry tomatoes, cherry tomato, baby tomatoes"],
+    red_cabbage: ["Red cabbage", "salad", "purple cabbage"],
+    molokhia: ["Molokhia", "veg", "mulukhiyah, jute leaves, molokhia leaves"],
+    vine_leaves: ["Vine leaves", "veg", "grape leaves, vine leaves, warak enab"],
+    artichoke: ["Artichoke", "veg", "artichoke hearts"],
     mushroom: ["Mushrooms", "veg", "mushroom, button mushrooms, chestnut mushrooms"],
     zucchini: ["Zucchini", "veg", "courgette, courgettes, kousa, marrow"],
     eggplant: ["Eggplant", "veg", "aubergine, aubergines, brinjal, eggplants"],
-    cabbage: ["Cabbage", "veg", "white cabbage, red cabbage, napa cabbage, chinese cabbage, bok choy, pak choi"],
+    cabbage: ["Cabbage", "veg", "white cabbage, napa cabbage, chinese cabbage, bok choy, pak choi"],
     cauliflower: ["Cauliflower", "veg", "cauliflower florets"],
     broccoli: ["Broccoli", "veg", "broccoli florets, tenderstem"],
     peas: ["Peas", "veg", "frozen peas, green peas, garden peas, pea"],
     green_beans: ["Green beans", "veg", "french beans, string beans"],
     corn: ["Sweetcorn", "veg", "corn, sweet corn, corn kernels"],
     okra: ["Okra", "veg", "bamia, bhindi, ladies fingers"],
-    avocado: ["Avocado", "veg", "avocados"],
+    avocado: ["Avocado", "salad", "avocados"],
 
     tea: ["Tea", "jar", "black tea, tea bags, tea bag, loose tea, red tea"],
     lemon: ["Lemons or limes", "fruit", "lemon, lime, limes, lemon juice, lime juice, lemon zest, lime zest"],
@@ -85,12 +101,28 @@
     juice: ["Fruit juice", "fruit", "grape juice, red grape juice, white grape juice, sparkling grape juice, apple juice, orange juice"],
     malt_drink: ["Malt drink (non-alcoholic)", "jar", "non-alcoholic malt drink, malt drink, malt beverage"],
     raisins: ["Raisins", "fruit", "sultanas, raisin"],
+    orange: ["Oranges", "fruit", "orange, mandarin, mandarins, clementine, clementines, tangerine, orange zest"],
+    mango: ["Mangoes", "fruit", "mango, mangos"],
+    grapes: ["Grapes", "fruit", "grape, red grapes, green grapes"],
+    berries: ["Berries", "fruit", "strawberries, strawberry, blueberries, blueberry, raspberries, raspberry, mixed berries, frozen berries"],
+    pomegranate: ["Pomegranate", "fruit", "pomegranates, pomegranate seeds, pomegranate arils"],
+    melon: ["Melon / watermelon", "fruit", "watermelon, melon, cantaloupe, honeydew"],
+    pineapple: ["Pineapple", "fruit", "pineapple chunks"],
+    kiwi: ["Kiwi", "fruit", "kiwis, kiwi fruit, kiwifruit"],
+    pear: ["Pears", "fruit", "pear"],
+    peach: ["Peaches / apricots", "fruit", "peach, peaches, nectarine, nectarines, apricot, apricots"],
+    figs: ["Figs", "fruit", "fig, fresh figs, dried figs"],
+    coconut: ["Coconut (fresh or desiccated)", "fruit", "desiccated coconut, shredded coconut, coconut flakes, fresh coconut"],
 
     parsley: ["Parsley", "herb", "flat-leaf parsley, flat leaf parsley, curly parsley"],
     coriander: ["Coriander leaves", "herb", "cilantro, fresh coriander, coriander leaves, dhania"],
     mint: ["Mint", "herb", "fresh mint, mint leaves"],
     basil: ["Basil", "herb", "fresh basil, basil leaves"],
     dill: ["Dill", "herb", "fresh dill"],
+    thyme_fresh: ["Fresh thyme", "herb", "fresh thyme, thyme sprigs"],
+    rosemary_fresh: ["Fresh rosemary", "herb", "fresh rosemary, rosemary sprigs"],
+    curry_leaves: ["Curry leaves", "herb", "curry leaf, kadi patta"],
+    lemongrass: ["Lemongrass", "herb", "lemon grass, lemongrass stalk"],
 
     rice: ["Rice", "grain", "basmati, basmati rice, long grain rice, white rice, jasmine rice, cooked rice, egyptian rice"],
     pasta: ["Pasta", "grain", "spaghetti, penne, macaroni, fusilli, linguine, tagliatelle, farfalle, rigatoni, lasagne sheets, orzo"],
@@ -172,6 +204,8 @@
   const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const PHRASE_RE = PHRASES.map(([w, k]) => [new RegExp("(^|[^a-z])" + esc(w) + "(s|es)?(?![a-z])", "i"), k, w]);
 
+  // a more specific item also covers the general one (cherry tomatoes work where a recipe says tomatoes)
+  const COUNTS_AS = { cherry_tomato: "tomato", red_cabbage: "cabbage", rocket: "lettuce" };
   const BASICS_DEFAULT = ["salt", "pepper", "oil", "water"];
   const EQUIPMENT = { stove: "Stove", oven: "Oven", airfryer: "Air fryer", pressurecooker: "Pressure cooker", blender: "Blender", microwave: "Microwave" };
   const EQUIP_DEFAULT = ["stove", "oven", "airfryer", "pressurecooker", "blender"];
@@ -492,7 +526,7 @@
     return n > 0 && n <= 600 ? n : null;
   }
 
-  const api = { GROUPS, CATALOG, BASICS_DEFAULT, EQUIPMENT, EQUIP_DEFAULT, matchLine, matchOne, cleanName, scaleLine, swapText, swapRecipe, fromMealDB, fromSchema, fromPaste, splitSteps, stepMinutes, inferDiet, inferEquipment, slug, finish };
+  const api = { COUNTS_AS, GROUPS, CATALOG, BASICS_DEFAULT, EQUIPMENT, EQUIP_DEFAULT, matchLine, matchOne, cleanName, scaleLine, swapText, swapRecipe, fromMealDB, fromSchema, fromPaste, splitSteps, stepMinutes, inferDiet, inferEquipment, slug, finish };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.MK = api;
 })(typeof window !== "undefined" ? window : globalThis);
