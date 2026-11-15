@@ -106,6 +106,8 @@
     juice: ["Fruit juice", "fruit", "grape juice, red grape juice, white grape juice, sparkling grape juice, apple juice, orange juice"],
     malt_drink: ["Malt drink (non-alcoholic)", "jar", "non-alcoholic malt drink, malt drink, malt beverage"],
     raisins: ["Raisins", "fruit", "sultanas, raisin"],
+    cranberries: ["Dried cranberries", "fruit", "cranberries, dried cranberries, craisins"],
+    barberries: ["Barberries (zereshk)", "fruit", "zereshk, barberry, dried barberries"],
     orange: ["Oranges", "fruit", "orange, mandarin, mandarins, clementine, clementines, tangerine, orange zest"],
     mango: ["Mangoes", "fruit", "mango, mangos"],
     grapes: ["Grapes", "fruit", "grape, red grapes, green grapes"],
@@ -124,6 +126,7 @@
     mint: ["Mint", "herb", "fresh mint, mint leaves"],
     basil: ["Basil", "herb", "fresh basil, basil leaves"],
     dill: ["Dill", "herb", "fresh dill"],
+    chives: ["Chives or leek greens", "herb", "chives, garlic chives, tareh"],
     thyme_fresh: ["Fresh thyme", "herb", "fresh thyme, thyme sprigs"],
     rosemary_fresh: ["Fresh rosemary", "herb", "fresh rosemary, rosemary sprigs"],
     curry_leaves: ["Curry leaves", "herb", "curry leaf, kadi patta"],
@@ -133,10 +136,10 @@
     pasta: ["Pasta", "grain", "spaghetti, penne, macaroni, fusilli, linguine, tagliatelle, farfalle, rigatoni, lasagne sheets, orzo"],
     vermicelli: ["Vermicelli", "grain", "vermicelli noodles, sheriya, seviyan"],
     wheat_grain: ["Harees wheat", "grain", "harees wheat, whole wheat grains, wheat berries, whole wheat"],
-    noodles: ["Noodles", "grain", "egg noodles, rice noodles, instant noodles, ramen, udon, noodle"],
-    bread: ["Bread", "grain", "white bread, brown bread, toast, bread slices, sliced bread, burger buns, buns, baguette"],
+    noodles: ["Noodles", "grain", "egg noodles, rice noodles, instant noodles, ramen, udon, noodle, flat rice noodles, pad thai noodles, soba"],
+    bread: ["Bread", "grain", "white bread, brown bread, toast, bread slices, sliced bread, burger buns, buns, baguette, croissants, croissant"],
     flatbread: ["Flatbread / pita", "grain", "pita, pitta, pita bread, khubz, arabic bread, naan, chapati, roti, paratha, lavash, regag, regag bread, chebab bread"],
-    tortilla: ["Tortillas / wraps", "grain", "tortillas, wraps, flour tortillas, tortilla wraps"],
+    tortilla: ["Tortillas / wraps", "grain", "tortillas, wraps, flour tortillas, tortilla wraps, corn tortillas, taco shells"],
     bulgur: ["Bulgur", "grain", "burghul, bulgur wheat, cracked wheat"],
     couscous: ["Couscous", "grain", "cous cous"],
     oats: ["Oats", "grain", "rolled oats, porridge oats, oatmeal, quick oats"],
@@ -144,6 +147,8 @@
     semolina: ["Semolina (smeed)", "grain", "smeed, semolina flour, sooji, suji, rava"],
     puff_pastry: ["Puff pastry", "grain", "puff pastry sheets, ready-rolled puff pastry"],
 
+    split_peas: ["Yellow split peas", "pulse", "split peas, yellow split peas, lappeh, chana dal"],
+    tofu: ["Tofu", "pulse", "firm tofu, silken tofu"],
     chickpeas: ["Chickpeas", "pulse", "chickpea, garbanzo beans, canned chickpeas, chana"],
     lentils: ["Lentils", "pulse", "red lentils, brown lentils, green lentils, masoor dal, dal, yellow lentils, lentil"],
     beans: ["Canned beans", "pulse", "kidney beans, red kidney beans, black beans, white beans, cannellini beans, butter beans, baked beans, fava beans, foul, ful medames, pinto beans"],
@@ -164,6 +169,13 @@
     tahini: ["Tahini", "jar", "tahina, sesame paste"],
     peanut_butter: ["Peanut butter", "jar", ""],
     honey: ["Honey", "jar", ""],
+    miso: ["Miso paste", "jar", "white miso, red miso"],
+    worcestershire: ["Worcestershire sauce", "jar", "worcester sauce"],
+    bbq_sauce: ["BBQ sauce", "jar", "barbecue sauce"],
+    salsa: ["Salsa", "jar", "tomato salsa, jarred salsa"],
+    kashk: ["Kashk", "jar", "kashk sauce, liquid kashk"],
+    tamarind: ["Tamarind paste", "jar", "tamarind, tamarind concentrate"],
+    seaweed: ["Seaweed (nori / wakame)", "jar", "nori, wakame, seaweed sheets, dried seaweed"],
     date_syrup: ["Date syrup (dibs)", "jar", "dibs, date molasses, date honey"],
     olives: ["Olives", "jar", "black olives, green olives, kalamata olives"],
     pomegranate_molasses: ["Pomegranate molasses", "jar", "dibs rumman"],
@@ -191,6 +203,7 @@
     oregano: ["Oregano or mixed herbs", "spice", "dried oregano, mixed herbs, italian seasoning, thyme, dried thyme, rosemary, dried basil"],
     za_atar: ["Za'atar", "spice", "zaatar, zatar"],
     sumac: ["Sumac", "spice", ""],
+    fenugreek: ["Dried fenugreek leaves", "spice", "dried fenugreek, fenugreek leaves, kasuri methi, methi leaves, fenugreek"],
     hibiscus: ["Hibiscus (karkade)", "spice", "karkade, dried hibiscus, hibiscus flowers, hibiscus petals"],
     chamomile: ["Chamomile", "spice", "chamomile tea, chamomile flowers, babounej"],
     sage: ["Sage (maramiya)", "spice", "maramiya, dried sage, fresh sage, sage leaves"],
@@ -217,6 +230,16 @@
 
   // a more specific item also covers the general one (cherry tomatoes work where a recipe says tomatoes)
   const COUNTS_AS = { cherry_tomato: "tomato", red_cabbage: "cabbage", rocket: "lettuce" };
+  // Every cuisine name (old built-in names and online-library areas) belongs to one kitchen.
+  const KITCHEN_OF = {
+    "Middle Eastern": "Gulf & Arabic", "Emirati / Gulf": "Gulf & Arabic", Egyptian: "Gulf & Arabic", Syrian: "Gulf & Arabic", "Saudi Arabian": "Gulf & Arabic", Lebanese: "Gulf & Arabic", Emirati: "Gulf & Arabic",
+    "Indian / Pakistani": "Indian & Pakistani", Indian: "Indian & Pakistani", Pakistani: "Indian & Pakistani",
+    Moroccan: "Mediterranean", Tunisian: "Mediterranean", Turkish: "Mediterranean", Greek: "Mediterranean", Italian: "Mediterranean", Spanish: "Mediterranean", Portuguese: "Mediterranean", Croatian: "Mediterranean",
+    Chinese: "Asian", Japanese: "Asian", Thai: "Asian", Vietnamese: "Asian", Malaysian: "Asian", Filipino: "Asian", Korean: "Asian", Indonesian: "Asian",
+    American: "Western", British: "Western", Canadian: "Western", French: "Western", Irish: "Western", Dutch: "Western", Polish: "Western", Russian: "Western", Ukrainian: "Western", Norwegian: "Western", Australian: "Western", European: "Western",
+    Mexican: "Mexican", Jamaican: "Mexican", Iranian: "Persian",
+  };
+  const kitchenOf = (cuisine) => KITCHEN_OF[cuisine] || cuisine || "";
   const BASICS_DEFAULT = ["salt", "pepper", "oil", "water", "ice"];
   const EQUIPMENT = { stove: "Stove", oven: "Oven", airfryer: "Air fryer", pressurecooker: "Pressure cooker", blender: "Blender", microwave: "Microwave" };
   const EQUIP_DEFAULT = ["stove", "oven", "airfryer", "pressurecooker", "blender"];
@@ -555,7 +578,7 @@
     return n > 0 && n <= 600 ? n : null;
   }
 
-  const api = { cleanLine, estimateMinutes, COUNTS_AS, GROUPS, CATALOG, BASICS_DEFAULT, EQUIPMENT, EQUIP_DEFAULT, matchLine, matchOne, cleanName, scaleLine, swapText, swapRecipe, fromMealDB, fromSchema, fromPaste, splitSteps, stepMinutes, inferDiet, inferEquipment, slug, finish };
+  const api = { KITCHEN_OF, kitchenOf, cleanLine, estimateMinutes, COUNTS_AS, GROUPS, CATALOG, BASICS_DEFAULT, EQUIPMENT, EQUIP_DEFAULT, matchLine, matchOne, cleanName, scaleLine, swapText, swapRecipe, fromMealDB, fromSchema, fromPaste, splitSteps, stepMinutes, inferDiet, inferEquipment, slug, finish };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.MK = api;
 })(typeof window !== "undefined" ? window : globalThis);

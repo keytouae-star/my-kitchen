@@ -4,7 +4,7 @@
   const MK = window.MK;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 13; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 14; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -179,7 +179,7 @@
   function passFilters(r) {
     const f = S.filters;
     if (f.quick && !(minsOf(r) && minsOf(r) <= QUICK_MIN)) return false;
-    if (SPECIAL[S.cuisine] ? !SPECIAL[S.cuisine](r) : S.cuisine && r.cuisine !== S.cuisine) return false;
+    if (SPECIAL[S.cuisine] ? !SPECIAL[S.cuisine](r) : S.cuisine && MK.kitchenOf(r.cuisine) !== S.cuisine) return false;
     if (S.cookQ) {
       // whole-word start match, so "iced" doesn't find "sliced" or "diced"
       const re = new RegExp("(^|[^a-z])" + S.cookQ.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
@@ -205,7 +205,19 @@
       if (photoUrls.has(r.id)) return photoUrls.get(r.id);
       try { const b = await dbGet("photos", r.id); if (b) { const u = URL.createObjectURL(b); photoUrls.set(r.id, u); return u; } } catch (e) {}
     }
+    if (r.image) return r.image; // built-in photo shipped with the app (saved for offline)
     return r.imageUrl && navigator.onLine ? r.imageUrl : "";
+  }
+  // after start, quietly fetch every built-in photo once so they're all there offline
+  function prefetchPhotos() {
+    if (!navigator.onLine || !("serviceWorker" in navigator) || LS.get("photosFetched", 0) === S.feed.version) return;
+    const urls = S.builtin.map((r) => r.image).filter(Boolean);
+    let i = 0;
+    const next = () => {
+      if (i >= urls.length) { LS.set("photosFetched", S.feed.version); return; }
+      fetch(urls[i++]).catch(() => {}).finally(() => setTimeout(next, 120));
+    };
+    setTimeout(next, 4000);
   }
   function forgetPhoto(id) { if (photoUrls.has(id)) { URL.revokeObjectURL(photoUrls.get(id)); photoUrls.delete(id); } }
   function resizeImage(blob, max = 1200) {
@@ -396,11 +408,14 @@
     // cuisine chips: cuisines with 3+ dishes, plus Drinks
     const all = allRecipes();
     const counts = {};
-    all.filter((r) => !isDrink(r) && !isSweet(r) && r.cuisine).forEach((r) => (counts[r.cuisine] = (counts[r.cuisine] || 0) + 1));
-    const cuisines = Object.keys(counts).filter((c) => counts[c] >= 3).sort();
+    all.filter((r) => !isDrink(r) && !isSweet(r) && r.cuisine).forEach((r) => { const k = MK.kitchenOf(r.cuisine); counts[k] = (counts[k] || 0) + 1; });
+    // the kitchens in a fixed order, then any other cuisine you've saved enough of
+    const ORDER = ["Gulf & Arabic", "Mediterranean", "Persian", "Asian", "Indian & Pakistani", "Western", "Mexican"];
+    const ICON = { "Gulf & Arabic": "🇦🇪", Mediterranean: "🫒", Persian: "🇮🇷", Asian: "🍜", "Indian & Pakistani": "🍛", Western: "🍔", Mexican: "🌮" };
+    const cuisines = ORDER.filter((c) => counts[c]).concat(Object.keys(counts).filter((c) => !ORDER.includes(c) && counts[c] >= 3).sort());
     if (S.cuisine && !SPECIAL[S.cuisine] && !cuisines.includes(S.cuisine)) S.cuisine = "";
     const pickCuisine = (c) => { S.cuisine = c; S.showMore = false; LS.set("cuisine", c); renderResults(); };
-    $("#cuisinePick").replaceChildren(chip("All", !S.cuisine, () => pickCuisine("")), ...cuisines.map((c) => chip(c, S.cuisine === c, () => pickCuisine(c))),
+    $("#cuisinePick").replaceChildren(chip("All", !S.cuisine, () => pickCuisine("")), ...cuisines.map((c) => chip((ICON[c] ? ICON[c] + " " : "") + c, S.cuisine === c, () => pickCuisine(c))),
       chip("🥤 Drinks", S.cuisine === "Drinks", () => pickCuisine("Drinks")),
       chip("🥗 Healthy sweets", S.cuisine === "Healthy sweets", () => pickCuisine("Healthy sweets")),
       chip("🍰 Regular sweets", S.cuisine === "Regular sweets", () => pickCuisine("Regular sweets")));
@@ -500,7 +515,15 @@
       panel.append(bar(preview ? "Preview" : "", preview ? null : favBtn));
       const imgSlot = h("div");
       panel.append(imgSlot);
-      photoUrl(r).then((u) => { if (u) { const im = h("img", { class: "hero-img", src: u, alt: "" }); im.onerror = () => im.remove(); imgSlot.append(im); } });
+      photoUrl(r).then((u) => {
+        if (!u) return;
+        const im = h("img", { class: "hero-img", src: u, alt: "" });
+        im.onerror = () => imgSlot.replaceChildren();
+        imgSlot.append(im);
+        // credit for Wikimedia Commons photos (their licences ask for it)
+        const c = !r.photo && u === r.image && r.imageCredit;
+        if (c) imgSlot.append(h("p", { class: "credit" }, "Photo: " + (c.artist || "Wikimedia Commons") + " · " + c.license + " · ", h("a", { href: outsideLink(c.page), target: "_blank", rel: "noopener", text: "source" })));
+      });
       panel.append(h("h2", { id: "sheetTitle", text: r.name }));
       panel.append(h("p", { class: "meta-line", text: [r.cuisine, timeText(r) || "time not given", r.diet === "vegan" ? "Vegan" : r.diet === "veg" ? "Vegetarian" : ""].filter(Boolean).join(" · ") }));
       const sc = score(r);
@@ -1131,7 +1154,7 @@
   }
 
   // ---------- "↻ Update": new built-in recipes + recipes you haven't seen from the free library ----------
-  const AREAS = ["Egyptian", "Moroccan", "Tunisian", "Turkish", "Syrian", "Saudi Arabian", "Indian", "Malaysian", "Thai", "Filipino", "Chinese", "Japanese", "Vietnamese", "Greek", "Italian", "Mexican", "Spanish", "Portuguese"];
+  const AREAS = ["Egyptian", "Moroccan", "Tunisian", "Turkish", "Syrian", "Saudi Arabian", "Indian", "Malaysian", "Thai", "Filipino", "Chinese", "Japanese", "Vietnamese", "Greek", "Italian", "Mexican", "Spanish", "Portuguese", "American", "British", "French", "Irish", "Canadian", "Jamaican"];
   async function discover(howMany = 10) {
     const msg = $("#onlineMsg"), out = $("#onlineResults");
     const seen = new Set(LS.get("seenMdb", []));
@@ -1337,6 +1360,7 @@
     dbAll("recipes").then((m) => { S.mine = m || []; render(); backupNudge(); }).catch(() => {});
     const n = await loadFeed(false);
     render();
+    prefetchPhotos();
     if (n > 0) toast(plural(n, "new recipe") + " added to your list");
     // shared from another app (Android Share -> My Kitchen)
     const p = new URLSearchParams(location.search);
