@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 16; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 17; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -86,14 +86,16 @@
     useSoon: new Set(LS.get("useSoon", [])),
     lastCooked: LS.get("lastCooked", {}), // { recipeId: "YYYY-MM-DD" }
     stock: LS.get("stock", {}),          // { key: qty }
+    units: LS.get("units", {}),          // { key: "pcs" | "g" } for items that can switch
     speak: LS.get("speak", true),
     openGroups: new Set(LS.get("openGroups", ["meat", "veg", "salad", "fruit", "dairy", "grain"])),
     view: "cook", showMore: false, sheet: null,
   };
+  if (MKStock) MKStock.setUnits(S.units);
   function saveState() {
     if (!S.example) LS.set("have", [...S.have]);
     LS.set("equip", [...S.equip]); LS.set("basics", [...S.basics]); LS.set("favs", [...S.favs]);
-    LS.set("hidden", [...S.hidden]); LS.set("shop", S.shop); LS.set("filters", S.filters);
+    LS.set("hidden", [...S.hidden]); LS.set("shop", S.shop); LS.set("filters", S.filters); LS.set("units", S.units);
     LS.set("openGroups", [...S.openGroups]);
     LS.set("plan", S.plan); LS.set("notes", S.notes); LS.set("useSoon", [...S.useSoon]); LS.set("lastCooked", S.lastCooked); LS.set("stock", S.stock); LS.set("speak", S.speak);
   }
@@ -284,7 +286,7 @@
   // tap = have / don't have; press and hold = "use soon"
   function kitchenChip(k, text) {
     const soon = S.useSoon.has(k);
-    const t = MKStock && MKStock.TRACKED[k];
+    const t = MKStock && MKStock.item(k);
     const low = t && S.stock[k] != null && S.stock[k] <= t.low;
     const shown = (soon ? "⏰ " : "") + (low ? "⚠ " : "") + text + (t && S.stock[k] != null ? " · " + MKStock.unitLabel(k, S.stock[k]) : "");
     let longPressed = false, timer = null;
@@ -743,7 +745,7 @@
             const k = sl.key;
             S.stock[k] = (S.stock[k] || 0) - sl.amount;
             if (S.stock[k] <= 0) { delete S.stock[k]; S.have.delete(k); S.useSoon.delete(k); }
-            else if (S.stock[k] <= MKStock.TRACKED[k].low) low.push({ key: k, label: label(k, ex), left: S.stock[k] });
+            else if (S.stock[k] <= (MKStock.item(k) || {}).low) low.push({ key: k, label: label(k, ex), left: S.stock[k] });
           });
           S.lastCooked[r.id] = todayKey();
           const planned = S.plan.find((x) => x.id === r.id && !x.done);
@@ -980,12 +982,12 @@
   // amount on a shopping item: tracked items only, in the item's unit
   function shopAmount(s) {
     const k = s.keys && s.keys[0];
-    const t = k && MKStock && MKStock.TRACKED[k];
+    const t = k && MKStock && MKStock.item(k);
     if (!t) return null;
     return s.amount != null ? s.amount : t.buy[0];
   }
   function amountLabel(key, amount) {
-    const t = key && MKStock && MKStock.TRACKED[key];
+    const t = key && MKStock && MKStock.item(key);
     if (!t || amount == null) return "";
     const txt = MKStock.unitLabel(key, amount);
     return t.unit === "pcs" ? " × " + txt : " " + txt;
@@ -995,7 +997,7 @@
     const set = (v) => { s.amount = v; saveState(); renderShop(); };
     return h("div", { class: "row", style: "gap:6px;margin-top:6px" },
       ...t.buy.map((b) => h("button", { class: "btn small", type: "button", onclick: () => set(b) }, MKStock.unitLabel(key, b))),
-      h("input", { class: "input amount-input", type: "number", min: "0", step: t.unit === "pcs" ? "0.5" : "1", inputmode: "decimal", value: shopAmount(s), "data-key": key, "aria-label": "Amount of " + s.label, style: "width:100px", onchange: (e) => set(Math.max(0, +e.target.value || 0)) }),
+      h("input", { class: "input amount-input", type: "number", min: "0", step: t.unit === "pcs" ? "0.5" : "50", inputmode: "decimal", value: shopAmount(s), "data-key": key, "aria-label": "Amount of " + s.label, style: "width:100px", onchange: (e) => set(Math.max(0, +e.target.value || 0)) }),
       h("span", { class: "hint", text: t.unit }));
   }
   // next start after a WhatsApp send: did everything arrive?
@@ -1114,7 +1116,7 @@
     const ul = $("#shopList");
     ul.replaceChildren(...S.shop.map((s, i) => {
       const k = s.keys && s.keys[0];
-      const t = k && MKStock && MKStock.TRACKED[k];
+      const t = k && MKStock && MKStock.item(k);
       return h("li", { class: s.inCart ? "in-cart" : "" },
         h("label", { class: "cart-tick" }, h("input", { type: "checkbox", checked: !!s.inCart, "aria-label": s.label + " is in the cart", onchange: (e) => { s.inCart = e.target.checked; saveState(); renderShop(); } })),
         h("div", { class: "grow" }, h("span", { text: s.label }), t ? amountRow(s, t) : null),
@@ -1192,16 +1194,41 @@
   }
 
   // ---------- settings ----------
+  // switch a loose item between pieces and kg, converting the stock and any amounts already recorded
+  function switchUnit(k, ex) {
+    const it = MKStock.item(k);
+    if (!it || !it.canSwitch) return;
+    const from = it.unit, to = from === "pcs" ? "g" : "pcs";
+    if (S.stock[k] != null) S.stock[k] = MKStock.convert(k, S.stock[k], from, to);
+    for (const s of S.shop) if (s.keys && s.keys[0] === k && s.amount != null) s.amount = MKStock.convert(k, s.amount, from, to);
+    const lo = LS.get("lastOrder", null);
+    if (lo && !lo.confirmed && Array.isArray(lo.items)) {
+      let changed = false;
+      for (const o of lo.items) {
+        if (!o.keys || o.keys[0] !== k) continue;
+        if (o.amount != null) { o.amount = MKStock.convert(k, o.amount, from, to); changed = true; }
+        if (o.amountShown != null) { o.amountShown = MKStock.convert(k, o.amountShown, from, to); changed = true; }
+      }
+      if (changed) LS.set("lastOrder", lo);
+    }
+    S.units[k] = to;
+    MKStock.setUnits(S.units);
+    saveState(); renderSettings();
+    toast(`${label(k, ex)} now counted in ${to === "pcs" ? "pieces" : "kg"}`);
+  }
   function renderSettings() {
     const ex = extras();
     $("#basicsChips").replaceChildren(...BASIC_CHOICES.map((k) => chip(label(k, ex), S.basics.has(k), () => { S.basics.has(k) ? S.basics.delete(k) : S.basics.add(k); saveState(); render(); })));
     $("#helperUrl").value = S.helper;
     const stockKeys = Object.keys(S.stock);
     $("#stockList").replaceChildren(...(stockKeys.length ? stockKeys.map((k) => {
-      const t = MKStock.TRACKED[k] || { unit: "pcs" };
-      const inp = h("input", { class: "input", type: "number", min: "0", step: t.unit === "pcs" ? "0.5" : "1", inputmode: "decimal", value: S.stock[k], "data-key": k, "aria-label": "Amount of " + label(k, ex), style: "width:100px", onchange: (e) => { S.stock[k] = Math.max(0, +e.target.value || 0); saveState(); } });
+      const t = MKStock.item(k) || { unit: "pcs" };
+      const inp = h("input", { class: "input", type: "number", min: "0", step: t.unit === "pcs" ? "0.5" : "50", inputmode: "decimal", value: S.stock[k], "data-key": k, "aria-label": "Amount of " + label(k, ex), style: "width:100px", onchange: (e) => { S.stock[k] = Math.max(0, +e.target.value || 0); saveState(); } });
       return h("div", { class: "row", style: "gap:8px;margin-bottom:8px" },
-        h("span", { class: "grow", text: label(k, ex) }), inp, h("span", { class: "hint", text: t.unit }),
+        h("span", { class: "grow", text: label(k, ex) }), inp,
+        t.canSwitch
+          ? h("button", { class: "btn quiet small", type: "button", "aria-label": "Switch unit for " + label(k, ex), onclick: () => switchUnit(k, ex) }, t.unit === "pcs" ? "pcs" : "kg")
+          : h("span", { class: "hint", text: t.unit }),
         h("button", { class: "btn quiet small", type: "button", onclick: () => { delete S.stock[k]; saveState(); renderSettings(); } }, "Remove"));
     }) : [h("p", { class: "hint", text: "No stock counted yet. Send a shopping list on WhatsApp or use \"I bought these\"." })]));
     const mineN = S.mine.length;
@@ -1215,7 +1242,7 @@
     }
     const data = { app: "my-kitchen", version: 1, saved: new Date().toISOString(), recipes: S.mine, photos,
       state: { have: [...S.have], equip: [...S.equip], basics: [...S.basics], favs: [...S.favs], hidden: [...S.hidden], shop: S.shop, helper: S.helper,
-        plan: S.plan, notes: S.notes, useSoon: [...S.useSoon], lastCooked: S.lastCooked, stock: S.stock } };
+        plan: S.plan, notes: S.notes, useSoon: [...S.useSoon], lastCooked: S.lastCooked, stock: S.stock, units: S.units } };
     const backedUp = () => { LS.set("lastBackup", Date.now()); $("#backupNote").hidden = true; };
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
     const name = "my-kitchen-backup-" + new Date().toISOString().slice(0, 10) + ".json";
@@ -1259,6 +1286,7 @@
       if (st.useSoon) S.useSoon = new Set(st.useSoon);
       if (st.lastCooked) S.lastCooked = st.lastCooked;
       if (st.stock) S.stock = st.stock;
+      if (st.units) { S.units = st.units; MKStock.setUnits(S.units); }
       S.mine = await dbAll("recipes");
       saveState(); render();
       $("#backupMsg").textContent = "Backup restored.";
@@ -1510,8 +1538,8 @@
         h("h2", { id: "sheetTitle", text: "How much did you buy?" }),
         h("p", { class: "meta-line", text: "Set the amount for each one. It is added to your stock." }));
       for (const s of tracked) {
-        const k = s.keys[0], t = MKStock.TRACKED[k];
-        const input = h("input", { class: "input", type: "number", min: "0", step: t.unit === "pcs" ? "0.5" : "1", inputmode: "decimal", value: t.buy[0], "data-key": k, "aria-label": "Amount of " + s.label, style: "width:100px" });
+        const k = s.keys[0], t = MKStock.item(k);
+        const input = h("input", { class: "input", type: "number", min: "0", step: t.unit === "pcs" ? "0.5" : "50", inputmode: "decimal", value: t.buy[0], "data-key": k, "aria-label": "Amount of " + s.label, style: "width:100px" });
         inputs.push([k, input]);
         panel.append(h("div", { class: "field" },
           h("label", { text: s.label }),

@@ -20,14 +20,14 @@
     beef: { unit: "g", buy: [500, 1000], low: 250 },
     fish: { unit: "g", buy: [500, 1000], low: 250, pc: 180 },
     shrimp: { unit: "g", buy: [500, 1000], low: 150 },
-    onion: { unit: "pcs", buy: [5, 10], low: 2 },
-    potato: { unit: "pcs", buy: [5, 10], low: 2 },
-    tomato: { unit: "pcs", buy: [5, 10], low: 2 },
-    carrot: { unit: "pcs", buy: [4, 8], low: 1 },
-    bell_pepper: { unit: "pcs", buy: [3, 6], low: 1 },
-    cucumber: { unit: "pcs", buy: [3, 6], low: 1 },
-    lemon: { unit: "pcs", buy: [4, 8], low: 1 },
-    banana: { unit: "pcs", buy: [6, 12], low: 1 },
+    onion: { unit: "pcs", buy: [5, 10], low: 2, pc: 150, kg: { buy: [500, 1000, 2000], low: 300 }, start: "g" },
+    potato: { unit: "pcs", buy: [5, 10], low: 2, pc: 200, kg: { buy: [500, 1000, 2000], low: 300 }, start: "g" },
+    tomato: { unit: "pcs", buy: [5, 10], low: 2, pc: 120, kg: { buy: [500, 1000, 2000], low: 250 }, start: "g" },
+    carrot: { unit: "pcs", buy: [4, 8], low: 1, pc: 70, kg: { buy: [500, 1000], low: 150 }, start: "g" },
+    bell_pepper: { unit: "pcs", buy: [3, 6], low: 1, pc: 160, kg: { buy: [500, 1000], low: 150 } },
+    cucumber: { unit: "pcs", buy: [3, 6], low: 1, pc: 200, kg: { buy: [500, 1000], low: 200 } },
+    lemon: { unit: "pcs", buy: [4, 8], low: 1, pc: 100, kg: { buy: [500, 1000], low: 100 } },
+    banana: { unit: "pcs", buy: [6, 12], low: 1, pc: 120, kg: { buy: [500, 1000], low: 150 } },
     cheese: { unit: "g", buy: [200, 500], low: 80, cup: 100 },
     yogurt: { unit: "g", buy: [500, 1000], low: 150, cup: 245 },
     butter: { unit: "g", buy: [100, 250], low: 40, cup: 225 },
@@ -42,9 +42,45 @@
     noodles: { unit: "g", buy: [400, 800], low: 100, pc: 100 },
   };
 
+  // Which unit each switchable item is counted in right now ("pcs" or "g").
+  let UNITS = {};
+  function setUnits(obj) {
+    const next = {};
+    for (const k of Object.keys(obj || {})) {
+      const t = TRACKED[k];
+      if (!t || !t.kg) continue;
+      const v = obj[k];
+      if (v === "pcs" || v === "g") next[k] = v;
+    }
+    UNITS = next;
+  }
+  function unitOf(key) {
+    const t = TRACKED[key];
+    if (!t) return "pcs";
+    return UNITS[key] || t.start || t.unit;
+  }
+  // A copy of the item with the unit in force now, so callers never edit TRACKED.
+  function item(key) {
+    const t = TRACKED[key];
+    if (!t) return null;
+    const unit = unitOf(key);
+    const w = unit === "g" && t.kg ? t.kg : null;
+    return { ...t, unit, buy: w ? w.buy : t.buy, low: w ? w.low : t.low, canSwitch: !!t.kg };
+  }
+  // pcs <-> g for one item; anything it can't do leaves the qty alone.
+  function convert(key, qty, from, to) {
+    if (qty == null) return null;
+    if (from === to) return qty;
+    const t = TRACKED[key];
+    if (!t || t.pc == null) return qty;
+    if (from === "pcs" && to === "g") return Math.round(qty * t.pc);
+    if (from === "g" && to === "pcs") return Math.round((qty / t.pc) * 2) / 2;
+    return qty;
+  }
+
   // "4" for pcs, "650 g" / "1.2 kg" (>=1000), "300 ml" / "1.5 L" (>=1000)
   function unitLabel(key, qty) {
-    const unit = (TRACKED[key] || {}).unit || "pcs";
+    const unit = (item(key) || {}).unit || "pcs";
     if (unit === "pcs") return String(Math.round(qty * 2) / 2);
     if (qty >= 1000) return Math.round((qty / 1000) * 10) / 10 + " " + (unit === "g" ? "kg" : "L");
     return Math.round(qty) + " " + unit;
@@ -64,7 +100,7 @@
   }
   // How much of a tracked item a line uses, in the item's unit, or null if it can't tell.
   function amountOf(line, key, factor) {
-    const t = TRACKED[key];
+    const t = item(key);
     if (!t) return null;
     let part = String(line);
     if (/\s+or\s+/i.test(part)) {
@@ -92,12 +128,13 @@
       else if (t.unit === "g") { if (t.pc == null) return null; out = value * t.pc; }
       else return null;
     } else if (dim === t.unit) out = value;
+    else if (dim === "g" && t.unit === "pcs") { if (t.pc == null) return null; out = value / t.pc; }
     else return null;
     out *= factor == null ? 1 : factor;
     return t.unit === "pcs" ? Math.round(out * 2) / 2 : Math.round(out);
   }
 
-  const api = { TRACKED, amountOf, unitLabel };
+  const api = { TRACKED, amountOf, unitLabel, item, unitOf, setUnits, convert };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.MKStock = api;
 })(typeof window !== "undefined" ? window : globalThis);

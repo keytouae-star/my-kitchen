@@ -1,5 +1,5 @@
 {
-  "version": 7,
+  "version": 8,
   "updated": "2026-11-15",
   "recipes": [
     {
@@ -4461,7 +4461,13 @@
         "Fold the foil into sealed parcels and bake 15 minutes.",
         "Open carefully (hot steam) and add dill."
       ],
-      "tip": "Any white fish works: hammour, sea bream, tilapia or frozen fillets."
+      "tip": "Any white fish works: hammour, sea bream, tilapia or frozen fillets.",
+      "image": "photos/fish_in_foil.jpg",
+      "imageCredit": {
+        "artist": "Blue Lotus. from Tokio",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Orata_al_Cartoccio.jpg"
+      }
     },
     {
       "id": "balela",
@@ -4575,7 +4581,13 @@
         "Add the garlic for 1 minute, then the tofu, soy sauce, honey and sesame oil. Toss until coated.",
         "Top with chili flakes and sesame seeds. Eat as it is, or with a little rice."
       ],
-      "tip": "Press the tofu between kitchen paper for 10 minutes first for a crispier result."
+      "tip": "Press the tofu between kitchen paper for 10 minutes first for a crispier result.",
+      "image": "photos/garlic_tofu_broccoli.jpg",
+      "imageCredit": {
+        "artist": "Miscellaneous contributor",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Tofu_and_Broccoli_2.jpg"
+      }
     },
     {
       "id": "chicken_tikka_raita",
@@ -4653,7 +4665,13 @@
         "Stir half the onions into the lentils and mash a little so it thickens. Add salt and pepper.",
         "Serve topped with the rest of the onions and the mint, with lemon and bread."
       ],
-      "tip": "In Iran this is eaten for breakfast or a light dinner on cold days."
+      "tip": "In Iran this is eaten for breakfast or a light dinner on cold days.",
+      "image": "photos/adasi.jpg",
+      "imageCredit": {
+        "artist": "Abraham",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:20221217_lentil_soup_Katowice_Panewniki.jpg"
+      }
     },
     {
       "id": "black_bean_corn_salad",
