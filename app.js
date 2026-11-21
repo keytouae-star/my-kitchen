@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 22; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 23; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -88,6 +88,7 @@
     lastCooked: LS.get("lastCooked", {}), // { recipeId: "YYYY-MM-DD" }
     stock: LS.get("stock", {}),          // { key: qty }
     units: LS.get("units", {}),          // { key: "pcs" | "g" } for items that can switch
+    show: LS.get("show", {}),            // { key: "g" | "ml" }: show this amount in g / ml instead of kg / L
     speak: LS.get("speak", true),
     openGroups: new Set(LS.get("openGroups", ["meat", "veg", "salad", "fruit", "dairy", "grain"])),
     view: "cook", showMore: false, sheet: null,
@@ -96,7 +97,7 @@
   function saveState() {
     if (!S.example) LS.set("have", [...S.have]);
     LS.set("equip", [...S.equip]); LS.set("basics", [...S.basics]); LS.set("favs", [...S.favs]);
-    LS.set("hidden", [...S.hidden]); LS.set("shop", S.shop); LS.set("filters", S.filters); LS.set("units", S.units);
+    LS.set("hidden", [...S.hidden]); LS.set("shop", S.shop); LS.set("filters", S.filters); LS.set("units", S.units); LS.set("show", S.show);
     LS.set("openGroups", [...S.openGroups]);
     LS.set("plan", S.plan); LS.set("notes", S.notes); LS.set("useSoon", [...S.useSoon]); LS.set("lastCooked", S.lastCooked); LS.set("stock", S.stock); LS.set("speak", S.speak);
   }
@@ -979,9 +980,26 @@
   }
   function shopText() { return "Shopping list\n" + S.shop.map((s) => "• " + s.label).join("\n"); }
   // WhatsApp message: a checklist you can tick off while ordering
-  function whatsAppText() {
+  function whatsAppText(addon) {
     const d = new Date().toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
-    return `🛒 Shopping list (${d})\n\n` + S.shop.map((s) => "☐ " + s.label + amountLabel(s.keys && s.keys[0], shopAmount(s))).join("\n") + `\n\n${plural(S.shop.length, "item")} · from My Kitchen`;
+    const secs = shopSections();
+    const line = ({ s }) => "☐ " + s.label + amountLabel(s.keys && s.keys[0], shopAmount(s));
+    const body = secs.length > 1 ? secs.map((x) => "*" + x.label + "*\n" + x.items.map(line).join("\n")).join("\n\n") : S.shop.map((s) => line({ s })).join("\n");
+    return (addon ? `➕ Please add to today's order (${d})\n\n` : `🛒 Shopping list (${d})\n\n`) + body + `\n\n${plural(S.shop.length, "item")} · from My Kitchen`;
+  }
+  // The shopping list in shop-walk order: vegetables and fruit first, then meat, dairy, grains, cupboard.
+  const SHOP_ORDER = ["veg", "salad", "fruit", "herb", "meat", "dairy", "grain", "pulse", "jar", "bake", "spice", "basics", "other"];
+  function shopSection(s) {
+    let k = s.keys && s.keys[0];
+    if (!k || !MK.CATALOG[k]) { const m = MK.matchLine(s.label); k = !m.custom && m.keys ? m.keys[0] : null; }
+    const g = k && MK.CATALOG[k] ? MK.CATALOG[k].group : "other";
+    return SHOP_ORDER.includes(g) ? g : "other";
+  }
+  function shopSections() {
+    const names = Object.fromEntries(MK.GROUPS); names.other = "Other";
+    const by = {};
+    S.shop.forEach((s, i) => { const g = shopSection(s); (by[g] = by[g] || []).push({ s, i }); });
+    return SHOP_ORDER.filter((g) => by[g]).map((g) => ({ g, label: names[g] || g, items: by[g] }));
   }
   // amount on a shopping item: tracked items only, in the item's unit
   function shopAmount(s) {
@@ -996,30 +1014,46 @@
     const txt = MKStock.unitLabel(key, amount);
     return t.unit === "pcs" ? " × " + txt : " " + txt;
   }
-  // the pcs/kg button, shared by the stock screen and every amount field
+  // the unit button, shared by the stock screen and every amount field.
+  // Weight cycles kg → g (pcs → kg → g for items that can be counted), liquid L → ml.
+  // kg ↔ g and L ↔ ml only change how the number is shown (S.show); stock stays in g / ml.
   function unitSwitchButton(k, ex, after, shown) {
     const t = MKStock.item(k) || { unit: "pcs" };
-    if (!t.canSwitch) return h("span", { class: "hint", text: shown || t.unit });
-    return h("button", { class: "btn quiet small", type: "button", "aria-label": "Switch unit for " + label(k, ex), onclick: () => { const from = t.unit, to = switchUnit(k, ex); if (after) after(from, to); } }, t.unit === "pcs" ? "pcs" : "kg");
+    if (t.unit === "pcs" && !t.canSwitch) return h("span", { class: "hint", text: shown || t.unit });
+    const smallU = t.unit === "ml" ? "ml" : "g";
+    const now = t.unit === "pcs" ? "pcs" : S.show[k] === smallU ? smallU : t.unit === "ml" ? "L" : "kg";
+    return h("button", { class: "btn quiet small", type: "button", "aria-label": "Switch unit for " + label(k, ex), onclick: () => {
+      if (t.unit === "pcs") { delete S.show[k]; const to = switchUnit(k, ex); if (after) after("pcs", to); return; }
+      if (S.show[k] !== smallU) { S.show[k] = smallU; saveState(); if (after) after(t.unit, t.unit); return; }
+      delete S.show[k];
+      if (t.canSwitch) { const to = switchUnit(k, ex); if (after) after(t.unit, to); }
+      else { saveState(); if (after) after(t.unit, t.unit); }
+    } }, now);
   }
   // [−] [input] [+] unit. Pieces show as pieces, weight as kg, liquid as L.
   // Stock is always stored in the base unit, so onChange always receives the base value.
   function amountField(key, value, onChange, after) {
     const t = MKStock.item(key) || { unit: "pcs" };
     const isPcs = t.unit === "pcs";
-    const toShown = (b) => (isPcs ? Math.round(b * 2) / 2 : Math.round((b / 1000) * 100) / 100);
-    const toBase = (v) => (isPcs ? Math.max(0, Math.round(v * 2) / 2) : Math.max(0, Math.round(v * 1000)));
-    const shownUnit = isPcs ? "pcs" : t.unit === "ml" ? "L" : "kg";
+    const small = !isPcs && S.show[key] === (t.unit === "ml" ? "ml" : "g");   // shown in g / ml instead of kg / L
+    const toShown = (b) => (isPcs ? Math.round(b * 2) / 2 : small ? Math.round(b) : Math.round((b / 1000) * 100) / 100);
+    const toBase = (v) => (isPcs ? Math.max(0, Math.round(v * 2) / 2) : small ? Math.max(0, Math.round(v)) : Math.max(0, Math.round(v * 1000)));
+    const shownUnit = isPcs ? "pcs" : small ? t.unit : t.unit === "ml" ? "L" : "kg";
     let cur = value == null ? 0 : value;
-    const inp = h("input", { class: "input amount-input", type: "number", min: "0", step: isPcs ? "0.5" : "0.1", inputmode: "decimal", value: toShown(cur), "data-key": key, "data-base": cur, "aria-label": "Amount of " + label(key), style: "width:90px" });
+    const inp = h("input", { class: "input amount-input", type: "number", min: "0", step: isPcs ? "0.5" : small ? "50" : "0.1", inputmode: "decimal", value: toShown(cur), "data-key": key, "data-base": cur, "aria-label": "Amount of " + label(key), style: "width:90px" });
     const apply = (b) => { cur = b; inp.value = toShown(b); inp.dataset.base = String(b); if (onChange) onChange(b); };
     const nudge = (d) => apply(toBase(toShown(cur) + d));
     inp.addEventListener("change", () => apply(toBase(+inp.value || 0)));
     const row = h("div", { class: "row", style: "gap:6px;margin-top:4px" },
-      h("button", { class: "btn small", type: "button", "aria-label": "Less " + label(key), onclick: () => nudge(isPcs ? -1 : -0.25) }, "−"),
+      h("button", { class: "btn small", type: "button", "aria-label": "Less " + label(key), onclick: () => nudge(isPcs ? -1 : small ? -50 : -0.25) }, "−"),
       inp,
-      h("button", { class: "btn small", type: "button", "aria-label": "More " + label(key), onclick: () => nudge(isPcs ? 1 : 0.25) }, "+"),
-      unitSwitchButton(key, null, after, shownUnit));
+      h("button", { class: "btn small", type: "button", "aria-label": "More " + label(key), onclick: () => nudge(isPcs ? 1 : small ? 50 : 0.25) }, "+"),
+      unitSwitchButton(key, null, (from, to) => {
+        // redraw this field in the new unit right away, then let the caller update what it keeps
+        const fresh = amountField(key, MKStock.convert(key, cur, from, to), onChange, after);
+        if (row.parentNode) row.replaceWith(fresh);
+        if (after) after(from, to);
+      }, shownUnit));
     row.setBase = apply;
     return row;
   }
@@ -1073,31 +1107,40 @@
     if (!order || order.confirmed || !order.items || !order.items.length) return;
     S.sheet = "arrivals";
     openSheet((panel) => {
-      const ticked = new Set(order.items.map((_, i) => i));
+      // what you've changed so far is kept in the order, so closing the app midway loses nothing
+      const untick = new Set(order.untick || []);
+      const ticked = new Set(order.items.map((_, i) => i).filter((i) => !untick.has(i)));
       const received = new Map();               // index -> base amount that actually came
       order.items.forEach((it, i) => { if (it.amount != null) received.set(i, it.amount); });
-      let changed = false;
+      for (const [i, v] of Object.entries(order.got || {})) received.set(+i, v);
+      let changed = false, done = false;
+      const keep = () => LS.set("lastOrder", { ...order, untick: order.items.map((_, i) => i).filter((i) => !ticked.has(i)), got: Object.fromEntries(received) });
+      // closing the sheet (×) saves too: no Confirm needed
+      S.sheetGuard = () => { confirmArrivals(); return true; };
       const draw = () => {
-        const chips = h("div", { class: "chips" }, order.items.map((it, i) => chip(it.label + amountLabel(it.keys && it.keys[0], it.amount), ticked.has(i), () => { ticked.has(i) ? ticked.delete(i) : ticked.add(i); draw(); })));
+        const chips = h("div", { class: "chips" }, order.items.map((it, i) => chip(it.label + amountLabel(it.keys && it.keys[0], it.amount), ticked.has(i), () => { ticked.has(i) ? ticked.delete(i) : ticked.add(i); keep(); draw(); })));
         const rows = [];
         order.items.forEach((it, i) => {
           if (!ticked.has(i)) return;
           const k = it.keys && it.keys[0], t = k && MKStock.item(k);
           if (!t || it.amount == null) return;
-          const field = amountField(k, received.has(i) ? received.get(i) : it.amount, (b) => { received.set(i, b); if (b !== it.amount) changed = true; }, (from, to) => {
+          const field = amountField(k, received.has(i) ? received.get(i) : it.amount, (b) => { received.set(i, b); if (b !== it.amount) changed = true; keep(); }, (from, to) => {
             if (from !== to) for (const [j, v] of received) { const o = order.items[j]; if (o && o.keys && o.keys[0] === k) received.set(j, MKStock.convert(k, v, from, to)); }
             const fresh = LS.get("lastOrder", null); if (fresh && fresh.items) order.items = fresh.items;
-            draw();
+            keep(); draw();
           });
           rows.push(h("div", { class: "field" }, h("label", { text: it.label }), field));
         });
         panel.replaceChildren(bar("Did everything arrive?"),
           h("h2", { id: "sheetTitle", text: "Did everything arrive?" }),
-          h("p", { class: "meta-line", text: "Everything is ticked. Untick anything that didn't arrive and it goes back on your shopping list." }),
+          h("p", { class: "meta-line", text: "Everything is ticked. Untick anything that didn't arrive and it goes back on your shopping list. Your changes save by themselves." }),
           chips, rows.length ? h("p", { class: "meta-line", text: "How much came?" }) : null, ...rows,
-          h("div", { class: "actions" }, h("button", { class: "btn primary", type: "button", onclick: confirmArrivals }, "Confirm")));
+          h("div", { class: "actions" }, h("button", { class: "btn primary", type: "button", onclick: confirmArrivals }, "Done")));
       };
       function confirmArrivals() {
+        if (done) return;
+        done = true;
+        S.sheetGuard = null;
         const back = [];
         let diff = false;
         order.items.forEach((it, i) => {
@@ -1195,7 +1238,14 @@
     // store picker
     $("#storePick").replaceChildren(...Object.keys(STORES).map((k) => chip(STORES[k].name, S.store === k, () => { S.store = k; LS.set("store", k); renderShop(); })));
     const ul = $("#shopList");
-    ul.replaceChildren(...S.shop.map((s, i) => {
+    const secs = shopSections();
+    const rows = [];
+    for (const sec of secs) {
+      if (secs.length > 1) rows.push(h("li", { class: "shop-sec", "data-sec": sec.g }, h("strong", { text: sec.label })));
+      for (const { s, i } of sec.items) rows.push(shopRow(s, i));
+    }
+    ul.replaceChildren(...rows);
+    function shopRow(s, i) {
       const k = s.keys && s.keys[0];
       const t = k && MKStock && MKStock.item(k);
       return h("li", { class: s.inCart ? "in-cart" : "" },
@@ -1204,7 +1254,7 @@
         storeLink(s),
         S.helper ? h("button", { class: "btn quiet small", type: "button", onclick: () => swapSheet(s) }, "Not there?") : null,
         h("button", { class: "btn quiet small", type: "button", "aria-label": "Remove " + s.label, onclick: () => { S.shop.splice(i, 1); saveState(); render(); } }, "Remove"));
-    }));
+    }
     if (!S.shop.length) ul.append(h("li", null, h("span", { class: "hint", text: "Nothing here yet. Open a recipe and tap \"Add missing items to shopping list\", or type something above." })));
     const inCart = S.shop.filter((s) => s.inCart).length;
     $("#cartCount").textContent = S.shop.length ? `${inCart} of ${S.shop.length} in your ${store().name} cart` : "";
@@ -1281,7 +1331,12 @@
     const it = MKStock.item(k);
     if (!it || !it.canSwitch) return;
     const from = it.unit, to = from === "pcs" ? "g" : "pcs";
-    if (S.stock[k] != null) S.stock[k] = MKStock.convert(k, S.stock[k], from, to);
+    if (S.stock[k] != null) {
+      // switching straight back gives the exact amount you had (0.5 kg → 3.5 pcs → 0.5 kg, not 0.53 kg)
+      const memo = LS.get("unitMemo", {}), m = memo[k], old = S.stock[k];
+      S.stock[k] = m && m.to === from && m.result === old ? m.orig : MKStock.convert(k, old, from, to);
+      memo[k] = { to, result: S.stock[k], orig: old }; LS.set("unitMemo", memo);
+    }
     for (const s of S.shop) if (s.keys && s.keys[0] === k && s.amount != null) s.amount = MKStock.convert(k, s.amount, from, to);
     const lo = LS.get("lastOrder", null);
     if (lo && !lo.confirmed && Array.isArray(lo.items)) {
@@ -1321,7 +1376,7 @@
     }
     const data = { app: "my-kitchen", version: 1, saved: new Date().toISOString(), recipes: S.mine, photos,
       state: { have: [...S.have], equip: [...S.equip], basics: [...S.basics], favs: [...S.favs], hidden: [...S.hidden], shop: S.shop, helper: S.helper,
-        plan: S.plan, notes: S.notes, useSoon: [...S.useSoon], lastCooked: S.lastCooked, stock: S.stock, units: S.units } };
+        plan: S.plan, notes: S.notes, useSoon: [...S.useSoon], lastCooked: S.lastCooked, stock: S.stock, units: S.units, show: S.show } };
     const backedUp = () => { LS.set("lastBackup", Date.now()); $("#backupNote").hidden = true; };
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
     const name = "my-kitchen-backup-" + new Date().toISOString().slice(0, 10) + ".json";
@@ -1366,6 +1421,7 @@
       if (st.lastCooked) S.lastCooked = st.lastCooked;
       if (st.stock) S.stock = st.stock;
       if (st.units) { S.units = st.units; MKStock.setUnits(S.units); }
+      if (st.show) S.show = st.show;
       S.mine = await dbAll("recipes");
       saveState(); render();
       $("#backupMsg").textContent = "Backup restored.";
@@ -1765,23 +1821,36 @@
     e.target.value = "";
     if (!file) return;
     if (addPageHandler) { const fn = addPageHandler; addPageHandler = null; return fn(file); }
+    const blob = await resizeImage(file, 1600);
+    if (!blob) { toast("That picture couldn't be opened. Try taking it again."); return; }
+    readPhoto(blob, await toB64(blob));
+  });
+  // Send the photo; if it fails, offer "Try again" with the same picture (no need to take it again).
+  async function readPhoto(blob, b64) {
     const btn = $("#shopPhoto");
     btn.disabled = true;
     toast("Reading your photo…");
+    let fail = "";
     try {
-      const blob = await resizeImage(file, 1600);
-      if (!blob) { toast("That picture couldn't be opened. Try taking it again."); return; }
-      const b64 = await toB64(blob);
       const j = await postPhoto(b64);
-      if (!j.ok) { toast(j.retry ? "The free photo reader is busy. Try again in a minute." : (j.error || "Couldn't read the photo.")); return; }
-      if (j.kind === "other" || !j.items || !j.items.length) { toast("I couldn't find anything to buy in that photo."); return; }
-      if (j.kind === "recipe") { const pic = await resizeImage(blob, 900); photoRecipeSheet(j, pic || blob); } else photoSheet(j.items);
+      if (!j.ok) fail = j.retry ? "The free photo reader is busy. Wait a minute, then try again." : (j.error || "Couldn't read the photo.");
+      else if (j.kind === "other" || !j.items || !j.items.length) toast("I couldn't find anything to buy in that photo.");
+      else if (j.kind === "recipe") { const pic = await resizeImage(blob, 900); photoRecipeSheet(j, pic || blob); }
+      else photoSheet(j.items);
     } catch (err) {
-      toast((err && err.photoMsg) || "Couldn't read the photo.");
+      fail = (err && err.photoMsg) || "Couldn't read the photo.";
     } finally {
       btn.disabled = false;
     }
-  });
+    if (!fail) return;
+    S.sheet = "photofail";
+    openSheet((panel) => panel.append(bar("Photo not read"),
+      h("h2", { id: "sheetTitle", text: "The photo wasn't read" }),
+      h("p", { class: "meta-line", text: fail }),
+      h("div", { class: "actions" },
+        h("button", { class: "btn primary", type: "button", onclick: () => { closeSheet(); readPhoto(blob, b64); } }, "Try again"),
+        h("button", { class: "btn", type: "button", onclick: () => closeSheet() }, "Cancel"))));
+  }
   $("#shopBought").addEventListener("click", () => {
     adoptKitchen();
     // if you ticked some items (in the cart), only those arrived; the rest stay on the list for next time
@@ -1826,8 +1895,33 @@
     });
   });
   // sending the list on WhatsApp means you bought it: add everything to the kitchen
-  $("#shopWhatsApp").addEventListener("click", () => {
+  // A second send on the same day: ask whether it's for today's order, so the shop doesn't make it twice.
+  const sameDay = (a, b) => new Date(a).toDateString() === new Date(b).toDateString();
+  $("#shopWhatsApp").addEventListener("click", (e) => {
     if (!S.shop.length) return;
+    const prev = LS.get("lastOrder", null);
+    if (!(prev && prev.at && prev.items && prev.items.length && sameDay(prev.at, Date.now()))) { sendOrder(false); return; }
+    e.preventDefault();
+    S.sheet = "addon";
+    const go = (addon) => {
+      const text = whatsAppText(addon);
+      closeSheet(); sendOrder(addon);
+      const a = h("a", { href: outsideLink("https://wa.me/?text=" + encodeURIComponent(text)), hidden: true });
+      document.body.append(a); a.click(); a.remove();
+    };
+    openSheet((panel) => {
+      const time = new Date(prev.at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+      panel.append(bar("You already sent an order today"),
+        h("h2", { id: "sheetTitle", text: "You already sent an order today" }),
+        h("p", { class: "meta-line", text: "At " + time + ": " + plural(prev.items.length, "item") + ". Is this for the same order?" }),
+        h("div", { class: "actions" },
+          h("button", { class: "btn primary", type: "button", onclick: () => go(true) }, "Add to today's order"),
+          h("button", { class: "btn", type: "button", onclick: () => go(false) }, "New order"),
+          h("button", { class: "btn", type: "button", onclick: () => closeSheet() }, "Cancel")));
+    });
+  });
+  // sending means you bought it: add everything to the kitchen (one order with anything not yet confirmed)
+  function sendOrder(addon) {
     adoptKitchen();
     sentPending = true;
     let items = S.shop.map((s) => {
@@ -1842,12 +1936,13 @@
       if (it.amount != null) S.stock[k] = (S.stock[k] || 0) + it.amount;
     }
     const prev = LS.get("lastOrder", null);
-    if (prev && !prev.confirmed) items = (prev.items || []).map((it) => ({ ...it, sent: true })).concat(items);
-    LS.set("lastOrder", { at: Date.now(), items });
+    const merge = prev && !prev.confirmed;
+    if (merge) items = (prev.items || []).map((it) => ({ ...it, sent: true })).concat(items);
+    LS.set("lastOrder", addon && merge ? { at: prev.at, items, addons: (prev.addons || 0) + 1 } : { at: Date.now(), items });
     S.shop = [];
     saveState();
     setTimeout(render, 0); // let the link open with its text before the list clears
-  });
+  }
   $("#shopShare").addEventListener("click", async () => {
     const text = shopText();
     if (navigator.share) { try { await navigator.share({ title: "Shopping list", text }); return; } catch (e) { if (e.name === "AbortError") return; } }
