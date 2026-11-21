@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 20; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 21; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -826,7 +826,7 @@
     if (set.has("blender")) out.push("blender");
     return out;
   }
-  function openEditor(src, fromPreview) {
+  function openEditor(src, fromPreview, presetPhoto) {
     const r = src ? JSON.parse(JSON.stringify(src)) : { id: "", name: "", cuisine: "", minutes: null, serves: 4, diet: "", equipment: ["stove"], need: [], extra: [], steps: [], tip: "", source: "mine" };
     S.sheet = "editor";
     let dirty = false, photoBlob = null, photoRemoved = false;
@@ -861,6 +861,7 @@
       const pRemove = h("button", { class: "btn quiet small", type: "button", hidden: true, onclick: () => { photoBlob = null; photoRemoved = true; dirty = true; S.editorDirty = true; pPrev.replaceChildren(); pRemove.hidden = true; } }, "Remove photo");
       const showPhoto = (u) => { pPrev.replaceChildren(h("img", { src: u, alt: "Recipe photo" })); pRemove.hidden = false; };
       if (src) photoUrl(src).then((u) => u && showPhoto(u));
+      if (presetPhoto) { photoBlob = presetPhoto; photoRemoved = false; showPhoto(URL.createObjectURL(presetPhoto)); }
       pInput.addEventListener("change", async () => {
         const file = pInput.files[0]; if (!file) return;
         const b = await resizeImage(file);
@@ -1589,6 +1590,8 @@
   $("#ideasBtn").addEventListener("click", kitchenIdeas);
   $("#linkForm").addEventListener("submit", (e) => { e.preventDefault(); importLink($("#linkUrl").value); });
   // ---------- photo -> shopping list ----------
+  let addPageHandler = null;
+  const toB64 = (blob) => new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(String(fr.result).split(",")[1] || ""); fr.onerror = rej; fr.readAsDataURL(blob); });
   // A list or a packet: every item ticked, the label run through the quiet halal swap.
   function photoSheet(items) {
     S.sheet = "photo";
@@ -1598,6 +1601,7 @@
       const addBtn = h("button", { class: "btn primary", type: "button" });
       const sync = () => { addBtn.textContent = "Add " + picked.size + " to shopping list"; addBtn.disabled = picked.size === 0; };
       addBtn.addEventListener("click", () => {
+        addPageHandler = null;
         const lines = labels.filter((_, i) => picked.has(i));
         closeSheet();
         if (!lines.length) return;
@@ -1617,12 +1621,13 @@
   }
 
   // A cookbook page: only what the kitchen is missing, plus "save as a recipe".
-  function photoRecipeSheet(title, items, hard) {
-    const r = MK.fromPaste(title + "\n" + items.join("\n"));
+  function photoRecipeSheet(j, blob) {
+    const r = MK.finish({ id: "mine_" + Date.now().toString(36), name: j.title || "My recipe", cuisine: "", minutes: j.minutes, serves: j.serves || 4, need: j.items, extra: [], steps: j.steps, tip: "", source: "mine" });
+    if (j.swaps) r.need = r.need.map((x) => j.swaps[x] || x);
     MK.swapRecipe(r);
     const miss = score(r).miss;
-    const name = title || r.name || "this recipe";
-    const hardList = Array.isArray(hard) ? hard : [];
+    const name = j.title || r.name || "this recipe";
+    const hardList = Array.isArray(j.hard) ? j.hard : [];
     const hardFor = (lab) => {
       const a = String(lab).toLowerCase();
       return hardList.find((x) => { const b = String((x && x.item) || "").toLowerCase(); return b && (a.includes(b) || b.includes(a)); });
@@ -1634,15 +1639,50 @@
       const addBtn = h("button", { class: "btn primary", type: "button" });
       const sync = () => { addBtn.textContent = "Add " + picked.size + " to shopping list"; addBtn.disabled = picked.size === 0; };
       addBtn.addEventListener("click", () => {
+        addPageHandler = null;
         const lines = labels.filter((_, i) => picked.has(i));
         closeSheet();
         if (!lines.length) return;
         addToShop(lines.map((lab) => { const m = MK.matchLine(lab); return { keys: m.custom ? [] : m.keys, label: lab, typed: true, photo: true }; }));
       });
-      const save = h("button", { class: "btn", type: "button", onclick: () => { closeSheet(); openEditor(r, true); } }, "Save as a recipe too");
+      const save = h("button", { class: "btn", type: "button", onclick: () => { addPageHandler = null; closeSheet(); openEditor(r, true, blob); } }, r.steps && r.steps.length ? "Save as a recipe too" : "Save as a recipe (no steps found: add them in the editor)");
+      const addPage = h("button", { class: "btn", type: "button", onclick: () => {
+        addPage.disabled = true;
+        const inp = $("#shopPhotoIn");
+        const onCancel = () => { addPageHandler = null; addPage.disabled = false; inp.removeEventListener("cancel", onCancel); };
+        inp.addEventListener("cancel", onCancel);
+        addPageHandler = async (file) => {
+          addPageHandler = null;
+          inp.removeEventListener("cancel", onCancel);
+          try {
+            const b = await resizeImage(file, 1600);
+            if (!b) { toast("That file couldn't be read as a picture"); return; }
+            toast("Reading your photo…");
+            const res = await fetch(S.helper.replace(/\/$/, "") + "/photo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image: await toB64(b) }) });
+            const j2 = await res.json();
+            if (!j2.ok) { toast(j2.retry ? "The free photo reader is busy. Try again in a minute." : (j2.error || "Couldn't read the photo.")); return; }
+            if (j2.kind === "other" || !j2.items || !j2.items.length) { toast("Nothing new on that page."); return; }
+            const have = new Set(j.items.map((x) => String(x).toLowerCase()));
+            let ni = 0;
+            for (const it of j2.items) { if (!have.has(String(it).toLowerCase())) { j.items.push(it); have.add(String(it).toLowerCase()); ni++; } }
+            const ns = j2.steps || [];
+            j.steps = (j.steps || []).concat(ns);
+            if (!j.serves && j2.serves) j.serves = j2.serves;
+            if (!j.minutes && j2.minutes) j.minutes = j2.minutes;
+            j.hard = (j.hard || []).concat(j2.hard || []);
+            j.pages = (j.pages || 1) + 1;
+            const page = j.pages;
+            closeSheet();
+            photoRecipeSheet(j, blob);
+            toast("Page " + page + " added: " + plural(ni, "more ingredient") + ", " + plural(ns.length, "more step"));
+          } catch (e) { toast("Couldn't read the photo."); }
+          finally { addPage.disabled = false; }
+        };
+        inp.click();
+      } }, "📷 Add next page");
       panel.append(bar("From a photo"), h("h2", { id: "sheetTitle", text: labels.length ? name + ": you're missing " + labels.length : "You have everything for " + name + "." }));
       if (!labels.length) {
-        panel.append(h("div", { class: "actions" }, save, h("button", { class: "btn", type: "button", onclick: closeSheet }, "Close")));
+        panel.append(h("div", { class: "actions" }, save, addPage, h("button", { class: "btn", type: "button", onclick: () => { addPageHandler = null; closeSheet(); } }, "Close")));
         return;
       }
       panel.append(h("p", { class: "meta-line", text: "Tick what you want on your shopping list." }));
@@ -1651,6 +1691,7 @@
         const cb = h("input", { type: "checkbox", checked: true });
         cb.addEventListener("change", () => { cb.checked ? picked.add(i) : picked.delete(i); sync(); });
         const span = h("span", { text: labels[i] });
+        let needIdx = r.need.indexOf(miss[i].line);
         const links = h("div", { class: "row" });
         const alts = h("div", { class: "row" });
         const hint = h("p", { class: "hint" });
@@ -1663,7 +1704,12 @@
         const drawAlts = (list, withNotes) => {
           alts.replaceChildren(...list.map((a) => {
             const nm = withNotes ? a.name : a;
-            const b = h("button", { class: "btn small quiet", type: "button", onclick: () => { labels[i] = MK.swapText(nm, true); span.textContent = labels[i]; picked.add(i); cb.checked = true; drawLinks(); } }, nm);
+            const b = h("button", { class: "btn small quiet", type: "button", onclick: () => {
+              labels[i] = MK.swapText(nm, true); span.textContent = labels[i]; picked.add(i); cb.checked = true;
+              if (needIdx >= 0) r.need[needIdx] = labels[i];
+              j.swaps = j.swaps || {}; j.swaps[miss[i].line] = labels[i];
+              drawLinks();
+            } }, nm);
             return withNotes && a.note ? h("span", null, b, h("span", { class: "hint", text: " " + a.note })) : b;
           }));
         };
@@ -1688,7 +1734,7 @@
         rows.append(h("div", { class: "field" }, h("label", null, cb, span), links, hint, alts));
       });
       panel.append(rows);
-      panel.append(h("div", { class: "actions" }, addBtn, save, h("button", { class: "btn", type: "button", onclick: closeSheet }, "Cancel")));
+      panel.append(h("div", { class: "actions" }, addBtn, save, addPage, h("button", { class: "btn", type: "button", onclick: () => { addPageHandler = null; closeSheet(); } }, "Cancel")));
       sync();
     });
   }
@@ -1698,6 +1744,7 @@
     const m = MK.matchLine(v); addToShop([{ keys: m.custom ? [] : m.keys, label: v, typed: true }]); $("#shopAdd").value = "";
   });
   $("#shopPhoto").addEventListener("click", () => {
+    addPageHandler = null;
     if (!S.helper) { toast("Photo reading needs the free helper address in Settings."); return; }
     if (!navigator.onLine) { toast("You're offline. Photo reading needs the internet."); return; }
     $("#shopPhotoIn").click();
@@ -1706,23 +1753,19 @@
     const file = e.target.files && e.target.files[0];
     e.target.value = "";
     if (!file) return;
+    if (addPageHandler) { const fn = addPageHandler; addPageHandler = null; return fn(file); }
     const btn = $("#shopPhoto");
     btn.disabled = true;
     toast("Reading your photo…");
     try {
       const blob = await resizeImage(file, 1600);
       if (!blob) { toast("Couldn't read the photo."); return; }
-      const b64 = await new Promise((res, rej) => {
-        const fr = new FileReader();
-        fr.onload = () => res(String(fr.result).split(",")[1] || "");
-        fr.onerror = rej;
-        fr.readAsDataURL(blob);
-      });
+      const b64 = await toB64(blob);
       const r = await fetch(S.helper.replace(/\/$/, "") + "/photo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image: b64 }) });
       const j = await r.json();
       if (!j.ok) { toast(j.retry ? "The free photo reader is busy. Try again in a minute." : (j.error || "Couldn't read the photo.")); return; }
       if (j.kind === "other" || !j.items || !j.items.length) { toast("I couldn't find anything to buy in that photo."); return; }
-      if (j.kind === "recipe") photoRecipeSheet(j.title, j.items, j.hard); else photoSheet(j.items);
+      if (j.kind === "recipe") { const pic = await resizeImage(blob, 900); photoRecipeSheet(j, pic || blob); } else photoSheet(j.items);
     } catch (err) {
       toast("Couldn't read the photo.");
     } finally {
