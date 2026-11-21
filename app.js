@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 21; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 22; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -78,7 +78,8 @@
     hidden: new Set(LS.get("hidden", [])),
     shop: LS.get("shop", []),
     filters: LS.get("filters", { quick: false, veg: false, vegan: false, fav: false }),
-    helper: LS.get("helper", "https://my-kitchen-helper.keytouae.workers.dev"),
+    // The old default (keytouae) never had a helper behind it; anyone still on it moves to the real one.
+    helper: ((h) => /keytouae\.workers\.dev/.test(h) ? "https://my-kitchen-helper.mk-home.workers.dev" : h)(LS.get("helper", "https://my-kitchen-helper.mk-home.workers.dev")),
     store: LS.get("store", "lulu"),
     cuisine: LS.get("cuisine", ""), cookQ: "",
     plan: LS.get("plan", []),            // [{ id, day: "YYYY-MM-DD", done }]
@@ -227,6 +228,8 @@
     setTimeout(next, 4000);
   }
   function forgetPhoto(id) { if (photoUrls.has(id)) { URL.revokeObjectURL(photoUrls.get(id)); photoUrls.delete(id); } }
+  // The helper address as typed in Settings, repaired: no spaces, https:// added if missing, no trailing slash.
+  function helperBase() { let v = String(S.helper || "").replace(/\s+/g, ""); if (v && !/^https?:\/\//i.test(v)) v = "https://" + v; return v.replace(/\/+$/, ""); }
   function resizeImage(blob, max = 1200) {
     return new Promise((res) => {
       const img = new Image();
@@ -1173,7 +1176,7 @@
       panel.append(h("div", { class: "actions" }, h("button", { class: "btn", type: "button", onclick: closeSheet }, "Cancel")));
       (async () => {
         try {
-          const res = await fetch(S.helper.replace(/\/$/, "") + "/swap", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ item: s.label }) });
+          const res = await fetch(helperBase() + "/swap", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ item: s.label }) });
           const j = await res.json();
           if (!j.ok) { box.replaceChildren(h("span", { class: "hint", text: j.retry ? "The free photo reader is busy. Try again in a minute." : (j.error || "Couldn't find a swap.") })); return; }
           if (!j.alternatives || !j.alternatives.length) { box.replaceChildren(h("span", { class: "hint", text: "No good swap found." })); return; }
@@ -1356,7 +1359,7 @@
       if (st.favs) S.favs = new Set(st.favs);
       if (st.hidden) S.hidden = new Set(st.hidden);
       if (st.shop) S.shop = st.shop;
-      if (st.helper) { S.helper = st.helper; LS.set("helper", S.helper); }
+      if (st.helper && !/keytouae\.workers\.dev/.test(st.helper)) { S.helper = st.helper; LS.set("helper", S.helper); }
       if (st.plan) S.plan = st.plan.filter((p) => p.day >= todayKey());
       if (st.notes) S.notes = st.notes;
       if (st.useSoon) S.useSoon = new Set(st.useSoon);
@@ -1486,7 +1489,7 @@
     }
     msg.textContent = "Reading the recipe from " + u.hostname + "…";
     try {
-      const res = await fetch(S.helper.replace(/\/$/, "") + "/?url=" + encodeURIComponent(u.href));
+      const res = await fetch(helperBase() + "/?url=" + encodeURIComponent(u.href));
       const j = await res.json();
       if (!j.ok || !j.recipe) throw new Error(j.error || "no recipe found on that page");
       const r = MK.fromSchema(j.recipe, u.href);
@@ -1591,6 +1594,15 @@
   $("#linkForm").addEventListener("submit", (e) => { e.preventDefault(); importLink($("#linkUrl").value); });
   // ---------- photo -> shopping list ----------
   let addPageHandler = null;
+  // Send a photo to the helper. Failures carry a plain reason in err.photoMsg, so the user knows what to fix.
+  async function postPhoto(b64) {
+    const fail = (msg) => Object.assign(new Error(msg), { photoMsg: msg });
+    let res;
+    try { res = await fetch(helperBase() + "/photo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image: b64 }) }); }
+    catch (e) { throw fail("Couldn't reach the photo helper. Check the internet, and the helper address in Settings (it ends in .workers.dev)."); }
+    try { return await res.json(); }
+    catch (e) { throw fail("The helper address in Settings isn't right (" + res.status + "). It should look like https://my-kitchen-helper.NAME.workers.dev"); }
+  }
   const toB64 = (blob) => new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(String(fr.result).split(",")[1] || ""); fr.onerror = rej; fr.readAsDataURL(blob); });
   // A list or a packet: every item ticked, the label run through the quiet halal swap.
   function photoSheet(items) {
@@ -1658,8 +1670,7 @@
             const b = await resizeImage(file, 1600);
             if (!b) { toast("That file couldn't be read as a picture"); return; }
             toast("Reading your photo…");
-            const res = await fetch(S.helper.replace(/\/$/, "") + "/photo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image: await toB64(b) }) });
-            const j2 = await res.json();
+            const j2 = await postPhoto(await toB64(b));
             if (!j2.ok) { toast(j2.retry ? "The free photo reader is busy. Try again in a minute." : (j2.error || "Couldn't read the photo.")); return; }
             if (j2.kind === "other" || !j2.items || !j2.items.length) { toast("Nothing new on that page."); return; }
             const have = new Set(j.items.map((x) => String(x).toLowerCase()));
@@ -1675,7 +1686,7 @@
             closeSheet();
             photoRecipeSheet(j, blob);
             toast("Page " + page + " added: " + plural(ni, "more ingredient") + ", " + plural(ns.length, "more step"));
-          } catch (e) { toast("Couldn't read the photo."); }
+          } catch (e) { toast((e && e.photoMsg) || "Couldn't read the photo."); }
           finally { addPage.disabled = false; }
         };
         inp.click();
@@ -1722,7 +1733,7 @@
         notThere.addEventListener("click", async () => {
           notThere.disabled = true; notThere.textContent = "Finding…";
           try {
-            const res = await fetch(S.helper.replace(/\/$/, "") + "/swap", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ item: labels[i], recipe: name }) });
+            const res = await fetch(helperBase() + "/swap", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ item: labels[i], recipe: name }) });
             const j = await res.json();
             if (!j.ok) { toast(j.retry ? "The free photo reader is busy. Try again in a minute." : (j.error || "Couldn't find a swap.")); return; }
             if (!j.alternatives || !j.alternatives.length) { alts.replaceChildren(h("span", { class: "hint", text: "No good swap found. Keep it or untick it." })); return; }
@@ -1759,15 +1770,14 @@
     toast("Reading your photo…");
     try {
       const blob = await resizeImage(file, 1600);
-      if (!blob) { toast("Couldn't read the photo."); return; }
+      if (!blob) { toast("That picture couldn't be opened. Try taking it again."); return; }
       const b64 = await toB64(blob);
-      const r = await fetch(S.helper.replace(/\/$/, "") + "/photo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image: b64 }) });
-      const j = await r.json();
+      const j = await postPhoto(b64);
       if (!j.ok) { toast(j.retry ? "The free photo reader is busy. Try again in a minute." : (j.error || "Couldn't read the photo.")); return; }
       if (j.kind === "other" || !j.items || !j.items.length) { toast("I couldn't find anything to buy in that photo."); return; }
       if (j.kind === "recipe") { const pic = await resizeImage(blob, 900); photoRecipeSheet(j, pic || blob); } else photoSheet(j.items);
     } catch (err) {
-      toast("Couldn't read the photo.");
+      toast((err && err.photoMsg) || "Couldn't read the photo.");
     } finally {
       btn.disabled = false;
     }
@@ -1857,11 +1867,11 @@
   $("#helperForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const v = $("#helperUrl").value.trim();
-    S.helper = v; LS.set("helper", v);
+    S.helper = v; S.helper = helperBase(); LS.set("helper", S.helper); $("#helperUrl").value = S.helper;
     const m = $("#helperMsg");
     if (!v) { m.textContent = "Helper removed."; return; }
     m.textContent = "Saved. Testing…";
-    try { const j = await (await fetch(v.replace(/\/$/, "") + "/?ping=1")).json(); m.textContent = j.ok ? "Helper works. You can now import recipes from websites." : "Saved, but the helper didn't answer as expected."; }
+    try { const j = await (await fetch(helperBase() + "/?ping=1")).json(); m.textContent = j.ok ? "Helper works. Photos and website import are ready." : "Saved, but the helper didn't answer as expected."; }
     catch (err) { m.textContent = "Saved, but the helper couldn't be reached. Check the address."; }
   });
   function netStatus() {

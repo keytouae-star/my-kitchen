@@ -454,7 +454,7 @@ body:has(.timer) .fab { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
         <p class="hint" style="margin-bottom:10px">Saving recipes from websites needs a small free helper address (set up once on Cloudflare). Paste it here.</p>
         <form id="helperForm" class="row">
           <label class="sr" for="helperUrl">Helper address</label>
-          <input class="input" id="helperUrl" type="url" placeholder="https://my-kitchen-helper.yourname.workers.dev" style="flex:1;min-width:220px">
+          <input class="input" id="helperUrl" type="text" inputmode="url" autocapitalize="off" spellcheck="false" placeholder="https://my-kitchen-helper.yourname.workers.dev" style="flex:1;min-width:220px">
           <button class="btn" type="submit">Save</button>
         </form>
         <p class="hint" id="helperMsg" aria-live="polite" style="margin-top:8px"></p>
