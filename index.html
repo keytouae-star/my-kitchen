@@ -412,6 +412,8 @@ body:has(.timer) .fab { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
         <label class="sr" for="shopAdd">Add to the list</label>
         <input class="input" id="shopAdd" placeholder="Add something…" style="flex:1;min-width:200px">
         <button class="btn" type="submit">Add</button>
+        <button class="btn" type="button" id="shopPhoto">📷 From a photo</button>
+        <input type="file" id="shopPhotoIn" accept="image/*" capture="environment" hidden>
       </form>
       <ul class="list" id="shopList"></ul>
       <div class="row" id="shopActions">

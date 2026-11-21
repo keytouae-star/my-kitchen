@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 18; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 19; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -1559,9 +1559,105 @@
   $("#onlineForm").addEventListener("submit", (e) => { e.preventDefault(); const q = $("#onlineQ").value.trim(); if (q) onlineSearch(q); });
   $("#ideasBtn").addEventListener("click", kitchenIdeas);
   $("#linkForm").addEventListener("submit", (e) => { e.preventDefault(); importLink($("#linkUrl").value); });
+  // ---------- photo -> shopping list ----------
+  // A list or a packet: every item ticked, the label run through the quiet halal swap.
+  function photoSheet(items) {
+    S.sheet = "photo";
+    openSheet((panel) => {
+      const labels = items.map((l) => MK.swapText(l, true));
+      const picked = new Set(labels.map((_, i) => i));
+      const addBtn = h("button", { class: "btn primary", type: "button" });
+      const sync = () => { addBtn.textContent = "Add " + picked.size + " to shopping list"; addBtn.disabled = picked.size === 0; };
+      addBtn.addEventListener("click", () => {
+        const lines = labels.filter((_, i) => picked.has(i));
+        closeSheet();
+        if (!lines.length) return;
+        addToShop(lines.map((lab) => { const m = MK.matchLine(lab); return { keys: m.custom ? [] : m.keys, label: lab, typed: true }; }));
+      });
+      panel.append(bar("From a photo"),
+        h("h2", { id: "sheetTitle", text: "Found in your photo" }),
+        h("p", { class: "meta-line", text: "Tick what you want on your shopping list." }),
+        h("div", { class: "checks" }, labels.map((lab, i) => {
+          const cb = h("input", { type: "checkbox", checked: true });
+          cb.addEventListener("change", () => { cb.checked ? picked.add(i) : picked.delete(i); sync(); });
+          return h("label", null, cb, h("span", { text: lab }));
+        })),
+        h("div", { class: "actions" }, addBtn, h("button", { class: "btn", type: "button", onclick: closeSheet }, "Cancel")));
+      sync();
+    });
+  }
+
+  // A cookbook page: only what the kitchen is missing, plus "save as a recipe".
+  function photoRecipeSheet(title, items) {
+    const r = MK.fromPaste(title + "\n" + items.join("\n"));
+    MK.swapRecipe(r);
+    const miss = score(r).miss;
+    const name = title || r.name || "this recipe";
+    S.sheet = "photo";
+    openSheet((panel) => {
+      const labels = miss.map((x) => MK.swapText(x.line, true));
+      const picked = new Set(labels.map((_, i) => i));
+      const addBtn = h("button", { class: "btn primary", type: "button" });
+      const sync = () => { addBtn.textContent = "Add " + picked.size + " to shopping list"; addBtn.disabled = picked.size === 0; };
+      addBtn.addEventListener("click", () => {
+        const lines = labels.filter((_, i) => picked.has(i));
+        closeSheet();
+        if (!lines.length) return;
+        addToShop(lines.map((lab) => { const m = MK.matchLine(lab); return { keys: m.custom ? [] : m.keys, label: lab, typed: true }; }));
+      });
+      const save = h("button", { class: "btn", type: "button", onclick: () => { closeSheet(); openEditor(r, true); } }, "Save as a recipe too");
+      panel.append(bar("From a photo"),
+        h("h2", { id: "sheetTitle", text: labels.length ? name + ": you're missing " + labels.length : "You have everything for " + name + "." }));
+      if (labels.length) {
+        panel.append(h("p", { class: "meta-line", text: "Tick what you want on your shopping list." }));
+        panel.append(h("div", { class: "checks" }, labels.map((lab, i) => {
+          const cb = h("input", { type: "checkbox", checked: true });
+          cb.addEventListener("change", () => { cb.checked ? picked.add(i) : picked.delete(i); sync(); });
+          return h("label", null, cb, h("span", { text: lab }));
+        })));
+        panel.append(h("div", { class: "actions" }, addBtn, save, h("button", { class: "btn", type: "button", onclick: closeSheet }, "Cancel")));
+        sync();
+      } else {
+        panel.append(h("div", { class: "actions" }, save, h("button", { class: "btn", type: "button", onclick: closeSheet }, "Close")));
+      }
+    });
+  }
+
   $("#shopForm").addEventListener("submit", (e) => {
     e.preventDefault(); const v = $("#shopAdd").value.trim(); if (!v) return;
     const m = MK.matchLine(v); addToShop([{ keys: m.custom ? [] : m.keys, label: v, typed: true }]); $("#shopAdd").value = "";
+  });
+  $("#shopPhoto").addEventListener("click", () => {
+    if (!S.helper) { toast("Photo reading needs the free helper address in Settings."); return; }
+    if (!navigator.onLine) { toast("You're offline. Photo reading needs the internet."); return; }
+    $("#shopPhotoIn").click();
+  });
+  $("#shopPhotoIn").addEventListener("change", async (e) => {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = "";
+    if (!file) return;
+    const btn = $("#shopPhoto");
+    btn.disabled = true;
+    toast("Reading your photo…");
+    try {
+      const blob = await resizeImage(file, 1600);
+      if (!blob) { toast("Couldn't read the photo."); return; }
+      const b64 = await new Promise((res, rej) => {
+        const fr = new FileReader();
+        fr.onload = () => res(String(fr.result).split(",")[1] || "");
+        fr.onerror = rej;
+        fr.readAsDataURL(blob);
+      });
+      const r = await fetch(S.helper.replace(/\/$/, "") + "/photo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image: b64 }) });
+      const j = await r.json();
+      if (!j.ok) { toast(j.retry ? "The free photo reader is busy. Try again in a minute." : (j.error || "Couldn't read the photo.")); return; }
+      if (j.kind === "other" || !j.items || !j.items.length) { toast("I couldn't find anything to buy in that photo."); return; }
+      if (j.kind === "recipe") photoRecipeSheet(j.title, j.items); else photoSheet(j.items);
+    } catch (err) {
+      toast("Couldn't read the photo.");
+    } finally {
+      btn.disabled = false;
+    }
   });
   $("#shopBought").addEventListener("click", () => {
     adoptKitchen();
