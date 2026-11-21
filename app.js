@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 19; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 20; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -968,7 +968,7 @@
   function addToShop(items) {
     for (const it of items) {
       const id = (it.keys || []).join("/") || "t_" + it.label.toLowerCase();
-      if (!S.shop.some((s) => s.id === id)) S.shop.push({ id, keys: it.keys || [], label: it.label, typed: !!it.typed });
+      if (!S.shop.some((s) => s.id === id)) S.shop.push({ id, keys: it.keys || [], label: it.label, typed: !!it.typed, photo: !!it.photo });
     }
     saveState(); render();
     toast(plural(items.length, "item") + " added to your shopping list");
@@ -1129,6 +1129,7 @@
   const STORES = {
     lulu: { name: "Lulu", url: (q) => "https://gcc.luluhypermarket.com/en-ae/list/?search_text=" + encodeURIComponent(q) },
     carrefour: { name: "Carrefour", url: (q) => "https://www.carrefouruae.com/mafuae/en/search?keyword=" + encodeURIComponent(q) },
+    spinneys: { name: "Spinneys", url: (q) => "https://www.spinneys.com/en-ae/search/?q=" + encodeURIComponent(q) },
   };
   const SEARCH_WORD = {
     beef_bacon: "beef bacon", turkey_ham: "turkey ham", lemon: "lemon", bell_pepper: "capsicum", green_chili: "green chilli",
@@ -1139,6 +1140,7 @@
     pepper: "black pepper", sesame: "sesame seeds", peas: "frozen peas", corn: "sweet corn", beans: "kidney beans", lentils: "red lentils",
   };
   function searchWord(item) {
+    if (item.photo) return SEARCH_WORD[(item.keys || [])[0]] || MK.cleanName(item.label) || item.label.trim();
     if (item.typed) return item.label.trim(); // search exactly what you typed ("laban 1 litre")
     const k = (item.keys || [])[0];
     if (k && SEARCH_WORD[k]) return SEARCH_WORD[k];
@@ -1156,8 +1158,34 @@
     const u = new URL(url);
     return "intent://" + u.host + u.pathname + u.search + "#Intent;scheme=https;S.browser_fallback_url=" + encodeURIComponent(url) + ";end";
   }
-  function storeLink(item, cls, text) {
-    return h("a", { class: cls || "btn small", href: outsideLink(store().url(searchWord(item))), target: "_blank", rel: "noopener", onclick: () => { item.opened = true; saveState(); } }, text || "Find at " + store().name);
+  function storeLink(item, cls, text, key) {
+    const st = (key && STORES[key]) || store();
+    return h("a", { class: cls || "btn small", href: outsideLink(st.url(searchWord(item))), target: "_blank", rel: "noopener", onclick: () => { item.opened = true; saveState(); } }, text || "Find at " + st.name);
+  }
+  function swapSheet(s) {
+    if (!navigator.onLine) { toast("You're offline. Photo reading needs the internet."); return; }
+    S.sheet = "swap";
+    openSheet((panel) => {
+      panel.append(bar("Alternatives"), h("h2", { id: "sheetTitle", text: "Alternatives for " + s.label }));
+      const box = h("div", { class: "row" }, h("span", { class: "hint", text: "Finding…" }));
+      panel.append(box);
+      panel.append(h("div", { class: "actions" }, h("button", { class: "btn", type: "button", onclick: closeSheet }, "Cancel")));
+      (async () => {
+        try {
+          const res = await fetch(S.helper.replace(/\/$/, "") + "/swap", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ item: s.label }) });
+          const j = await res.json();
+          if (!j.ok) { box.replaceChildren(h("span", { class: "hint", text: j.retry ? "The free photo reader is busy. Try again in a minute." : (j.error || "Couldn't find a swap.") })); return; }
+          if (!j.alternatives || !j.alternatives.length) { box.replaceChildren(h("span", { class: "hint", text: "No good swap found." })); return; }
+          box.replaceChildren(...j.alternatives.map((a) => h("span", null,
+            h("button", { class: "btn small quiet", type: "button", onclick: () => {
+              const m = MK.matchLine(a.name);
+              s.label = a.name; s.keys = m.custom ? [] : m.keys; s.typed = true; s.photo = true;
+              saveState(); closeSheet(); render(); toast("Swapped to " + a.name);
+            } }, a.name),
+            a.note ? h("span", { class: "hint", text: " " + a.note + " " }) : null)));
+        } catch (e) { box.replaceChildren(h("span", { class: "hint", text: "Couldn't find a swap." })); }
+      })();
+    });
   }
   function renderShop() {
     // store picker
@@ -1170,6 +1198,7 @@
         h("label", { class: "cart-tick" }, h("input", { type: "checkbox", checked: !!s.inCart, "aria-label": s.label + " is in the cart", onchange: (e) => { s.inCart = e.target.checked; saveState(); renderShop(); } })),
         h("div", { class: "grow" }, h("span", { text: s.label }), t ? amountRow(s, t) : null),
         storeLink(s),
+        S.helper ? h("button", { class: "btn quiet small", type: "button", onclick: () => swapSheet(s) }, "Not there?") : null,
         h("button", { class: "btn quiet small", type: "button", "aria-label": "Remove " + s.label, onclick: () => { S.shop.splice(i, 1); saveState(); render(); } }, "Remove"));
     }));
     if (!S.shop.length) ul.append(h("li", null, h("span", { class: "hint", text: "Nothing here yet. Open a recipe and tap \"Add missing items to shopping list\", or type something above." })));
@@ -1572,7 +1601,7 @@
         const lines = labels.filter((_, i) => picked.has(i));
         closeSheet();
         if (!lines.length) return;
-        addToShop(lines.map((lab) => { const m = MK.matchLine(lab); return { keys: m.custom ? [] : m.keys, label: lab, typed: true }; }));
+        addToShop(lines.map((lab) => { const m = MK.matchLine(lab); return { keys: m.custom ? [] : m.keys, label: lab, typed: true, photo: true }; }));
       });
       panel.append(bar("From a photo"),
         h("h2", { id: "sheetTitle", text: "Found in your photo" }),
@@ -1588,11 +1617,16 @@
   }
 
   // A cookbook page: only what the kitchen is missing, plus "save as a recipe".
-  function photoRecipeSheet(title, items) {
+  function photoRecipeSheet(title, items, hard) {
     const r = MK.fromPaste(title + "\n" + items.join("\n"));
     MK.swapRecipe(r);
     const miss = score(r).miss;
     const name = title || r.name || "this recipe";
+    const hardList = Array.isArray(hard) ? hard : [];
+    const hardFor = (lab) => {
+      const a = String(lab).toLowerCase();
+      return hardList.find((x) => { const b = String((x && x.item) || "").toLowerCase(); return b && (a.includes(b) || b.includes(a)); });
+    };
     S.sheet = "photo";
     openSheet((panel) => {
       const labels = miss.map((x) => MK.swapText(x.line, true));
@@ -1603,23 +1637,59 @@
         const lines = labels.filter((_, i) => picked.has(i));
         closeSheet();
         if (!lines.length) return;
-        addToShop(lines.map((lab) => { const m = MK.matchLine(lab); return { keys: m.custom ? [] : m.keys, label: lab, typed: true }; }));
+        addToShop(lines.map((lab) => { const m = MK.matchLine(lab); return { keys: m.custom ? [] : m.keys, label: lab, typed: true, photo: true }; }));
       });
       const save = h("button", { class: "btn", type: "button", onclick: () => { closeSheet(); openEditor(r, true); } }, "Save as a recipe too");
-      panel.append(bar("From a photo"),
-        h("h2", { id: "sheetTitle", text: labels.length ? name + ": you're missing " + labels.length : "You have everything for " + name + "." }));
-      if (labels.length) {
-        panel.append(h("p", { class: "meta-line", text: "Tick what you want on your shopping list." }));
-        panel.append(h("div", { class: "checks" }, labels.map((lab, i) => {
-          const cb = h("input", { type: "checkbox", checked: true });
-          cb.addEventListener("change", () => { cb.checked ? picked.add(i) : picked.delete(i); sync(); });
-          return h("label", null, cb, h("span", { text: lab }));
-        })));
-        panel.append(h("div", { class: "actions" }, addBtn, save, h("button", { class: "btn", type: "button", onclick: closeSheet }, "Cancel")));
-        sync();
-      } else {
+      panel.append(bar("From a photo"), h("h2", { id: "sheetTitle", text: labels.length ? name + ": you're missing " + labels.length : "You have everything for " + name + "." }));
+      if (!labels.length) {
         panel.append(h("div", { class: "actions" }, save, h("button", { class: "btn", type: "button", onclick: closeSheet }, "Close")));
+        return;
       }
+      panel.append(h("p", { class: "meta-line", text: "Tick what you want on your shopping list." }));
+      const rows = h("div", { class: "checks" });
+      labels.forEach((_, i) => {
+        const cb = h("input", { type: "checkbox", checked: true });
+        cb.addEventListener("change", () => { cb.checked ? picked.add(i) : picked.delete(i); sync(); });
+        const span = h("span", { text: labels[i] });
+        const links = h("div", { class: "row" });
+        const alts = h("div", { class: "row" });
+        const hint = h("p", { class: "hint" });
+        const notThere = h("button", { class: "btn small quiet", type: "button" }, "Not there?");
+        const drawLinks = () => {
+          const m = MK.matchLine(labels[i]);
+          const it = { label: labels[i], keys: m.custom ? [] : m.keys, photo: true };
+          links.replaceChildren(storeLink(it, "btn small quiet", "Lulu", "lulu"), storeLink(it, "btn small quiet", "Carrefour", "carrefour"), storeLink(it, "btn small quiet", "Spinneys", "spinneys"), notThere);
+        };
+        const drawAlts = (list, withNotes) => {
+          alts.replaceChildren(...list.map((a) => {
+            const nm = withNotes ? a.name : a;
+            const b = h("button", { class: "btn small quiet", type: "button", onclick: () => { labels[i] = MK.swapText(nm, true); span.textContent = labels[i]; picked.add(i); cb.checked = true; drawLinks(); } }, nm);
+            return withNotes && a.note ? h("span", null, b, h("span", { class: "hint", text: " " + a.note })) : b;
+          }));
+        };
+        const drawHard = () => {
+          const hx = hardFor(labels[i]);
+          const list = hx && Array.isArray(hx.try) ? hx.try : [];
+          hint.textContent = list.length ? "Often hard to find. Try:" : "";
+          drawAlts(list, false);
+        };
+        notThere.addEventListener("click", async () => {
+          notThere.disabled = true; notThere.textContent = "Finding…";
+          try {
+            const res = await fetch(S.helper.replace(/\/$/, "") + "/swap", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ item: labels[i], recipe: name }) });
+            const j = await res.json();
+            if (!j.ok) { toast(j.retry ? "The free photo reader is busy. Try again in a minute." : (j.error || "Couldn't find a swap.")); return; }
+            if (!j.alternatives || !j.alternatives.length) { alts.replaceChildren(h("span", { class: "hint", text: "No good swap found. Keep it or untick it." })); return; }
+            drawAlts(j.alternatives, true);
+          } catch (e) { toast("Couldn't find a swap."); }
+          finally { notThere.disabled = false; notThere.textContent = "Not there?"; }
+        });
+        drawLinks(); drawHard();
+        rows.append(h("div", { class: "field" }, h("label", null, cb, span), links, hint, alts));
+      });
+      panel.append(rows);
+      panel.append(h("div", { class: "actions" }, addBtn, save, h("button", { class: "btn", type: "button", onclick: closeSheet }, "Cancel")));
+      sync();
     });
   }
 
@@ -1652,7 +1722,7 @@
       const j = await r.json();
       if (!j.ok) { toast(j.retry ? "The free photo reader is busy. Try again in a minute." : (j.error || "Couldn't read the photo.")); return; }
       if (j.kind === "other" || !j.items || !j.items.length) { toast("I couldn't find anything to buy in that photo."); return; }
-      if (j.kind === "recipe") photoRecipeSheet(j.title, j.items); else photoSheet(j.items);
+      if (j.kind === "recipe") photoRecipeSheet(j.title, j.items, j.hard); else photoSheet(j.items);
     } catch (err) {
       toast("Couldn't read the photo.");
     } finally {
