@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 28; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 29; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -1434,6 +1434,7 @@
     lulu: { name: "Lulu", url: (q) => "https://gcc.luluhypermarket.com/en-ae/list/?search_text=" + encodeURIComponent(q) },
     carrefour: { name: "Carrefour", url: (q) => "https://www.carrefouruae.com/mafuae/en/search?keyword=" + encodeURIComponent(q) },
     spinneys: { name: "Spinneys", url: (q) => "https://www.spinneys.com/en-ae/search/?q=" + encodeURIComponent(q) },
+    amazon: { name: "Amazon", url: (q) => "https://www.amazon.ae/s?k=" + encodeURIComponent(q) },
   };
   const SEARCH_WORD = {
     beef_bacon: "beef bacon", turkey_ham: "turkey ham", lemon: "lemon", bell_pepper: "capsicum", green_chili: "green chilli",
@@ -2045,7 +2046,7 @@
         const drawLinks = () => {
           const m = MK.matchLine(labels[i]);
           const it = { label: labels[i], keys: m.custom ? [] : m.keys, photo: true };
-          links.replaceChildren(storeLink(it, "btn small quiet", "Lulu", "lulu"), storeLink(it, "btn small quiet", "Carrefour", "carrefour"), storeLink(it, "btn small quiet", "Spinneys", "spinneys"), notThere);
+          links.replaceChildren(storeLink(it, "btn small quiet", "Lulu", "lulu"), storeLink(it, "btn small quiet", "Carrefour", "carrefour"), storeLink(it, "btn small quiet", "Spinneys", "spinneys"), storeLink(it, "btn small quiet", "Amazon", "amazon"), notThere);
         };
         const drawAlts = (list, withNotes) => {
           alts.replaceChildren(...list.map((a) => {
