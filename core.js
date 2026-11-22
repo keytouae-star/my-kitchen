@@ -578,7 +578,245 @@
     return n > 0 && n <= 600 ? n : null;
   }
 
-  const api = { KITCHEN_OF, kitchenOf, cleanLine, estimateMinutes, COUNTS_AS, GROUPS, CATALOG, BASICS_DEFAULT, EQUIPMENT, EQUIP_DEFAULT, matchLine, matchOne, cleanName, scaleLine, swapText, swapRecipe, fromMealDB, fromSchema, fromPaste, splitSteps, stepMinutes, inferDiet, inferEquipment, slug, finish };
+  // ---------- Per-person cooking notes (v26) ----------
+  // What can be wrong with a dish for one person: chip label, the words the cook sees, the icon,
+  // which ingredient family it acts on, and the advice. `tip` is used when no ingredient line matches.
+  const ISSUES = {
+    "too-spicy": { label: "Too spicy", phrase: "too spicy", icon: "🌶", cat: "spicy", advice: "use half", tip: "use less of the spicy ingredients" },
+    "not-spicy": { label: "Not spicy enough", phrase: "not spicy enough", icon: "🌶", cat: "spicy", advice: "add a little more", tip: "add more of the spicy ingredients" },
+    "too-sweet": { label: "Too sweet", phrase: "too sweet", icon: "🍯", cat: "sweet", advice: "use half", tip: "use less of the sweet ingredients" },
+    "not-sweet": { label: "Not sweet enough", phrase: "not sweet enough", icon: "🍯", cat: "sweet", advice: "add a little more", tip: "add more of the sweet ingredients" },
+    "too-salty": { label: "Too salty", phrase: "too salty", icon: "🧂", cat: "salt", advice: "use less, salt at the end", tip: "use less of the salty ingredients" },
+    "not-salty": { label: "Needs more salt", phrase: "needs more salt", icon: "🧂", cat: "salt", advice: "add a pinch more", tip: "add more of the salty ingredients" },
+    "too-oily": { label: "Too oily", phrase: "too oily", icon: "🫒", cat: "oil", advice: "use less", tip: "use less oil" },
+    "too-dry": { label: "Too dry", phrase: "too dry", icon: "💧", cat: "liquid", advice: "add a little more liquid", tip: "add a little more liquid" },
+    overcooked: { label: "Overcooked / too soft", phrase: "overcooked", icon: "⏱", cat: "time", advice: "cook 2–3 minutes less" },
+    undercooked: { label: "Undercooked / too hard", phrase: "undercooked", icon: "⏱", cat: "time", advice: "cook a few minutes more" },
+    "too-little": { label: "Not enough food", phrase: "not enough food", icon: "🍽", cat: "portion", advice: "use + to cook more servings" },
+  };
+  const ISSUE_IDS = Object.keys(ISSUES);
+  const CAT_RE = {
+    spicy: /chil+i|chilli|cayenne|harissa|jalape|hot sauce|sriracha|pepper flakes|red pepper flakes|green chil|paprika \(hot\)|bird'?s eye/i,
+    sweet: /sugar|honey|date syrup|dates|syrup|molasses|jam|condensed milk|sweetener/i,
+    salt: /\bsalt\b|stock cube|bouillon|soy sauce|fish sauce|feta|olives|anchov|halloumi/i,
+    oil: /\boil\b|butter|ghee|cream\b/i,
+    liquid: /water|stock|broth|tomato|passata|cream|milk|coconut milk|yoghurt|yogurt/i,
+  };
+  // the old whole-dish "Change next time" chips mean the same thing for everyone
+  const CHANGE_ISSUE = { "less spicy": "too-spicy", spicier: "not-spicy", "less sweet": "too-sweet", sweeter: "not-sweet", "less salt": "too-salty", "more salt": "not-salty", "less oil": "too-oily", "more sauce": "too-dry", softer: "undercooked", crispier: "overcooked", "bigger portion": "too-little" };
+  // { "Ali": ["too-spicy"] } (or the reverse) -> { "too-spicy": ["Ali"] }
+  function perIssues(entry) {
+    const out = {};
+    const per = entry && entry.per;
+    if (!per || typeof per !== "object") return out;
+    for (const k of Object.keys(per)) {
+      const v = per[k];
+      if (!Array.isArray(v)) continue;
+      if (ISSUES[k]) { for (const n of v) if (typeof n === "string") (out[k] = out[k] || []).push(n); }
+      else { for (const id of v) if (ISSUES[id]) (out[id] = out[id] || []).push(k); }
+    }
+    return out;
+  }
+  // the ingredient word to name in a tip ("harissa", "chili")
+  function mainWord(recipe, cat) {
+    const re = CAT_RE[cat];
+    if (re) for (const l of (recipe.need || []).concat(recipe.extra || [])) {
+      const m = String(l).match(re);
+      if (!m) continue;
+      const w = m[0].toLowerCase().replace(/[^a-z' ]/g, "").trim();
+      if (/chil/.test(w)) return "chili";
+      if (w && w.length <= 18) return w;
+      break;
+    }
+    return cat === "spicy" ? "chili" : cat === "sweet" ? "honey/sugar" : "salt";
+  }
+
+  // "Ali", "Ali and Sara", "Ali, Sara and Omar"
+  function joinNames(list) {
+    const a = (list || []).filter(Boolean);
+    return a.length < 2 ? (a[0] || "") : a.length === 2 ? a[0] + " and " + a[1] : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
+  }
+
+  // What the cook should do differently for this dish, from the latest cook-log entry (and learned tastes).
+  // Returns { lines:{needIndex:[mark]}, extraLines:{extraIndex:[mark]}, steps:{stepIndex:[mark]}, tips:[string], who:{name:[label]} }.
+  function adjustNotes(recipe, entry, profile, eating) {
+    const out = { lines: {}, extraLines: {}, steps: {}, tips: [], who: {} };
+    if (!recipe) return out;
+    const e = entry || {};
+    const eat = Array.isArray(eating) ? new Set(eating) : null;
+    const eatingOk = (n) => !eat || eat.has(n);
+    const per = perIssues(e);
+    const who = e.who || {};
+    const byIssue = {};
+    for (const id of ISSUE_IDS) {
+      const names = (per[id] || []).filter(eatingOk);
+      if (names.length) byIssue[id] = names;
+    }
+    for (const c of e.change || []) {
+      const id = CHANGE_ISSUE[String(c).toLowerCase()];
+      if (id && !byIssue[id]) byIssue[id] = ["Everyone"];
+    }
+    const personIssues = {};
+    for (const id of ISSUE_IDS) for (const n of per[id] || []) (personIssues[n] = personIssues[n] || []).push(id);
+    for (const n of Object.keys(who)) if (eatingOk(n)) out.who[n] = (personIssues[n] || []).map((id) => ISSUES[id].label);
+    // learned taste: only for people eating today, and not when this recipe's latest entry says the same
+    const prof = profile && typeof profile === "object" ? profile : {};
+    const profByIssue = {};
+    for (const n of Object.keys(prof)) {
+      if (!eatingOk(n)) continue;
+      for (const id of prof[n] || []) {
+        if (!ISSUES[id]) continue;
+        const already = byIssue[id] || [];
+        if (already.includes(n) || already.includes("Everyone")) continue;
+        (profByIssue[id] = profByIssue[id] || []).push(n);
+      }
+    }
+    const need = recipe.need || [], extra = recipe.extra || [], steps = recipe.steps || [];
+    const hitsFor = (id) => {
+      const re = CAT_RE[ISSUES[id].cat], h = { need: [], extra: [], steps: [] };
+      if (!re) return h;
+      need.forEach((l, i) => { if (re.test(l)) h.need.push(i); });
+      extra.forEach((l, i) => { if (re.test(l)) h.extra.push(i); });
+      steps.forEach((l, i) => { if (re.test(l)) h.steps.push(i); });
+      return h;
+    };
+    const add = (bag, i, icon, text) => { (bag[i] = bag[i] || []).push({ icon, text }); };
+    // a mark on an ingredient line can carry the amount to use instead ("2 tsp" -> "1 tsp")
+    const AMOUNT_F = { "use half": 0.5, "add a little more": 1.5, "add a pinch more": 1.5 };
+    const lineMark = (icon, text, line, info, split, label) => {
+      const m = { icon, text };
+      const f = AMOUNT_F[info.advice];
+      if (!split && f) {
+        const to = scaleLine(String(line), f);
+        if (to !== String(line)) { m.from = String(line); m.to = to; m.label = label; }
+      }
+      return m;
+    };
+    // a split applies when someone eating wants this changed and someone else eating doesn't
+    const eaters = eat ? [...eat] : [...new Set(Object.keys(who).concat(Object.keys(prof)))];
+    const splitFor = (id) => {
+      const info = ISSUES[id];
+      if (!/^(spicy|sweet|salt)$/.test(info.cat)) return null;
+      const has = new Set([].concat(byIssue[id] || [], profByIssue[id] || []));
+      if (!has.size || has.has("Everyone")) return null;
+      const holders = eaters.filter((n) => has.has(n));
+      if (!holders.length || holders.length === eaters.length) return null;
+      const step = steps.findIndex((s) => CAT_RE[info.cat].test(s));
+      return step < 0 ? null : { names: holders, step };
+    };
+    const disagree = [];
+    for (const id of ISSUE_IDS) {
+      const info = ISSUES[id];
+      const names = byIssue[id] || [], pnames = profByIssue[id] || [];
+      if (!names.length && !pnames.length) continue;
+      const entryText = names.length ? joinNames(names) + ": " + info.phrase + ", " + info.advice : "";
+      if (id === "too-little") {
+        if (entryText) out.tips.push(info.icon + " " + entryText);
+        for (const n of pnames) out.tips.push(info.icon + " " + n + " usually wants more food, use + to cook more servings");
+        continue;
+      }
+      if (info.cat === "time") {
+        const texts = (entryText ? [entryText] : []).concat(pnames.map((n) => n + " usually finds it " + info.phrase + ", " + info.advice));
+        steps.forEach((s, i) => { if (stepMinutes(s) > 0) for (const t of texts) add(out.steps, i, info.icon, t); });
+        continue;
+      }
+      const h = hitsFor(id);
+      if (!(h.need.length + h.extra.length + h.steps.length)) {
+        if (entryText) out.tips.push(info.icon + " " + joinNames(names) + ": " + info.phrase + ", " + info.tip);
+        for (const n of pnames) out.tips.push(info.icon + " " + n + " usually finds it " + info.phrase + ", " + info.tip);
+        continue;
+      }
+      const split = splitFor(id);
+      const splitWho = split ? joinNames(split.names) + (split.names.length > 1 ? "'s portions" : "'s portion") : "";
+      const splitWord = split ? (info.cat === "spicy" ? mainWord(recipe, "spicy") : info.cat === "sweet" ? "honey/sugar" : "salt") : "";
+      const splitText = (label) => label + " — cook the full amount, but take " + splitWho + " out before the " + splitWord + " goes in";
+      const stepText = (plain) => (split ? splitWho + (split.names.length > 1 ? " are" : " is") + " already out — full amount for the rest" : plain);
+      if (entryText) {
+        const label = joinNames(names) + ": " + info.phrase;
+        const text = split ? splitText(label) : entryText;
+        for (const i of h.need) (out.lines[i] = out.lines[i] || []).push(lineMark(info.icon, text, need[i], info, split, label));
+        for (const i of h.extra) (out.extraLines[i] = out.extraLines[i] || []).push(lineMark(info.icon, text, extra[i], info, split, label));
+        for (const i of h.steps) add(out.steps, i, info.icon, stepText(entryText));
+      }
+      for (const n of pnames) {
+        const label = n + " usually finds it " + info.phrase;
+        const text = split ? splitText(label) : label + ", " + info.advice;
+        for (const i of h.need) (out.lines[i] = out.lines[i] || []).push(lineMark(info.icon, text, need[i], info, split, label));
+        for (const i of h.extra) (out.extraLines[i] = out.extraLines[i] || []).push(lineMark(info.icon, text, extra[i], info, split, label));
+        for (const i of h.steps) add(out.steps, i, info.icon, stepText(label + ", " + info.advice));
+      }
+      // someone liked it as it was while someone else wanted it changed: split the portions
+      if (names.length && names[0] !== "Everyone" && /^(spicy|sweet|salt)$/.test(info.cat)) {
+        const up = Object.keys(who).find((n) => who[n] === "up" && eatingOk(n) && !(personIssues[n] || []).length);
+        if (up) {
+          const word = mainWord(recipe, info.cat);
+          const down = joinNames(names) + (names.length > 1 ? "'s portions" : "'s portion");
+          if (info.cat === "spicy") disagree.push(`${up} liked it as it was: take ${down} out before adding the ${word}, or serve the ${word} on the side.`);
+          else if (info.cat === "sweet") disagree.push(`${up} liked it as it was: sweeten only ${up}'s portion, or serve the honey/sugar on the side.`);
+          else disagree.push(`${up} liked it as it was: salt ${down} lightly and add salt to the rest at the end.`);
+        }
+      }
+    }
+    if (disagree.length) out.tips = disagree.concat(out.tips);
+    return out;
+  }
+
+  // Issues a person has had on 2+ cook-log entries (any recipe): { name: [issueId] }. `ignore` is what the user dismissed.
+  function tasteProfile(cookLog, ignore) {
+    const counts = {};
+    const log = cookLog && typeof cookLog === "object" ? cookLog : {};
+    for (const id of Object.keys(log)) {
+      for (const entry of log[id] || []) {
+        const per = perIssues(entry);
+        for (const issue of Object.keys(per)) for (const n of per[issue]) {
+          const c = counts[n] || (counts[n] = {});
+          c[issue] = (c[issue] || 0) + 1;
+        }
+      }
+    }
+    const ign = ignore && typeof ignore === "object" ? ignore : {};
+    const out = {};
+    for (const n of Object.keys(counts)) {
+      const list = ISSUE_IDS.filter((id) => counts[n][id] >= 2 && !(ign[n] || []).includes(id));
+      if (list.length) out[n] = list;
+    }
+    return out;
+  }
+
+  // Where to split the dish before cooking the rest: [{ before: stepIndex, text }]
+  function splitPoints(recipe, entry, profile, eating) {
+    const out = [];
+    if (!recipe) return out;
+    const e = entry || {};
+    const eat = Array.isArray(eating) ? new Set(eating) : null;
+    const who = e.who || {};
+    const prof = profile && typeof profile === "object" ? profile : {};
+    const per = perIssues(e);
+    const eaters = eat ? [...eat] : [...new Set(Object.keys(who).concat(Object.keys(prof)))];
+    const steps = recipe.steps || [];
+    const groups = {};
+    for (const id of ISSUE_IDS) {
+      const info = ISSUES[id];
+      if (!/^(spicy|sweet|salt)$/.test(info.cat)) continue;
+      if ((e.change || []).some((c) => CHANGE_ISSUE[String(c).toLowerCase()] === id)) continue; // "Everyone": no split
+      const has = new Set();
+      for (const n of per[id] || []) if (!eat || eat.has(n)) has.add(n);
+      for (const n of Object.keys(prof)) {
+        if (eat && !eat.has(n)) continue;
+        if ((prof[n] || []).includes(id)) has.add(n);
+      }
+      const holders = eaters.filter((n) => has.has(n));
+      if (!holders.length || holders.length === eaters.length) continue;
+      const at = steps.findIndex((s) => CAT_RE[info.cat].test(s));
+      if (at < 0) continue;
+      const verb = info.cat === "sweet" ? "sweeten the rest" : info.cat === "salt" ? "salt the rest" : "add the " + mainWord(recipe, info.cat) + " to the rest";
+      (groups[at] = groups[at] || []).push("✂ Take out " + joinNames(holders) + (holders.length > 1 ? "'s portions" : "'s portion") + " now, then " + verb + ".");
+    }
+    for (const k of Object.keys(groups)) out.push({ before: +k, text: groups[k].join(" ") });
+    return out.sort((a, b) => a.before - b.before);
+  }
+
+  const api = { KITCHEN_OF, kitchenOf, cleanLine, estimateMinutes, COUNTS_AS, GROUPS, CATALOG, BASICS_DEFAULT, EQUIPMENT, EQUIP_DEFAULT, matchLine, matchOne, cleanName, scaleLine, swapText, swapRecipe, fromMealDB, fromSchema, fromPaste, splitSteps, stepMinutes, inferDiet, inferEquipment, slug, finish, ISSUES, ISSUE_IDS, perIssues, adjustNotes, tasteProfile, splitPoints };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.MK = api;
 })(typeof window !== "undefined" ? window : globalThis);

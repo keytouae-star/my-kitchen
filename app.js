@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 25; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 26; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -85,7 +85,9 @@
     plan: LS.get("plan", []),            // [{ id, day: "YYYY-MM-DD", done }]
     notes: LS.get("notes", {}),          // { recipeId: "my note" }
     family: LS.get("family", []),        // names for "How did it go?"
-    cookLog: LS.get("cookLog", {}),      // { recipeId: [ { date, who, change, text } ] }, newest first, max 10
+    cookLog: LS.get("cookLog", {}),      // { recipeId: [ { date, who, change, text, per? } ] }, newest first, max 10
+    eating: LS.get("eating", null),      // { date: "YYYY-MM-DD", names: [...] }: who is eating today
+    tasteIgnore: LS.get("tasteIgnore", {}), // { name: [issueId] }: learned tastes the user dismissed
     useSoon: new Set(LS.get("useSoon", [])),
     lastCooked: LS.get("lastCooked", {}), // { recipeId: "YYYY-MM-DD" }
     stock: LS.get("stock", {}),          // { key: qty }
@@ -102,11 +104,25 @@
     LS.set("hidden", [...S.hidden]); LS.set("shop", S.shop); LS.set("filters", S.filters); LS.set("units", S.units); LS.set("show", S.show);
     LS.set("openGroups", [...S.openGroups]);
     LS.set("plan", S.plan); LS.set("notes", S.notes); LS.set("useSoon", [...S.useSoon]); LS.set("lastCooked", S.lastCooked); LS.set("stock", S.stock); LS.set("speak", S.speak);
-    LS.set("family", S.family); LS.set("cookLog", S.cookLog);
+    LS.set("family", S.family); LS.set("cookLog", S.cookLog); LS.set("eating", S.eating); LS.set("tasteIgnore", S.tasteIgnore);
   }
   // ---------- dates (local time, so "today" is right in the UAE) ----------
   const dayKey = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
   const todayKey = () => dayKey(new Date());
+  // who is eating today: resets to the whole family each day; only used once there are 2+ names
+  function eatingToday() {
+    const e = S.eating;
+    if (e && e.date === todayKey() && Array.isArray(e.names)) return e.names.filter((n) => S.family.includes(n));
+    return S.family.slice();
+  }
+  const eatingNames = () => (S.family.length >= 2 ? eatingToday() : null);
+  function toggleEating(name) {
+    const cur = eatingToday().slice();
+    const at = cur.indexOf(name);
+    at >= 0 ? cur.splice(at, 1) : cur.push(name);
+    S.eating = { date: todayKey(), names: cur };
+    saveState();
+  }
   function nextDays(n) {
     const out = [];
     for (let i = 0; i < n; i++) {
@@ -410,6 +426,20 @@
     return "savoury";
   }
   const tastesOf = (r) => (Array.isArray(r.taste) && r.taste.length ? r.taste : [guessTaste(r)]);
+  // how well a dish went down with the people eating today: +1 for a clean thumbs-up last time, -1 for repeated thumbs-down
+  function familyScore(r) {
+    const log = S.cookLog[r.id] || [];
+    const eat = eatingNames();
+    const ok = (n) => !eat || eat.includes(n);
+    const vals = (e) => Object.entries(e.who || {}).filter(([n]) => ok(n)).map(([, v]) => v);
+    let score = 0;
+    if (log[0]) {
+      const v = vals(log[0]);
+      if (v.includes("up") && !v.includes("down")) score += 1;
+    }
+    if (log.filter((e) => vals(e).includes("down")).length >= 2) score -= 1;
+    return score;
+  }
   function card(r, sc, onclick) {
     const fav = S.favs.has(r.id);
     const meta = [r.cuisine, timeText(r), r.diet === "vegan" ? "Vegan" : r.diet === "veg" ? "Vegetarian" : ""].filter(Boolean).join(" · ");
@@ -421,6 +451,7 @@
         h("span", { class: "name", text: r.name }),
         h("span", { class: "meta", text: meta }),
         (() => { const ln = lastNote(r.id); const downs = ln ? Object.entries(ln.who || {}).filter(([, v]) => v === "down") : []; const nm = downs.map(([n]) => n); return downs.length ? h("span", { class: "pill bad small", text: "👎 " + (nm.length > 2 ? nm.slice(0, 2).join(", ") + " +" + (nm.length - 2) : nm.join(", ")), title: nm.join(", ") }) : null; })(),
+        (() => { const ln = lastNote(r.id); const v = ln ? Object.values(ln.who || {}) : []; return v.filter((x) => x === "up").length >= 2 && !v.some((x) => x === "down" || x === "mid") ? h("span", { class: "pill good small", text: "❤ Everyone liked" }) : null; })(),
         sc ? h("span", { class: "meter", "aria-hidden": "true" }, h("span", { style: "width:" + Math.round(sc.frac * 100) + "%" })) : null,
         sc && sc.soon && sc.soon.length ? h("span", { class: "soon-line", text: "⏰ Uses " + sc.soon.map((k) => label(k, ex).toLowerCase()).join(", ") }) : null,
         sc ? (sc.miss.length
@@ -459,7 +490,7 @@
     const sweetsNow = readyNow((r) => isSweet(r) && !isDrink(r));
     const noEquip = pool.filter((r) => !eqOK(r));
     const scored = pool.filter(eqOK).map((r) => ({ r, sc: score(r) }));
-    scored.sort((a, b) => a.sc.miss.length - b.sc.miss.length || (b.sc.soon.length - a.sc.soon.length) || (S.favs.has(b.r.id) - S.favs.has(a.r.id)) || b.sc.frac - a.sc.frac || (minsOf(a.r) || 999) - (minsOf(b.r) || 999));
+    scored.sort((a, b) => a.sc.miss.length - b.sc.miss.length || familyScore(b.r) - familyScore(a.r) || (b.sc.soon.length - a.sc.soon.length) || (S.favs.has(b.r.id) - S.favs.has(a.r.id)) || b.sc.frac - a.sc.frac || (minsOf(a.r) || 999) - (minsOf(b.r) || 999));
     const now = scored.filter((x) => !x.sc.miss.length);
     const near = scored.filter((x) => x.sc.miss.length && x.sc.miss.length <= 2);
     const rest = scored.filter((x) => x.sc.miss.length > 2);
@@ -566,12 +597,22 @@
         !eqOK(r) ? h("span", { class: "pill bad", style: "margin-left:6px", text: "Needs: " + equipText(r) }) : null,
         r.untested ? h("span", { class: "pill warn", style: "margin-left:6px", text: "Untested version: cook it once and rate it" }) : null,
         !preview && S.lastCooked[r.id] ? h("span", { class: "pill good", style: "margin-left:6px", text: "Last cooked " + daysAgo(S.lastCooked[r.id]) }) : null));
+      if (!preview && S.family.length >= 2) {
+        const eating = eatingToday();
+        panel.append(h("div", { class: "chips eat-pick", style: "align-items:center;padding:0 0 8px" },
+          h("span", { class: "lbl", text: "Eating today:" }),
+          S.family.map((n) => chip(n, eating.includes(n), () => { toggleEating(n); openRecipe(r.id); }))));
+      }
       const ln = !preview ? lastNote(r.id) : null;
+      const adj = preview ? null : MK.adjustNotes(r, lastNote(r.id), tasteProfile(), eatingNames());
       if (ln) {
         const older = (S.cookLog[r.id] || []).slice(1);
+        const whoText = (e) => Object.entries(e.who || {}).map(([n, v]) => (v === "up" ? "👍 " : v === "down" ? "👎 " : "😐 ") + n
+          + (adj && adj.who[n] && adj.who[n].length ? " (" + adj.who[n].join(", ").toLowerCase() + ")" : "")).join(" · ");
         panel.append(h("div", { class: "cook-notes" },
           h("h3", { text: "Cook notes" }),
-          h("p", { class: "cn-line", text: "Last time (" + noteDate(ln) + "): " + noteWho(ln) }),
+          h("p", { class: "cn-line", text: "Last time (" + noteDate(ln) + "): " + whoText(ln) }),
+          (adj ? adj.tips : []).map((t) => h("p", { class: "cn-line", text: t })),
           noteChange(ln) ? h("p", { class: "cn-line", text: "Next time: " + noteChange(ln) }) : null,
           ln.text ? h("p", { class: "cn-text", text: "“" + ln.text + "”" }) : null,
           older.length ? h("details", null, h("summary", { text: "Earlier (" + older.length + ")" }), older.map((e) => h("p", { class: "cn-line small", text: noteDate(e) + ": " + noteWho(e) + (noteChange(e) ? " · " + noteChange(e) : "") }))) : null));
@@ -613,12 +654,19 @@
       const drawIngs = () => {
         const f = serves / (r.serves || serves);
         const p = prep(r);
-        const row = (x, opt) => {
+        // marks are worked out on the lines as shown, so a scaled amount reads right
+        const adjLines = preview ? null : MK.adjustNotes(Object.assign({}, r, {
+          need: (r.need || []).map((l) => MK.scaleLine(l, f)), extra: (r.extra || []).map((l) => MK.scaleLine(l, f)),
+        }), lastNote(r.id), tasteProfile(), eatingNames());
+        const row = (x, opt, marks) => {
           const has = sat(x);
           return h("li", { class: (has ? "have" : "miss") + (opt ? " opt" : "") }, h("span", { class: "mark", "aria-hidden": "true", text: has ? "✓" : opt ? "–" : "!" }),
-            h("span", { class: "txt" }, MK.scaleLine(x.line, f), opt ? h("span", { class: "tag", text: "optional" }) : null, h("span", { class: "sr", text: has ? " (you have it)" : " (missing)" })));
+            h("span", { class: "txt" }, MK.scaleLine(x.line, f), opt ? h("span", { class: "tag", text: "optional" }) : null, h("span", { class: "sr", text: has ? " (you have it)" : " (missing)" })),
+            (marks || []).map((m) => m.from
+              ? h("span", { class: "adj" }, m.icon + " ", h("s", { text: m.from }), " → " + m.to + " (" + (m.label || m.text) + ")")
+              : h("span", { class: "adj", text: m.icon + " " + m.text })));
         };
-        ingWrap.replaceChildren(h("ul", { class: "ings" }, p.need.map((x) => row(x, false)), p.extra.map((x) => row(x, true))));
+        ingWrap.replaceChildren(h("ul", { class: "ings" }, p.need.map((x, i) => row(x, false, adjLines && adjLines.lines[i])), p.extra.map((x, i) => row(x, true, adjLines && adjLines.extraLines[i]))));
       };
       const step = (d) => { serves = Math.min(20, Math.max(1, serves + d)); out.textContent = plural(serves, "serving"); drawIngs(); };
       panel.append(h("h3", { text: "Ingredients" }),
@@ -634,18 +682,25 @@
         panel.append(h("div", { class: "actions" }, add));
       }
       if ((r.equipment || []).length) panel.append(h("p", { class: "hint", text: "Equipment: " + equipText(r) }));
-      // steps
+      // steps (with a split line before the step where the chili/sugar/salt goes in)
       panel.append(h("h3", { text: "Steps" }));
-      panel.append(h("ol", { class: "steps" }, (r.steps || []).map((s, i) => {
+      const splitPts = preview ? [] : MK.splitPoints(r, lastNote(r.id), tasteProfile(), eatingNames());
+      const stepLis = [];
+      (r.steps || []).forEach((s, i) => {
+        for (const sp of splitPts.filter((x) => x.before === i)) stepLis.push(h("li", { class: "split" }, h("div", { class: "adj", text: sp.text })));
         const li = h("li");
         const mins = MK.stepMinutes(s);
         const txt = h("div", { class: "step-text", role: "button", tabindex: "0", "aria-pressed": "false", title: "Tap to mark done", text: s });
         const toggle = () => { li.classList.toggle("done"); txt.setAttribute("aria-pressed", li.classList.contains("done")); };
         txt.addEventListener("click", toggle);
         txt.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
-        li.append(h("div", null, txt, mins ? h("div", { class: "step-tools" }, h("button", { class: "btn small", type: "button", onclick: () => startTimer(mins, r.name + ", step " + (i + 1)) }, "⏱ Start " + fmtMin(mins) + " timer")) : null));
-        return li;
-      })));
+        li.append(h("div", null, txt,
+          (adj && adj.steps[i] || []).map((m) => h("span", { class: "adj", text: m.icon + " " + m.text })),
+          i === 0 && adj && adj.tips.length ? adj.tips.slice(0, 3).map((t) => h("span", { class: "adj", text: t })) : null,
+          mins ? h("div", { class: "step-tools" }, h("button", { class: "btn small", type: "button", onclick: () => startTimer(mins, r.name + ", step " + (i + 1)) }, "⏱ Start " + fmtMin(mins) + " timer")) : null));
+        stepLis.push(li);
+      });
+      panel.append(h("ol", { class: "steps" }, stepLis));
       if (r.pressure) {
         const pm = MK.stepMinutes(r.pressure);
         const has = S.equip.has("pressurecooker");
@@ -681,6 +736,14 @@
   // ---------- cook mode: one big step at a time (read-aloud removed Nov 15 at the owner's request) ----------
   function openCookMode(r) {
     const steps = r.steps || [];
+    const adj = MK.adjustNotes(r, lastNote(r.id), tasteProfile(), eatingNames());
+    const splits = MK.splitPoints(r, lastNote(r.id), tasteProfile(), eatingNames());
+    // the split steps sit in the flow before the step where the ingredient goes in
+    const seq = [];
+    steps.forEach((s, j) => {
+      for (const sp of splits.filter((x) => x.before === j)) seq.push({ split: sp.text });
+      seq.push({ index: j });
+    });
     let i = 0;
     S.sheet = "cook";
     keepAwake();
@@ -688,22 +751,28 @@
       const draw = () => {
         panel.replaceChildren(bar(r.name));
         if (i === 0) { const ln = lastNote(r.id); if (ln && (noteWho(ln) || noteChange(ln) || ln.text)) panel.append(h("p", { class: "hint", text: "📝 Last time: " + [noteWho(ln), noteChange(ln) || ln.text].filter(Boolean).join(" · ") })); }
-        if (i >= steps.length) {
+        if (i === 0 && adj.tips.length) panel.append(h("div", { class: "adj-box" }, adj.tips.slice(0, 3).map((t) => h("div", { text: t }))));
+        if (i >= seq.length) {
           panel.append(h("h2", { id: "sheetTitle", class: "cook-step", text: "All done. Enjoy your meal!" }),
             h("div", { class: "actions" },
               h("button", { class: "btn primary big", type: "button", onclick: () => openCooked(r) }, "✓ I cooked this: update my kitchen"),
-              h("button", { class: "btn big", type: "button", onclick: () => { i = steps.length - 1; draw(); } }, "← Last step")));
+              h("button", { class: "btn big", type: "button", onclick: () => { i = seq.length - 1; draw(); } }, "← Last step")));
           return;
         }
-        const s = steps[i], mins = MK.stepMinutes(s);
+        const cur = seq[i], j = cur.index;
+        const s = j == null ? cur.split : steps[j];
+        const mins = j == null ? null : MK.stepMinutes(s);
         panel.append(...[
-          h("p", { class: "hint", text: `Step ${i + 1} of ${steps.length}` }),
-          h("div", { class: "cook-progress", "aria-hidden": "true" }, h("span", { style: `width:${Math.round(((i + 1) / steps.length) * 100)}%` })),
-          h("p", { id: "sheetTitle", class: "cook-step", text: s }),
-          mins ? h("div", { class: "actions" }, h("button", { class: "btn big", type: "button", onclick: () => startTimer(mins, r.name + ", step " + (i + 1)) }, "⏱ Start " + fmtMin(mins) + " timer")) : null,
+          h("p", { class: "hint", text: `Step ${i + 1} of ${seq.length}` }),
+          h("div", { class: "cook-progress", "aria-hidden": "true" }, h("span", { style: `width:${Math.round(((i + 1) / seq.length) * 100)}%` })),
+          j == null
+            ? h("div", { class: "adj-box" }, h("p", { id: "sheetTitle", class: "cook-step", style: "margin:0 0 6px", text: "Split now" }), h("div", { text: s }))
+            : h("p", { id: "sheetTitle", class: "cook-step", text: s }),
+          j != null && (adj.steps[j] || []).length ? h("div", { class: "adj-box" }, adj.steps[j].map((m) => h("div", { text: m.icon + " " + m.text }))) : null,
+          mins ? h("div", { class: "actions" }, h("button", { class: "btn big", type: "button", onclick: () => startTimer(mins, r.name + ", step " + (j + 1)) }, "⏱ Start " + fmtMin(mins) + " timer")) : null,
           h("div", { class: "cook-nav" },
             h("button", { class: "btn big", type: "button", disabled: i === 0, onclick: () => { i--; draw(); } }, "← Back"),
-            h("button", { class: "btn primary big", type: "button", onclick: () => { i++; draw(); } }, i === steps.length - 1 ? "Finish ✓" : "Next →"))].filter(Boolean));
+            h("button", { class: "btn primary big", type: "button", onclick: () => { i++; draw(); } }, i === seq.length - 1 ? "Finish ✓" : "Next →"))].filter(Boolean));
       };
       draw();
     });
@@ -792,6 +861,8 @@
 
   // the latest cook-note entry for a recipe, and compact summaries for the recipe sheet, cook mode and cards
   const lastNote = (id) => (S.cookLog[id] || [])[0] || null;
+  // what each person usually finds wrong, learned from 2+ ratings
+  const tasteProfile = () => MK.tasteProfile(S.cookLog, S.tasteIgnore);
   const noteDate = (e) => { try { return new Date(e.date + "T12:00").toLocaleDateString("en-GB", { day: "numeric", month: "short" }); } catch (err) { return e.date; } };
   const noteWho = (e) => Object.entries(e.who || {}).map(([n, v]) => (v === "up" ? "👍 " : v === "down" ? "👎 " : "😐 ") + n).join(" · ");
   const noteChange = (e) => (e.change || []).map((c) => c.toLowerCase()).join(", ");
@@ -802,7 +873,10 @@
   function openFeedback(r, addingNames) {
     S.sheet = "feedback";
     openSheet((panel) => {
-      const names = S.family.length ? S.family : ["Family"];
+      const allNames = S.family.length ? S.family : ["Family"];
+      const eating = eatingNames();
+      const shown = eating ? allNames.filter((n) => eating.includes(n)) : allNames;
+      const others = allNames.filter((n) => !shown.includes(n));
       const who = {}, change = new Set();
       const ta = h("textarea", { class: "input", id: "feedbackText", placeholder: "e.g. kids want it with rice · add lemon at the end" });
       panel.append(bar("How did it go?"),
@@ -822,8 +896,22 @@
         panel.append(h("p", { class: "hint", style: "margin-top:10px", text: "Add your family's names to rate each person (you can change them later in Settings → Family)." }),
           h("div", { class: "row", style: "gap:8px;margin-top:6px" }, nameIn, h("button", { class: "btn small", type: "button", id: "feedbackAddName", onclick: addName }, "Add")));
       }
-      for (const n of names) {
+      const per = {};
+      const peopleBox = h("div");
+      const addPerson = (n) => {
         const row = h("div", { class: "row", style: "gap:8px;align-items:center;margin-top:10px" }, h("span", { class: "grow", text: n }));
+        const issueRow = h("div", { class: "chips", style: "margin:6px 0 0 8px", hidden: true });
+        const issueChips = MK.ISSUE_IDS.map((id) => chip(MK.ISSUES[id].label, false, (e) => {
+          const set = per[n] || (per[n] = new Set());
+          set.has(id) ? set.delete(id) : set.add(id);
+          e.currentTarget.setAttribute("aria-pressed", String(set.has(id)));
+        }));
+        issueRow.append(...issueChips);
+        const syncIssues = () => {
+          const show = who[n] === "down" || who[n] === "mid";
+          issueRow.hidden = !show;
+          if (!show) { delete per[n]; for (const c of issueChips) c.setAttribute("aria-pressed", "false"); }
+        };
         for (const [v, emo] of REACTIONS) {
           const b = h("button", { class: "chip", type: "button", "aria-pressed": "false", "aria-label": n + " " + emo, text: emo });
           b.addEventListener("click", () => {
@@ -831,12 +919,20 @@
             delete who[n];
             for (const other of row.querySelectorAll(".chip")) other.setAttribute("aria-pressed", "false");
             if (!on) { who[n] = v; b.setAttribute("aria-pressed", "true"); }
+            syncIssues();
           });
           row.append(b);
         }
-        panel.append(row);
+        peopleBox.append(h("div", { style: "margin-top:2px" }, row, issueRow));
+      };
+      shown.forEach(addPerson);
+      if (others.length) {
+        const more = h("button", { class: "btn quiet small", type: "button", style: "margin-top:8px", text: "+ Others (" + others.length + ")" });
+        more.addEventListener("click", () => { others.forEach(addPerson); more.remove(); });
+        peopleBox.append(more);
       }
-      panel.append(h("h3", { style: "margin-top:16px", text: "Change next time" }));
+      panel.append(peopleBox);
+      panel.append(h("h3", { style: "margin-top:16px", text: "For everyone, next time" }));
       panel.append(h("div", { class: "chips" }, CHANGE_CHOICES.map((c) => chip(c, false, (e) => {
         change.has(c) ? change.delete(c) : change.add(c);
         e.currentTarget.setAttribute("aria-pressed", String(change.has(c)));
@@ -845,6 +941,9 @@
       panel.append(h("div", { class: "actions" },
         h("button", { class: "btn primary", type: "button", onclick: async () => {
           const entry = { date: todayKey(), who, change: [...change], text: ta.value.trim() };
+          const perOut = {};
+          for (const n in per) if (per[n].size) perOut[n] = [...per[n]];
+          if (Object.keys(perOut).length) entry.per = perOut;
           if (!Object.keys(who).length && !entry.change.length && !entry.text) { closeSheet(); return; }
           S.cookLog[r.id] = [entry].concat(S.cookLog[r.id] || []).slice(0, 10);
           saveState();
@@ -1516,8 +1615,19 @@
     const ex = extras();
     $("#basicsChips").replaceChildren(...BASIC_CHOICES.map((k) => chip(label(k, ex), S.basics.has(k), () => { S.basics.has(k) ? S.basics.delete(k) : S.basics.add(k); saveState(); render(); })));
     $("#helperUrl").value = S.helper;
-    $("#familyChips").replaceChildren(...S.family.map((n) => h("span", { class: "chip", style: "display:inline-flex;align-items:center;gap:6px" }, n,
-      h("button", { class: "btn quiet small", type: "button", "aria-label": "Remove " + n, onclick: () => { S.family = S.family.filter((x) => x !== n); saveState(); renderSettings(); } }, "✕"))));
+    const prof = MK.tasteProfile(S.cookLog, S.tasteIgnore);
+    $("#familyChips").replaceChildren(...S.family.map((n) => {
+      const tastes = (prof[n] || []).map((id) => h("span", { class: "chip", style: "display:inline-flex;align-items:center;gap:4px;font-size:.78rem" },
+        "usually " + MK.ISSUES[id].phrase,
+        h("button", { class: "btn quiet small", type: "button", "aria-label": "Stop showing " + n + " usually " + MK.ISSUES[id].phrase, onclick: () => {
+          S.tasteIgnore[n] = (S.tasteIgnore[n] || []).concat(id);
+          saveState(); renderSettings();
+        } }, "✕")));
+      return h("div", { style: "display:flex;flex-direction:column;gap:4px;align-items:flex-start" },
+        h("span", { class: "chip", style: "display:inline-flex;align-items:center;gap:6px" }, n,
+          h("button", { class: "btn quiet small", type: "button", "aria-label": "Remove " + n, onclick: () => { S.family = S.family.filter((x) => x !== n); saveState(); renderSettings(); } }, "✕")),
+        tastes.length ? h("div", { class: "chips", style: "padding:0;gap:4px" }, tastes) : h("span", { class: "hint", style: "font-size:.75rem", text: "Learns after 2 ratings" }));
+    }));
     const stockKeys = Object.keys(S.stock);
     $("#stockList").replaceChildren(...(stockKeys.length ? stockKeys.map((k) => {
       const field = amountField(k, S.stock[k], (b) => { S.stock[k] = b; saveState(); }, () => renderSettings());
@@ -1536,7 +1646,7 @@
     }
     const data = { app: "my-kitchen", version: 1, saved: new Date().toISOString(), recipes: S.mine, photos,
       state: { have: [...S.have], equip: [...S.equip], basics: [...S.basics], favs: [...S.favs], hidden: [...S.hidden], shop: S.shop, helper: S.helper,
-        plan: S.plan, notes: S.notes, family: S.family, cookLog: S.cookLog, useSoon: [...S.useSoon], lastCooked: S.lastCooked, stock: S.stock, units: S.units, show: S.show } };
+        plan: S.plan, notes: S.notes, family: S.family, cookLog: S.cookLog, tasteIgnore: S.tasteIgnore, useSoon: [...S.useSoon], lastCooked: S.lastCooked, stock: S.stock, units: S.units, show: S.show } };
     const backedUp = () => { LS.set("lastBackup", Date.now()); $("#backupNote").hidden = true; };
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
     const name = "my-kitchen-backup-" + new Date().toISOString().slice(0, 10) + ".json";
@@ -1579,6 +1689,7 @@
       if (st.notes) S.notes = st.notes;
       if (st.family) S.family = st.family;
       if (st.cookLog) S.cookLog = st.cookLog;
+      if (st.tasteIgnore) S.tasteIgnore = st.tasteIgnore;
       if (st.useSoon) S.useSoon = new Set(st.useSoon);
       if (st.lastCooked) S.lastCooked = st.lastCooked;
       if (st.stock) S.stock = st.stock;
