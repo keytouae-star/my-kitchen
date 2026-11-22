@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 23; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 24; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -84,6 +84,8 @@
     cuisine: LS.get("cuisine", ""), cookQ: "",
     plan: LS.get("plan", []),            // [{ id, day: "YYYY-MM-DD", done }]
     notes: LS.get("notes", {}),          // { recipeId: "my note" }
+    family: LS.get("family", []),        // names for "How did it go?"
+    cookLog: LS.get("cookLog", {}),      // { recipeId: [ { date, who, change, text } ] }, newest first, max 10
     useSoon: new Set(LS.get("useSoon", [])),
     lastCooked: LS.get("lastCooked", {}), // { recipeId: "YYYY-MM-DD" }
     stock: LS.get("stock", {}),          // { key: qty }
@@ -100,6 +102,7 @@
     LS.set("hidden", [...S.hidden]); LS.set("shop", S.shop); LS.set("filters", S.filters); LS.set("units", S.units); LS.set("show", S.show);
     LS.set("openGroups", [...S.openGroups]);
     LS.set("plan", S.plan); LS.set("notes", S.notes); LS.set("useSoon", [...S.useSoon]); LS.set("lastCooked", S.lastCooked); LS.set("stock", S.stock); LS.set("speak", S.speak);
+    LS.set("family", S.family); LS.set("cookLog", S.cookLog);
   }
   // ---------- dates (local time, so "today" is right in the UAE) ----------
   const dayKey = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
@@ -398,6 +401,15 @@
   }
 
   // ---------- results ----------
+  // saved recipes have no taste label: guess one from the ingredients
+  function guessTaste(r) {
+    const t = (r.need || []).join(" ").toLowerCase();
+    if (/sugar|honey|dates?\b|chocolate|cocoa|syrup/.test(t)) return "sweet";
+    if (/chili|chilli|harissa|cayenne/.test(t)) return "spicy";
+    if (/lemon|vinegar|sumac|tamarind/.test(t)) return "tangy";
+    return "savoury";
+  }
+  const tastesOf = (r) => (Array.isArray(r.taste) && r.taste.length ? r.taste : [guessTaste(r)]);
   function card(r, sc, onclick) {
     const fav = S.favs.has(r.id);
     const meta = [r.cuisine, timeText(r), r.diet === "vegan" ? "Vegan" : r.diet === "veg" ? "Vegetarian" : ""].filter(Boolean).join(" · ");
@@ -408,6 +420,7 @@
       h("span", { class: "body" },
         h("span", { class: "name", text: r.name }),
         h("span", { class: "meta", text: meta }),
+        (() => { const ln = lastNote(r.id); const downs = ln ? Object.entries(ln.who || {}).filter(([, v]) => v === "down") : []; return downs.length ? h("span", { class: "pill bad small", text: "👎 " + downs.length, title: downs.map(([n]) => n).join(", ") }) : null; })(),
         sc ? h("span", { class: "meter", "aria-hidden": "true" }, h("span", { style: "width:" + Math.round(sc.frac * 100) + "%" })) : null,
         sc && sc.soon && sc.soon.length ? h("span", { class: "soon-line", text: "⏰ Uses " + sc.soon.map((k) => label(k, ex).toLowerCase()).join(", ") }) : null,
         sc ? (sc.miss.length
@@ -551,7 +564,18 @@
       const sc = score(r);
       panel.append(h("p", null, sc.miss.length ? h("span", { class: "pill warn", text: `Missing ${sc.miss.length} of ${sc.total}` }) : h("span", { class: "pill good", text: "You have everything" }),
         !eqOK(r) ? h("span", { class: "pill bad", style: "margin-left:6px", text: "Needs: " + equipText(r) }) : null,
+        r.untested ? h("span", { class: "pill warn", style: "margin-left:6px", text: "Untested version: cook it once and rate it" }) : null,
         !preview && S.lastCooked[r.id] ? h("span", { class: "pill good", style: "margin-left:6px", text: "Last cooked " + daysAgo(S.lastCooked[r.id]) }) : null));
+      const ln = !preview ? lastNote(r.id) : null;
+      if (ln) {
+        const older = (S.cookLog[r.id] || []).slice(1);
+        panel.append(h("div", { class: "cook-notes" },
+          h("h3", { text: "Cook notes" }),
+          h("p", { class: "cn-line", text: "Last time (" + noteDate(ln) + "): " + noteWho(ln) }),
+          noteChange(ln) ? h("p", { class: "cn-line", text: "Next time: " + noteChange(ln) }) : null,
+          ln.text ? h("p", { class: "cn-text", text: "“" + ln.text + "”" }) : null,
+          older.length ? h("details", null, h("summary", { text: "Earlier (" + older.length + ")" }), older.map((e) => h("p", { class: "cn-line small", text: noteDate(e) + ": " + noteWho(e) + (noteChange(e) ? " · " + noteChange(e) : "") }))) : null));
+      }
       if (!preview) {
         // main actions
         const days = nextDays(7);
@@ -567,7 +591,8 @@
         panel.append(h("div", { class: "actions" },
           h("button", { class: "btn primary", type: "button", onclick: () => openCookMode(r) }, "▶ Start cooking"),
           h("button", { class: "btn", type: "button", onclick: () => { planRow.hidden = !planRow.hidden; } }, "📅 Add to meal plan"),
-          h("button", { class: "btn", type: "button", onclick: () => openCooked(r) }, "✓ I cooked this")), planRow);
+          h("button", { class: "btn", type: "button", onclick: () => openCooked(r) }, "✓ I cooked this"),
+          h("button", { class: "btn", type: "button", onclick: () => openVariant(r) }, "🔄 Make it different")), planRow);
         // my notes
         const note = h("textarea", { class: "input note-box", id: "note-" + r.id, placeholder: "e.g. kids liked it · less chili next time · use 2 cups water", text: S.notes[r.id] || "" });
         note.addEventListener("input", () => { if (note.value.trim()) S.notes[r.id] = note.value; else delete S.notes[r.id]; saveState(); });
@@ -662,6 +687,7 @@
     openSheet((panel) => {
       const draw = () => {
         panel.replaceChildren(bar(r.name));
+        if (i === 0) { const ln = lastNote(r.id); if (ln && (noteChange(ln) || ln.text)) panel.append(h("p", { class: "hint", text: "📝 Last time: " + (noteChange(ln) || ln.text) })); }
         if (i >= steps.length) {
           panel.append(h("h2", { id: "sheetTitle", class: "cook-step", text: "All done. Enjoy your meal!" }),
             h("div", { class: "actions" },
@@ -684,7 +710,7 @@
   }
   // ---------- "I cooked this": untick what got used up ----------
   // "Running low" prompt: add ticked items back to the shopping list at their first buy amount
-  function promptLow(list) {
+  function promptLow(list, after) {
     if (!list.length) return;
     S.sheet = "low";
     openSheet((panel) => {
@@ -706,8 +732,9 @@
           const add = list.filter((_, i) => picked.has(i)).map((it) => ({ keys: [it.key], label: it.label }));
           closeSheet();
           if (add.length) addToShop(add);
+          if (after) after();
         } }, "Yes, add to list"),
-        h("button", { class: "btn", type: "button", onclick: closeSheet }, "Not now")));
+        h("button", { class: "btn", type: "button", onclick: () => { closeSheet(); if (after) after(); } }, "Not now")));
     });
   }
   function openCooked(r) {
@@ -755,10 +782,127 @@
           const planned = S.plan.find((x) => x.id === r.id && !x.done);
           if (planned) planned.done = true;
           saveState(); closeSheet(); render();
-          if (low.length) promptLow(low);
+          if (low.length) promptLow(low, () => openFeedback(r));
+          else openFeedback(r);
           toast(picked.size ? plural(picked.size, "item") + " removed from your kitchen" : "Saved. Enjoy!");
         } }, "Save"),
         h("button", { class: "btn", type: "button", onclick: closeSheet }, "Cancel")));
+    });
+  }
+
+  // the latest cook-note entry for a recipe, and compact summaries for the recipe sheet, cook mode and cards
+  const lastNote = (id) => (S.cookLog[id] || [])[0] || null;
+  const noteDate = (e) => { try { return new Date(e.date + "T12:00").toLocaleDateString("en-GB", { day: "numeric", month: "short" }); } catch (err) { return e.date; } };
+  const noteWho = (e) => Object.entries(e.who || {}).map(([n, v]) => (v === "up" ? "👍 " : v === "down" ? "👎 " : "😐 ") + n).join(" · ");
+  const noteChange = (e) => (e.change || []).map((c) => c.toLowerCase()).join(", ");
+
+  // "How did it go?" after cooking: the family's reactions and what to change next time
+  const CHANGE_CHOICES = ["Less sweet", "Sweeter", "Less spicy", "Spicier", "Less salt", "More salt", "More sauce", "Less oil", "Softer", "Crispier", "Bigger portion", "Smaller portion"];
+  const REACTIONS = [["up", "👍"], ["mid", "😐"], ["down", "👎"]];
+  function openFeedback(r) {
+    S.sheet = "feedback";
+    openSheet((panel) => {
+      const names = S.family.length ? S.family : ["Family"];
+      const who = {}, change = new Set();
+      const ta = h("textarea", { class: "input", id: "feedbackText", placeholder: "e.g. kids want it with rice · add lemon at the end" });
+      panel.append(bar("How did it go?"),
+        h("h2", { id: "sheetTitle", text: "How did it go?" }),
+        h("p", { class: "meta-line", text: r.name }));
+      for (const n of names) {
+        const row = h("div", { class: "row", style: "gap:8px;align-items:center;margin-top:10px" }, h("span", { class: "grow", text: n }));
+        for (const [v, emo] of REACTIONS) {
+          const b = h("button", { class: "chip", type: "button", "aria-pressed": "false", "aria-label": n + " " + emo, text: emo });
+          b.addEventListener("click", () => {
+            const on = who[n] === v;
+            delete who[n];
+            for (const other of row.querySelectorAll(".chip")) other.setAttribute("aria-pressed", "false");
+            if (!on) { who[n] = v; b.setAttribute("aria-pressed", "true"); }
+          });
+          row.append(b);
+        }
+        panel.append(row);
+      }
+      panel.append(h("h3", { style: "margin-top:16px", text: "Change next time" }));
+      panel.append(h("div", { class: "chips" }, CHANGE_CHOICES.map((c) => chip(c, false, (e) => {
+        change.has(c) ? change.delete(c) : change.add(c);
+        e.currentTarget.setAttribute("aria-pressed", String(change.has(c)));
+      }))));
+      panel.append(h("div", { style: "margin-top:12px" }, ta));
+      panel.append(h("div", { class: "actions" },
+        h("button", { class: "btn primary", type: "button", onclick: async () => {
+          const entry = { date: todayKey(), who, change: [...change], text: ta.value.trim() };
+          if (!Object.keys(who).length && !entry.change.length && !entry.text) { closeSheet(); return; }
+          S.cookLog[r.id] = [entry].concat(S.cookLog[r.id] || []).slice(0, 10);
+          saveState();
+          if (r.untested && !Object.values(who).includes("down")) { r.untested = false; await saveMine(r); }
+          closeSheet(); render(); toast("Notes saved for next time");
+        } }, "Save notes"),
+        h("button", { class: "btn", type: "button", onclick: closeSheet }, "Skip")));
+    });
+  }
+
+  // "Make it different": find a dish with the taste you want instead
+  const VARIANT_TASTES = [["Savoury", "savoury"], ["Spicy", "spicy"], ["Tangy", "tangy"], ["Lighter", "light"], ["Richer", "rich"], ["Sweet", "sweet"]];
+  function openVariant(r) {
+    S.sheet = "variant";
+    openSheet((panel) => {
+      const own = tastesOf(r)[0];
+      const baseKeys = new Set(prep(r).need.flatMap((x) => x.keys));
+      const results = h("div");
+      let picked = null;
+      const show = (taste) => {
+        const pool = allRecipes().filter((x) => x.id !== r.id && !S.hidden.has(x.id) && tastesOf(x).includes(taste));
+        const ranked = pool.map((x) => {
+          const keys = new Set(prep(x).need.flatMap((y) => y.keys));
+          const shared = [...keys].filter((k) => baseKeys.has(k)).length;
+          return { x, shared, same: x.cuisine === r.cuisine, miss: score(x).miss.length };
+        }).sort((a, b) => b.shared - a.shared || (b.same - a.same) || a.miss - b.miss);
+        const top = ranked.filter((z) => z.shared > 0).slice(0, 3);
+        const list = top.length ? top : ranked.slice(0, 3);
+        results.replaceChildren(
+          h("h3", { style: "margin-top:14px", text: top.length ? "Dishes you already have" : "Other ideas" }),
+          list.length ? h("div", { class: "grid" }, list.map((z) => card(z.x, score(z.x)))) : h("p", { class: "hint", text: "No dishes with that taste yet." }));
+      };
+      panel.append(bar("Make it different"),
+        h("h2", { id: "sheetTitle", text: "Make it different" }),
+        h("p", { class: "hint", text: "Didn't go down well? Pick the taste you want instead." }),
+        h("div", { class: "chips" }, VARIANT_TASTES.filter(([, v]) => v !== own).map(([txt, v]) => chip(txt, false, (e) => {
+          for (const b of panel.querySelectorAll(".chips .chip")) b.setAttribute("aria-pressed", "false");
+          e.currentTarget.setAttribute("aria-pressed", "true");
+          picked = v;
+          show(v);
+        }))),
+        results);
+      if (S.helper) {
+        const aiBtn = h("button", { class: "btn", type: "button", style: "margin-top:14px", text: "✨ Write a new version (needs internet)" });
+        const aiMsg = h("p", { class: "hint", "aria-live": "polite" });
+        aiBtn.addEventListener("click", async () => {
+          if (!picked) { aiMsg.textContent = "Pick a taste first."; return; }
+          aiBtn.disabled = true; aiBtn.textContent = "Writing…"; aiMsg.textContent = "";
+          const ln = lastNote(r.id);
+          try {
+            const res = await fetch(helperBase() + "/variant", { method: "POST", headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ recipe: { name: r.name, need: r.need, extra: r.extra || [], steps: r.steps, serves: r.serves, minutes: r.minutes }, taste: picked, change: (ln && ln.change) || [], text: (ln && ln.text) || "" }) });
+            const j = await res.json().catch(() => null);
+            if (!j || !j.ok) {
+              aiMsg.textContent = j && j.retry ? "Busy, try again in a minute." : (j && j.error) || "The helper didn't answer. Check its address in Settings.";
+              return;
+            }
+            const v = j.recipe;
+            const out = MK.finish({ id: "mine_" + MK.slug(v.name || "version") + "_" + Date.now().toString(36), name: v.name,
+              cuisine: r.cuisine || "", minutes: v.minutes || null, serves: v.serves || r.serves || 4, diet: "", equipment: (r.equipment || []).slice(),
+              need: v.need, extra: v.extra || [], steps: v.steps, tip: v.tip || "", source: "mine", basedOn: r.id, taste: [picked], untested: true });
+            MK.swapRecipe(out);
+            closeSheet();
+            openRecipe(null, out);
+          } catch (e) {
+            aiMsg.textContent = "Couldn't reach the helper. Check your internet and the helper address.";
+          } finally {
+            aiBtn.disabled = false; aiBtn.textContent = "✨ Write a new version (needs internet)";
+          }
+        });
+        panel.append(h("div", { style: "margin-top:16px" }, aiBtn, aiMsg));
+      }
     });
   }
 
@@ -1358,6 +1502,8 @@
     const ex = extras();
     $("#basicsChips").replaceChildren(...BASIC_CHOICES.map((k) => chip(label(k, ex), S.basics.has(k), () => { S.basics.has(k) ? S.basics.delete(k) : S.basics.add(k); saveState(); render(); })));
     $("#helperUrl").value = S.helper;
+    $("#familyChips").replaceChildren(...S.family.map((n) => h("span", { class: "chip", style: "display:inline-flex;align-items:center;gap:6px" }, n,
+      h("button", { class: "btn quiet small", type: "button", "aria-label": "Remove " + n, onclick: () => { S.family = S.family.filter((x) => x !== n); saveState(); renderSettings(); } }, "✕"))));
     const stockKeys = Object.keys(S.stock);
     $("#stockList").replaceChildren(...(stockKeys.length ? stockKeys.map((k) => {
       const field = amountField(k, S.stock[k], (b) => { S.stock[k] = b; saveState(); }, () => renderSettings());
@@ -1376,7 +1522,7 @@
     }
     const data = { app: "my-kitchen", version: 1, saved: new Date().toISOString(), recipes: S.mine, photos,
       state: { have: [...S.have], equip: [...S.equip], basics: [...S.basics], favs: [...S.favs], hidden: [...S.hidden], shop: S.shop, helper: S.helper,
-        plan: S.plan, notes: S.notes, useSoon: [...S.useSoon], lastCooked: S.lastCooked, stock: S.stock, units: S.units, show: S.show } };
+        plan: S.plan, notes: S.notes, family: S.family, cookLog: S.cookLog, useSoon: [...S.useSoon], lastCooked: S.lastCooked, stock: S.stock, units: S.units, show: S.show } };
     const backedUp = () => { LS.set("lastBackup", Date.now()); $("#backupNote").hidden = true; };
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
     const name = "my-kitchen-backup-" + new Date().toISOString().slice(0, 10) + ".json";
@@ -1396,7 +1542,7 @@
     let first = LS.get("firstUse", 0);
     if (!first) { LS.set("firstUse", now); first = now; }
     const last = LS.get("lastBackup", 0), snooze = LS.get("backupSnooze", 0);
-    const hasStuff = S.mine.length > 0 || Object.keys(S.notes).length > 0 || S.plan.length > 0;
+    const hasStuff = S.mine.length > 0 || Object.keys(S.notes).length > 0 || S.plan.length > 0 || Object.keys(S.cookLog || {}).length > 0;
     const due = now - Math.max(last, first) > 30 * 864e5 && now > snooze;
     $("#backupNote").hidden = !(hasStuff && due);
   }
@@ -1417,6 +1563,8 @@
       if (st.helper && !/keytouae\.workers\.dev/.test(st.helper)) { S.helper = st.helper; LS.set("helper", S.helper); }
       if (st.plan) S.plan = st.plan.filter((p) => p.day >= todayKey());
       if (st.notes) S.notes = st.notes;
+      if (st.family) S.family = st.family;
+      if (st.cookLog) S.cookLog = st.cookLog;
       if (st.useSoon) S.useSoon = new Set(st.useSoon);
       if (st.lastCooked) S.lastCooked = st.lastCooked;
       if (st.stock) S.stock = st.stock;
@@ -1959,6 +2107,15 @@
   $("#shopClear").addEventListener("click", () => { if (!confirm("Clear the whole shopping list?")) return; S.shop = []; saveState(); render(); });
   $("#backupBtn").addEventListener("click", makeBackup);
   $("#restoreFile").addEventListener("change", (e) => { const f = e.target.files[0]; if (f) restoreBackup(f); e.target.value = ""; });
+  $("#familyForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const input = $("#familyName"), v = input.value.trim().replace(/\s+/g, " ");
+    if (!v) return;
+    if (S.family.length >= 8) { toast("Up to 8 names"); return; }
+    if (S.family.some((n) => n.toLowerCase() === v.toLowerCase())) { toast("That name is already there"); input.value = ""; return; }
+    S.family = [...S.family, v.slice(0, 20)];
+    input.value = ""; saveState(); renderSettings();
+  });
   $("#helperForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const v = $("#helperUrl").value.trim();

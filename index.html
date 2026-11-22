@@ -102,6 +102,13 @@ textarea.input { min-height: 140px; resize: vertical; line-height: 1.5; }
 .panel-head h2 { font-size: 1.25rem; margin-right: auto; }
 .count { color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; }
 .note { background: var(--saffron-soft); color: var(--ink); border-radius: 10px; padding: 10px 12px; font-size: .9rem; margin: 0 0 12px; }
+.cook-notes { background: var(--saffron-soft); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin: 10px 0 6px; }
+.cook-notes h3 { margin: 0 0 4px; font-size: .95rem; }
+.cook-notes .cn-line { margin: 0 0 2px; font-size: .88rem; }
+.cook-notes .cn-line.small { font-size: .78rem; color: var(--muted); }
+.cook-notes .cn-text { margin: 4px 0 0; font-size: .88rem; font-style: italic; }
+.cook-notes details { margin-top: 4px; }
+.cook-notes summary { font-size: .82rem; cursor: pointer; color: var(--muted); }
 .search-wrap { position: relative; margin-bottom: 12px; }
 .sugg { list-style: none; margin: 4px 0 0; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; position: absolute; left: 0; right: 0; z-index: 5; box-shadow: 0 10px 30px rgba(27,42,31,.12); }
 .sugg button { width: 100%; text-align: left; border: 0; background: none; padding: 10px 12px; border-radius: 8px; display: flex; justify-content: space-between; min-height: 44px; }
@@ -434,6 +441,16 @@ body:has(.timer) .fab { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
         <h3 style="margin-bottom:6px">Basics I always have</h3>
         <p class="hint" style="margin-bottom:10px">These count as "have" in every recipe, so you don't need to tick them.</p>
         <div class="chips" id="basicsChips"></div>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:6px">Family</h3>
+        <p class="hint" style="margin-bottom:10px">Names for "How did it go?" after cooking. Leave empty to rate as one family.</p>
+        <form id="familyForm" class="row">
+          <label class="sr" for="familyName">Family name</label>
+          <input class="input" id="familyName" type="text" maxlength="20" autocomplete="off" placeholder="Name" style="flex:1;min-width:160px">
+          <button class="btn" type="submit">Add</button>
+        </form>
+        <div class="chips" id="familyChips" style="margin-top:10px"></div>
       </div>
       <div class="panel">
         <h3 style="margin-bottom:6px">Stock amounts</h3>

@@ -42,6 +42,10 @@
       },
       "tags": [
         "breakfast"
+      ],
+      "taste": [
+        "savoury",
+        "spicy"
       ]
     },
     {
@@ -78,7 +82,11 @@
         "artist": "pita pita granada",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Hummus_plate_ni.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "tangy"
+      ]
     },
     {
       "id": "lentil_soup",
@@ -121,6 +129,10 @@
       },
       "tags": [
         "soup"
+      ],
+      "taste": [
+        "savoury",
+        "rich"
       ]
     },
     {
@@ -162,7 +174,11 @@
         "artist": "Andy Li",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Chicken_Shawarma_Wrap_-_Lavash_2024-09-11.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "tangy"
+      ]
     },
     {
       "id": "kofta",
@@ -199,7 +215,11 @@
         "artist": "Foodista",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:K%C3%B6fte_kebabs.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich"
+      ]
     },
     {
       "id": "mujaddara",
@@ -235,7 +255,11 @@
         "artist": "Bazel",
         "license": "CC BY-SA 3.0",
         "page": "https://commons.wikimedia.org/wiki/File:Mujaddara.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich"
+      ]
     },
     {
       "id": "fattoush",
@@ -274,7 +298,11 @@
         "artist": "Arousing Appetites",
         "license": "CC BY-SA 3.0",
         "page": "https://commons.wikimedia.org/wiki/File:Fattoush_mixed-salad.jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "tangy"
+      ]
     },
     {
       "id": "foul",
@@ -314,6 +342,10 @@
       },
       "tags": [
         "breakfast"
+      ],
+      "taste": [
+        "savoury",
+        "tangy"
       ]
     },
     {
@@ -359,7 +391,12 @@
         "artist": "Basel15 at en.wikipedia",
         "license": "Public domain",
         "page": "https://commons.wikimedia.org/wiki/File:Kabsa.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich",
+        "spicy"
+      ]
     },
     {
       "id": "batata_harra",
@@ -394,7 +431,11 @@
         "artist": "secretlondon123 from London, England",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Batata_harra.jpg"
-      }
+      },
+      "taste": [
+        "spicy",
+        "savoury"
+      ]
     },
     {
       "id": "masoor_dal",
@@ -435,7 +476,11 @@
         "artist": "cyclonebill",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Flickr_-_cyclonebill_-_Lamb_Korma,_raita,_Masoor_Dal,_guler%C3%B8dder_og_chapati.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich"
+      ]
     },
     {
       "id": "chicken_curry",
@@ -477,7 +522,12 @@
         "artist": "Gaurav Dhwaj Khadka",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Chicken_Curry_9.jpg"
-      }
+      },
+      "taste": [
+        "spicy",
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "chana_masala",
@@ -519,7 +569,11 @@
         "artist": "Andy Li",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Chana_Masala_-_Mohammed_-_Spice_Of_Life_2024-05-27.jpg"
-      }
+      },
+      "taste": [
+        "spicy",
+        "savoury"
+      ]
     },
     {
       "id": "aloo_matar",
@@ -561,7 +615,11 @@
         "artist": "Zeel Patel",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Aloo_Matar.JPG"
-      }
+      },
+      "taste": [
+        "savoury",
+        "spicy"
+      ]
     },
     {
       "id": "anda_curry",
@@ -602,7 +660,11 @@
         "artist": "https://onlybestrecipes.com/egg-curry-recipeegg-curry-recipe/",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Spicy_Anda_Curry.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich"
+      ]
     },
     {
       "id": "keema_matar",
@@ -645,7 +707,12 @@
         "artist": "Cabeza2000",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Keema_Matar_(a_dish_from_India).jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich",
+        "spicy"
+      ]
     },
     {
       "id": "chicken_biryani",
@@ -692,7 +759,12 @@
         "artist": "Subhrajyoti07",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:A_home_made_plate_of_mutton_biryani_served_with_chicken_kassa_cooked_in_the_bengali_style.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "spicy",
+        "savoury"
+      ]
     },
     {
       "id": "veg_pulao",
@@ -733,7 +805,11 @@
         "artist": "Sumitsurai",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Andhra_Vegetable_Pulao_-_WCI-Day0-Dinner.jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "savoury"
+      ]
     },
     {
       "id": "masala_omelette",
@@ -772,6 +848,9 @@
       },
       "tags": [
         "breakfast"
+      ],
+      "taste": [
+        "savoury"
       ]
     },
     {
@@ -811,7 +890,11 @@
         "artist": "Monali.mishra",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Bhindi_Masala.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "spicy"
+      ]
     },
     {
       "id": "tomato_pasta",
@@ -848,7 +931,11 @@
         "artist": "HaJunkiyada",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Liat_Portal_for_Foodie_Disorder_-_Spaghetti_with_Tomato_Sauce.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "tangy"
+      ]
     },
     {
       "id": "aglio_olio",
@@ -883,7 +970,11 @@
         "artist": "Bairuilong",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_aglio_e_olio_KB.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "spicy"
+      ]
     },
     {
       "id": "mushroom_pasta",
@@ -921,7 +1012,11 @@
         "artist": "Sharon Chen",
         "license": "CC BY 3.0",
         "page": "https://commons.wikimedia.org/wiki/File:Creamy_Mushroom_Pasta.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "mac_cheese",
@@ -958,7 +1053,11 @@
         "artist": "Matt MacGillivray from Toronto, Ontario, Canada",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Flickr_qmnonic_123431456--Kraft_Dinner_and_veggie_dogs.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "spanish_tortilla",
@@ -995,6 +1094,10 @@
       },
       "tags": [
         "breakfast"
+      ],
+      "taste": [
+        "savoury",
+        "rich"
       ]
     },
     {
@@ -1036,7 +1139,11 @@
         "artist": "Mae Mu",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Foodiesfeed.com_pouring-honey-on-pancakes-with-walnuts.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "light"
+      ]
     },
     {
       "id": "french_toast",
@@ -1076,7 +1183,11 @@
         "artist": "Ocdp",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:French_toast_001.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "rich"
+      ]
     },
     {
       "id": "lemon_chicken_traybake",
@@ -1111,7 +1222,11 @@
         "artist": "Daderot",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Curry_roasted_cauliflower_and_haricots_verts,_roasted_garlic_celeriac_puree,_beef_bourguignon,_and_chicken_thigh_with_sweet_potato_and_apple_-_Boston,_MA.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "tangy"
+      ]
     },
     {
       "id": "beef_burgers",
@@ -1148,7 +1263,11 @@
         "artist": "عمرو",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Hamburger_with_beef_bacon.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich"
+      ]
     },
     {
       "id": "baked_salmon",
@@ -1182,7 +1301,11 @@
         "artist": "Andy / Andrew Fogg from near Cambridge, UK",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Time_for_another_food_picture_-)_(4200042228).jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "tangy"
+      ]
     },
     {
       "id": "egg_fried_rice",
@@ -1219,7 +1342,10 @@
         "artist": "daSupremo",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Fried_rice_with_chicken_and_egg.jpg"
-      }
+      },
+      "taste": [
+        "savoury"
+      ]
     },
     {
       "id": "chicken_stir_fry",
@@ -1257,7 +1383,11 @@
         "artist": "Takeaway",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Kai_phat_khing.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "light"
+      ]
     },
     {
       "id": "garlic_soy_noodles",
@@ -1294,7 +1424,10 @@
         "artist": "Eric T Gunther",
         "license": "CC BY-SA 3.0",
         "page": "https://commons.wikimedia.org/wiki/File:Lo_Mein_American_Style.JPG"
-      }
+      },
+      "taste": [
+        "savoury"
+      ]
     },
     {
       "id": "peanut_noodles",
@@ -1332,7 +1465,12 @@
         "artist": "USDA",
         "license": "Public domain",
         "page": "https://commons.wikimedia.org/wiki/File:Noodles_with_Peanut_Butter_Sauce.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury",
+        "sweet"
+      ]
     },
     {
       "id": "honey_soy_chicken",
@@ -1369,7 +1507,11 @@
         "artist": "Vyacheslav Argenberg",
         "license": "CC BY 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Chicken_teriyaki,_Fried_chicken,_Krasnoyarsk,_Russia.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "savoury"
+      ]
     },
     {
       "id": "coconut_chicken_curry",
@@ -1408,7 +1550,11 @@
         "artist": "Andy Li",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Red_Curry_with_Chicken_-_Little_Thai,_Brighton_2024-03-01.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "spicy"
+      ]
     },
     {
       "id": "chili_garlic_prawns",
@@ -1445,7 +1591,11 @@
         "artist": "Francesc Fort",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Llagost%C3%AD_amb_all_al_vapor.jpg"
-      }
+      },
+      "taste": [
+        "spicy",
+        "light"
+      ]
     },
     {
       "id": "nasi_goreng",
@@ -1484,7 +1634,11 @@
         "artist": "Wiki Farazi",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Nasi_goreng_pattaya_20231028_120535.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "spicy"
+      ]
     },
     {
       "id": "chicken_adobo",
@@ -1521,7 +1675,11 @@
         "artist": "dbgg1979 on flickr",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Chicken_adobo.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "tangy"
+      ]
     },
     {
       "id": "sweet_sour_chicken",
@@ -1561,7 +1719,11 @@
         "artist": "Miansari66",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Sweet_and_Sour_Chicken.JPG"
-      }
+      },
+      "taste": [
+        "sweet",
+        "tangy"
+      ]
     },
     {
       "id": "harees",
@@ -1596,7 +1758,11 @@
         "artist": "Krista",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Al_fanar_harees_(7797136886).jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "luqaimat",
@@ -1638,7 +1804,11 @@
         "artist": "Benreis",
         "license": "CC BY 3.0",
         "page": "https://commons.wikimedia.org/wiki/File:Lokma_Galata_Bridge.JPG"
-      }
+      },
+      "taste": [
+        "sweet",
+        "rich"
+      ]
     },
     {
       "id": "balaleet",
@@ -1678,7 +1848,11 @@
         "artist": "Droodkin",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Balaleet_2019.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "rich"
+      ]
     },
     {
       "id": "chicken_saloona",
@@ -1717,7 +1891,11 @@
         "Top with coriander and serve with rice."
       ],
       "pressure": "After step 4, add the potatoes, carrots, dried lime, salt and 2½ cups water. Cook 8 minutes at high pressure, release the pressure, add the zucchini and simmer 5 minutes.",
-      "tip": ""
+      "tip": "",
+      "taste": [
+        "savoury",
+        "rich"
+      ]
     },
     {
       "id": "thareed",
@@ -1759,7 +1937,11 @@
         "artist": "Miansari66",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Tharid..JPG"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "chebab",
@@ -1797,6 +1979,10 @@
       "tags": [
         "sweet",
         "breakfast"
+      ],
+      "taste": [
+        "sweet",
+        "light"
       ]
     },
     {
@@ -1825,7 +2011,12 @@
         "Toss with the cumin, chili powder, ½ tsp black pepper and the lemon juice.",
         "Add the green chili and coriander and serve warm in small cups."
       ],
-      "tip": "A popular snack for Ramadan and Eid gatherings."
+      "tip": "A popular snack for Ramadan and Eid gatherings.",
+      "taste": [
+        "savoury",
+        "tangy",
+        "spicy"
+      ]
     },
     {
       "id": "karak_chai",
@@ -1863,7 +2054,11 @@
         "artist": "Gaurav Dhwaj Khadka",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Milk_Masala_Tea.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "rich"
+      ]
     },
     {
       "id": "samak_mashwi",
@@ -1900,7 +2095,11 @@
         "artist": "Shaween",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Grilled_Fish,_Shaqlawa,_Kurdistan_1.jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "tangy"
+      ]
     },
     {
       "id": "margoogat",
@@ -1935,7 +2134,11 @@
         "Roll the dough very thin, cut it into 5 cm squares and drop them into the simmering stew one by one. Cook 10 minutes until tender.",
         "Rest 5 minutes, top with coriander and serve."
       ],
-      "tip": "Roll the dough as thin as you can: it thickens the stew as it cooks."
+      "tip": "Roll the dough as thin as you can: it thickens the stew as it cooks.",
+      "taste": [
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "mint_tea",
@@ -1970,7 +2173,11 @@
         "artist": "Sarkar Sayantan",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Moroccan_Mint_Tea_-_1.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "light"
+      ]
     },
     {
       "id": "ginger_lemon_honey",
@@ -2008,7 +2215,12 @@
         "artist": "Erasmus Kamugisha",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Lemon_and_ginger_tea_,Tanzania.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "tangy",
+        "light"
+      ]
     },
     {
       "id": "maramiya_tea",
@@ -2042,7 +2254,11 @@
         "artist": "cogdogblog",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Making_Sage_Tea_(9235010409).jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "light"
+      ]
     },
     {
       "id": "chamomile_tea",
@@ -2078,7 +2294,11 @@
         "artist": "Greg",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Glass_of_chamomile_tea.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "light"
+      ]
     },
     {
       "id": "karkade",
@@ -2115,7 +2335,11 @@
         "artist": "stu_spivack",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Homemade_sorrel_drink.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "tangy"
+      ]
     },
     {
       "id": "peach_iced_tea",
@@ -2153,7 +2377,11 @@
         "artist": "Baoothersks",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Peach_iced_tea_with_orange_slices.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "light"
+      ]
     },
     {
       "id": "lemon_mint",
@@ -2187,7 +2415,12 @@
         "artist": "Bernard Gagnon",
         "license": "CC BY-SA 3.0",
         "page": "https://commons.wikimedia.org/wiki/File:Mint_lemonade.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "tangy",
+        "light"
+      ]
     },
     {
       "id": "mango_lassi",
@@ -2224,7 +2457,11 @@
         "artist": "Andy Li",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Mango_Lassi_and_Butter_Milk_-_Vel_South_Indian_Kitchen_%2B_Bar.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "rich"
+      ]
     },
     {
       "id": "watermelon_mint",
@@ -2260,7 +2497,11 @@
         "artist": "Brindhashanmugam312",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Watermelon_juice_in_glass.jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "sweet"
+      ]
     },
     {
       "id": "date_shake",
@@ -2297,7 +2538,11 @@
         "artist": "Ranjithkanth jayanthi",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Milkshake_3.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "rich"
+      ]
     },
     {
       "id": "iced_coffee",
@@ -2330,7 +2575,11 @@
         "artist": "Tony Webster",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Iced_Coffee_in_Glass_-_Sunshine_Coffee_-_Laramie_Cafe_(53838344552).jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "light"
+      ]
     },
     {
       "id": "energy_balls",
@@ -2368,7 +2617,11 @@
         "artist": "Meg H",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Raw-energy-balls_(49658797242).jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "rich"
+      ]
     },
     {
       "id": "chia_pudding",
@@ -2405,7 +2658,11 @@
         "artist": "Miscellaneous contributor",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Chia_seed_pudding_in_a_tea_cup.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "light"
+      ]
     },
     {
       "id": "yogurt_parfait",
@@ -2441,7 +2698,11 @@
         "artist": "Benoît Prieur",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Parfait_glac%C3%A9_au_Grand_Marnier,_fruits_confits_et_pain_d%27%C3%A9pice.JPG"
-      }
+      },
+      "taste": [
+        "sweet",
+        "light"
+      ]
     },
     {
       "id": "banana_oat_cookies",
@@ -2479,7 +2740,10 @@
         "artist": "James from Boulder, USA",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:OATMEAL-BANANA_COOKIES_-_Flickr_-_scubadive67.jpg"
-      }
+      },
+      "taste": [
+        "sweet"
+      ]
     },
     {
       "id": "baked_apples",
@@ -2517,7 +2781,11 @@
         "artist": "Andrey Korzun",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Baked_apple_02.JPG"
-      }
+      },
+      "taste": [
+        "sweet",
+        "light"
+      ]
     },
     {
       "id": "nice_cream",
@@ -2554,7 +2822,11 @@
         "artist": "Nitsan Simantov",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Vegan_ice_cream,_banana_nice_cream.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "light"
+      ]
     },
     {
       "id": "umm_ali",
@@ -2595,7 +2867,11 @@
         "artist": "Miansari66",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Umm_Ali.JPG"
-      }
+      },
+      "taste": [
+        "sweet",
+        "rich"
+      ]
     },
     {
       "id": "basbousa",
@@ -2636,7 +2912,11 @@
         "artist": "stu_spivack",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Basboosa.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "rich"
+      ]
     },
     {
       "id": "rice_pudding",
@@ -2674,7 +2954,11 @@
         "artist": "Bukky658",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Tuwo_Shinkafa_with_garden_egg_Soup.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "rich"
+      ]
     },
     {
       "id": "muhallabia",
@@ -2711,7 +2995,11 @@
         "artist": "E4024",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Turkish_muhallebi.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "light"
+      ]
     },
     {
       "id": "brownies",
@@ -2750,7 +3038,11 @@
         "artist": "Wikimedia Commons contributor",
         "license": "CC BY-SA 3.0",
         "page": "https://commons.wikimedia.org/wiki/File:Chocolate_brownies_without_table.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "rich"
+      ]
     },
     {
       "id": "sheer_khurma",
@@ -2791,7 +3083,11 @@
         "artist": "Mducityman",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Sheer_Korma.JPG"
-      }
+      },
+      "taste": [
+        "sweet",
+        "rich"
+      ]
     },
     {
       "id": "joojeh_kabab",
@@ -2829,7 +3125,11 @@
         "artist": "Nasser-sadeghi",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Joojeh-kabab.JPG"
-      }
+      },
+      "taste": [
+        "savoury",
+        "tangy"
+      ]
     },
     {
       "id": "ghormeh_sabzi",
@@ -2869,7 +3169,12 @@
         "artist": "Amin Majidi",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Ghormeh_Sabzi.JPG"
-      }
+      },
+      "taste": [
+        "savoury",
+        "tangy",
+        "rich"
+      ]
     },
     {
       "id": "chelow_tahdig",
@@ -2903,7 +3208,11 @@
         "artist": "the foodhoe",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Tahdig_with_ghormeh_sabzi.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "zereshk_polo",
@@ -2941,7 +3250,11 @@
         "artist": "Marcuscalabresus",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Zereshk_polo_-_Riso_con_crespini.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "savoury"
+      ]
     },
     {
       "id": "kashk_bademjan",
@@ -2978,7 +3291,11 @@
         "artist": "مانفی",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Kashk_e_Badamjan.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "mirza_ghasemi",
@@ -3013,7 +3330,11 @@
         "artist": "Anastasiya Lvova",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:%D0%9C%D0%B8%D1%80%D0%B7%D0%B0_%D0%93%D0%B0%D1%81%D1%81%D0%B5%D0%BC%D0%B8.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich"
+      ]
     },
     {
       "id": "kuku_sabzi",
@@ -3052,7 +3373,11 @@
         "artist": "Shannon Badiee",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Kuku_Sabzi_Platter.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "light"
+      ]
     },
     {
       "id": "khoresh_gheymeh",
@@ -3091,7 +3416,12 @@
         "artist": "Diako1971",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Gheyme.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "tangy",
+        "rich"
+      ]
     },
     {
       "id": "greek_salad",
@@ -3124,7 +3454,11 @@
         "artist": "Paasikivi",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Greek_salad_and_Tzatziki.jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "tangy"
+      ]
     },
     {
       "id": "chicken_souvlaki",
@@ -3162,7 +3496,11 @@
         "artist": "Breawycker",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Chicken_souvlaki_pita_with_french_fries.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "tangy"
+      ]
     },
     {
       "id": "chicken_paella",
@@ -3203,7 +3541,11 @@
         "artist": "Wilfredor",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Paella_de_fruit_de_mer.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich"
+      ]
     },
     {
       "id": "chicken_tagine",
@@ -3244,7 +3586,12 @@
         "artist": "This Photo was taken by Timothy A. Gonsalves. Feel free to use my photos, but pl",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Chicken_Veg_Tagine_Rabat_Nov25_A7CR_08908.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "tangy",
+        "rich"
+      ]
     },
     {
       "id": "menemen",
@@ -3283,6 +3630,10 @@
       },
       "tags": [
         "breakfast"
+      ],
+      "taste": [
+        "savoury",
+        "spicy"
       ]
     },
     {
@@ -3326,6 +3677,10 @@
       },
       "tags": [
         "soup"
+      ],
+      "taste": [
+        "light",
+        "savoury"
       ]
     },
     {
@@ -3366,7 +3721,11 @@
         "artist": "Missvain",
         "license": "CC BY 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Chicken_fajitas_-_La_Hacienda_-_Sarah_Stierch.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "spicy"
+      ]
     },
     {
       "id": "beef_tacos",
@@ -3406,7 +3765,11 @@
         "artist": "Larry Miller",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:001_Tacos_de_carnitas,_carne_asada_y_al_pastor.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "spicy"
+      ]
     },
     {
       "id": "guacamole",
@@ -3438,7 +3801,11 @@
         "artist": "Nikodem Nijaki",
         "license": "CC BY-SA 3.0",
         "page": "https://commons.wikimedia.org/wiki/File:Guacamole_IMGP1271.jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "tangy"
+      ]
     },
     {
       "id": "chicken_quesadillas",
@@ -3473,7 +3840,11 @@
         "artist": "Photograph by Mike Peel (www.mikepeel.net).",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:At_Long_Island_2023_267.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "burrito_bowl",
@@ -3514,7 +3885,11 @@
         "artist": "Missvain",
         "license": "CC BY 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Steak_burrito_bowl_at_La_Casa_Restaurant_in_Sonoma,_California_-_Sarah_Stierch_03.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich"
+      ]
     },
     {
       "id": "mexican_rice",
@@ -3551,7 +3926,11 @@
         "artist": "Maryam S.",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Mexican_rice_and_beans.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "light"
+      ]
     },
     {
       "id": "huevos_rancheros",
@@ -3589,7 +3968,11 @@
         "artist": "1000b",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Huevos_rancheros.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "spicy"
+      ]
     },
     {
       "id": "chicken_enchiladas",
@@ -3628,7 +4011,12 @@
         "artist": "Lameirasb",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Festival_de_la_Enchilada_59.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury",
+        "spicy"
+      ]
     },
     {
       "id": "bulgogi",
@@ -3665,7 +4053,11 @@
         "artist": "Debbie Tingzon",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Bulgogi_3.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "savoury"
+      ]
     },
     {
       "id": "chicken_katsu",
@@ -3704,7 +4096,11 @@
         "artist": "Ocdp",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Chicken_Cutlet_001.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "pad_thai",
@@ -3746,7 +4142,12 @@
         "artist": "Takeaway",
         "license": "CC BY-SA 3.0",
         "page": "https://commons.wikimedia.org/wiki/File:Phat_Thai_kung_Chang_Khien_street_stall.jpg"
-      }
+      },
+      "taste": [
+        "sweet",
+        "tangy",
+        "savoury"
+      ]
     },
     {
       "id": "miso_soup",
@@ -3781,6 +4182,10 @@
       },
       "tags": [
         "soup"
+      ],
+      "taste": [
+        "savoury",
+        "light"
       ]
     },
     {
@@ -3823,7 +4228,11 @@
         "artist": "Carstor",
         "license": "CC BY-SA 2.5",
         "page": "https://commons.wikimedia.org/wiki/File:Bowl_of_chili.jpg"
-      }
+      },
+      "taste": [
+        "spicy",
+        "rich"
+      ]
     },
     {
       "id": "chicken_wings",
@@ -3859,7 +4268,11 @@
         "artist": "Willis Lam",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Buffalo_Burgers_Buffalo_Chicken_Wings_(36082467922).jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "spicy"
+      ]
     },
     {
       "id": "shepherds_pie",
@@ -3901,7 +4314,11 @@
         "artist": "Abhinaba Basu from Redmond, United States",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Shepherd%27s_pie_(22470901009).jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "chicken_schnitzel",
@@ -3937,7 +4354,11 @@
         "artist": "Kritzolina",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Allg%C3%A4uer_Schnitzel_mit_Kr%C3%A4uterr%C3%B6sti.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich"
+      ]
     },
     {
       "id": "beef_stroganoff",
@@ -3974,7 +4395,11 @@
         "artist": "benketaro",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Beef_stroganoff_with_pasta.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "caesar_salad",
@@ -4011,7 +4436,11 @@
         "artist": "Andy Li",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Caesar_Salad_-_Purezza_2023-11-22.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "harira",
@@ -4057,7 +4486,11 @@
         "artist": "-ani",
         "license": "FAL",
         "page": "https://commons.wikimedia.org/wiki/File:Harira_vegetarisch.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "savoury"
+      ]
     },
     {
       "id": "chicken_veg_soup",
@@ -4100,7 +4533,11 @@
         "artist": "Scott Teresi",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Simple_vegetable_soup_2009.jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "savoury"
+      ]
     },
     {
       "id": "tomato_soup",
@@ -4140,7 +4577,11 @@
         "artist": "JIP",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Tomato_soup_at_restaurant_Treffi_Pub.jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "tangy"
+      ]
     },
     {
       "id": "pumpkin_soup",
@@ -4180,7 +4621,11 @@
         "artist": "Cala cala_maffia",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Autumn_Soup_(Unsplash)_cropped.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich"
+      ]
     },
     {
       "id": "chicken_corn_soup",
@@ -4222,7 +4667,11 @@
         "artist": "Daderot",
         "license": "CC0",
         "page": "https://commons.wikimedia.org/wiki/File:Corn_soup_with_chicken_and_black_pepper,_chilled_-_Aington,_MA.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich"
+      ]
     },
     {
       "id": "shorbat_dajaj",
@@ -4263,7 +4712,11 @@
         "artist": "HaJunkiyada",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Liat_Portal_for_Foodie_Disorder_-_Chicken_Soup_with_Rice_Noodles.jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "savoury"
+      ]
     },
     {
       "id": "coconut_chicken_soup",
@@ -4304,7 +4757,11 @@
         "artist": "Evan Joshua Swigart (TheCulinaryGeek) from Chicago, Illinois, USA; hometown of A",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Flickr_preppybyday_4711943668--Tom_kha_gai.jpg"
-      }
+      },
+      "taste": [
+        "rich",
+        "tangy"
+      ]
     },
     {
       "id": "tortilla_soup",
@@ -4348,7 +4805,11 @@
         "artist": "Wikiwrimo",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Tortilla_Soup.jpg"
-      }
+      },
+      "taste": [
+        "spicy",
+        "savoury"
+      ]
     },
     {
       "id": "avgolemono",
@@ -4386,7 +4847,11 @@
         "artist": "Missvain",
         "license": "CC BY 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Avgolemono_-_Sarah_Stierch.jpg"
-      }
+      },
+      "taste": [
+        "tangy",
+        "rich"
+      ]
     },
     {
       "id": "tabbouleh_chicken",
@@ -4428,7 +4893,11 @@
         "artist": "cyclonebill",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Flickr_-_cyclonebill_-_Tabbouleh.jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "tangy"
+      ]
     },
     {
       "id": "fish_in_foil",
@@ -4467,7 +4936,11 @@
         "artist": "Blue Lotus. from Tokio",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Orata_al_Cartoccio.jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "tangy"
+      ]
     },
     {
       "id": "balela",
@@ -4505,7 +4978,11 @@
         "artist": "Cajsa Lilliehook from Portland",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Chickpea_Chop_Salad_(9484308160).jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "tangy"
+      ]
     },
     {
       "id": "chicken_lettuce_wraps",
@@ -4546,7 +5023,11 @@
         "artist": "Jen Arrr",
         "license": "CC BY 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:Lettuce_wraps_(8477450648).jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "savoury"
+      ]
     },
     {
       "id": "garlic_tofu_broccoli",
@@ -4587,7 +5068,11 @@
         "artist": "Miscellaneous contributor",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Tofu_and_Broccoli_2.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "light"
+      ]
     },
     {
       "id": "chicken_tikka_raita",
@@ -4629,7 +5114,11 @@
         "artist": "Satdeep Gill",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:Chicken_tikka_in_Araku_Valley,_Andhra_Pradesh_01.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "spicy"
+      ]
     },
     {
       "id": "adasi",
@@ -4671,7 +5160,11 @@
         "artist": "Abraham",
         "license": "CC BY-SA 4.0",
         "page": "https://commons.wikimedia.org/wiki/File:20221217_lentil_soup_Katowice_Panewniki.jpg"
-      }
+      },
+      "taste": [
+        "savoury",
+        "rich"
+      ]
     },
     {
       "id": "black_bean_corn_salad",
@@ -4709,7 +5202,11 @@
         "artist": "Daniel Sone (Photographer)",
         "license": "Public domain",
         "page": "https://commons.wikimedia.org/wiki/File:Corn_and_black_bean_salad.jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "tangy"
+      ]
     },
     {
       "id": "tuna_egg_salad",
@@ -4749,7 +5246,11 @@
         "artist": "Katrin Gilger",
         "license": "CC BY-SA 2.0",
         "page": "https://commons.wikimedia.org/wiki/File:French_Salade_nicoise_(4520629896).jpg"
-      }
+      },
+      "taste": [
+        "light",
+        "savoury"
+      ]
     }
   ]
 }
