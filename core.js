@@ -680,7 +680,7 @@
       steps.forEach((l, i) => { if (re.test(l)) h.steps.push(i); });
       return h;
     };
-    const add = (bag, i, icon, text) => { (bag[i] = bag[i] || []).push({ icon, text }); };
+    const add = (bag, i, icon, text) => { const b = (bag[i] = bag[i] || []); if (!b.some((m) => m.text === text)) b.push({ icon, text }); };
     // a mark on an ingredient line can carry the amount to use instead ("2 tsp" -> "1 tsp")
     const AMOUNT_F = { "use half": 0.5, "add a little more": 1.5, "add a pinch more": 1.5 };
     const lineMark = (icon, text, line, info, split, label) => {
@@ -701,6 +701,8 @@
       if (!has.size || has.has("Everyone")) return null;
       const holders = eaters.filter((n) => has.has(n));
       if (!holders.length || holders.length === eaters.length) return null;
+      // "wants more": nobody's portion comes out; the cook adds a little extra to theirs at the end
+      if (/^not-/.test(id)) return { names: holders, step: -1, more: true };
       const step = steps.findIndex((s) => CAT_RE[info.cat].test(s));
       return step < 0 ? null : { names: holders, step };
     };
@@ -729,8 +731,12 @@
       const split = splitFor(id);
       const splitWho = split ? joinNames(split.names) + (split.names.length > 1 ? "'s portions" : "'s portion") : "";
       const splitWord = split ? (info.cat === "spicy" ? mainWord(recipe, "spicy") : info.cat === "sweet" ? "honey/sugar" : "salt") : "";
-      const splitText = (label) => label + " — cook the full amount, but take " + splitWho + " out before the " + splitWord + " goes in";
-      const stepText = (plain) => (split ? splitWho + (split.names.length > 1 ? " are" : " is") + " already out — full amount for the rest" : plain);
+      const splitText = (label) => split.more
+        ? label + " — cook the full amount, then add a little more " + splitWord + " to " + splitWho + " at the end"
+        : label + " — cook the full amount, but take " + splitWho + " out before the " + splitWord + " goes in";
+      const stepText = (plain) => (!split ? plain : split.more
+        ? "Full amount here; add a little more " + splitWord + " to " + splitWho + " at the end"
+        : splitWho + (split.names.length > 1 ? " are" : " is") + " already out — full amount for the rest");
       if (entryText) {
         const label = joinNames(names) + ": " + info.phrase;
         const text = split ? splitText(label) : entryText;
@@ -751,7 +757,10 @@
         if (up) {
           const word = mainWord(recipe, info.cat);
           const down = joinNames(names) + (names.length > 1 ? "'s portions" : "'s portion");
-          if (info.cat === "spicy") disagree.push(`${up} liked it as it was: take ${down} out before adding the ${word}, or serve the ${word} on the side.`);
+          if (/^not-/.test(id)) {
+            const extraWord = info.cat === "spicy" ? word : info.cat === "sweet" ? "honey/sugar" : "salt";
+            disagree.push(`${up} liked it as it was: cook it as usual, then add a little more ${extraWord} to ${down} only.`);
+          } else if (info.cat === "spicy") disagree.push(`${up} liked it as it was: take ${down} out before adding the ${word}, or serve the ${word} on the side.`);
           else if (info.cat === "sweet") disagree.push(`${up} liked it as it was: sweeten only ${up}'s portion, or serve the honey/sugar on the side.`);
           else disagree.push(`${up} liked it as it was: salt ${down} lightly and add salt to the rest at the end.`);
         }
@@ -797,7 +806,7 @@
     const groups = {};
     for (const id of ISSUE_IDS) {
       const info = ISSUES[id];
-      if (!/^(spicy|sweet|salt)$/.test(info.cat)) continue;
+      if (!/^(spicy|sweet|salt)$/.test(info.cat) || /^not-/.test(id)) continue; // "wants more" never splits
       if ((e.change || []).some((c) => CHANGE_ISSUE[String(c).toLowerCase()] === id)) continue; // "Everyone": no split
       const has = new Set();
       for (const n of per[id] || []) if (!eat || eat.has(n)) has.add(n);
