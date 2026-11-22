@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 27; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 28; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -76,6 +76,7 @@
     basics: new Set(LS.get("basics", MK.BASICS_DEFAULT)),
     favs: new Set(LS.get("favs", [])),
     hidden: new Set(LS.get("hidden", [])),
+    hiddenRecipes: new Set(LS.get("hiddenRecipes", [])), // "Don't suggest this again": still searchable, just not suggested
     shop: LS.get("shop", []),
     filters: LS.get("filters", { quick: false, veg: false, vegan: false, fav: false }),
     // The old default (keytouae) never had a helper behind it; anyone still on it moves to the real one.
@@ -101,7 +102,7 @@
   function saveState() {
     if (!S.example) LS.set("have", [...S.have]);
     LS.set("equip", [...S.equip]); LS.set("basics", [...S.basics]); LS.set("favs", [...S.favs]);
-    LS.set("hidden", [...S.hidden]); LS.set("shop", S.shop); LS.set("filters", S.filters); LS.set("units", S.units); LS.set("show", S.show);
+    LS.set("hidden", [...S.hidden]); LS.set("hiddenRecipes", [...S.hiddenRecipes]); LS.set("shop", S.shop); LS.set("filters", S.filters); LS.set("units", S.units); LS.set("show", S.show);
     LS.set("openGroups", [...S.openGroups]);
     LS.set("plan", S.plan); LS.set("notes", S.notes); LS.set("useSoon", [...S.useSoon]); LS.set("lastCooked", S.lastCooked); LS.set("stock", S.stock); LS.set("speak", S.speak);
     LS.set("family", S.family); LS.set("cookLog", S.cookLog); LS.set("eating", S.eating); LS.set("tasteIgnore", S.tasteIgnore);
@@ -426,19 +427,9 @@
     return "savoury";
   }
   const tastesOf = (r) => (Array.isArray(r.taste) && r.taste.length ? r.taste : [guessTaste(r)]);
-  // how well a dish went down with the people eating today: +1 for a clean thumbs-up last time, -1 for repeated thumbs-down
+  // how well a dish went down with the people eating today, newest cooks weighing most (MK.familyScore)
   function familyScore(r) {
-    const log = S.cookLog[r.id] || [];
-    const eat = eatingNames();
-    const ok = (n) => !eat || eat.includes(n);
-    const vals = (e) => Object.entries(e.who || {}).filter(([n]) => ok(n)).map(([, v]) => v);
-    let score = 0;
-    if (log[0]) {
-      const v = vals(log[0]);
-      if (v.includes("up") && !v.includes("down")) score += 1;
-    }
-    if (log.filter((e) => vals(e).includes("down")).length >= 2) score -= 1;
-    return score;
+    return MK.familyScore(S.cookLog[r.id] || [], eatingNames());
   }
   function card(r, sc, onclick) {
     const fav = S.favs.has(r.id);
@@ -452,6 +443,7 @@
         h("span", { class: "meta", text: meta }),
         (() => { const ln = lastNote(r.id); const downs = ln ? Object.entries(ln.who || {}).filter(([, v]) => v === "down") : []; const nm = downs.map(([n]) => n); return downs.length ? h("span", { class: "pill bad small", text: "👎 " + (nm.length > 2 ? nm.slice(0, 2).join(", ") + " +" + (nm.length - 2) : nm.join(", ")), title: nm.join(", ") }) : null; })(),
         (() => { const ln = lastNote(r.id); const v = ln ? Object.values(ln.who || {}) : []; return v.filter((x) => x === "up").length >= 2 && !v.some((x) => x === "down" || x === "mid") ? h("span", { class: "pill good small", text: "❤ Everyone liked" }) : null; })(),
+        S.hiddenRecipes.has(r.id) ? h("span", { class: "pill small", text: "Hidden" }) : null,
         sc ? h("span", { class: "meter", "aria-hidden": "true" }, h("span", { style: "width:" + Math.round(sc.frac * 100) + "%" })) : null,
         sc && sc.soon && sc.soon.length ? h("span", { class: "soon-line", text: "⏰ Uses " + sc.soon.map((k) => label(k, ex).toLowerCase()).join(", ") }) : null,
         sc ? (sc.miss.length
@@ -485,11 +477,12 @@
     // drinks and sweets get their own rows unless you picked one of those filters or are searching
     const apart = !SPECIAL[S.cuisine] && !S.cookQ;
     const pool = apart ? filtered.filter((r) => !isDrink(r) && !isSweet(r)) : filtered;
-    const readyNow = (test) => (apart ? filtered.filter((r) => test(r) && eqOK(r)).map((r) => ({ r, sc: score(r) })).filter((x) => !x.sc.miss.length) : []);
+    const readyNow = (test) => (apart ? filtered.filter((r) => test(r) && eqOK(r) && !S.hiddenRecipes.has(r.id)).map((r) => ({ r, sc: score(r) })).filter((x) => !x.sc.miss.length) : []);
     const drinksNow = readyNow(isDrink);
     const sweetsNow = readyNow((r) => isSweet(r) && !isDrink(r));
     const noEquip = pool.filter((r) => !eqOK(r));
-    const scored = pool.filter(eqOK).map((r) => ({ r, sc: score(r) }));
+    // "don't suggest" dishes stay findable by search, but not in the suggestions
+    const scored = pool.filter((r) => eqOK(r) && (S.cookQ || !S.hiddenRecipes.has(r.id))).map((r) => ({ r, sc: score(r) }));
     scored.sort((a, b) => a.sc.miss.length - b.sc.miss.length || familyScore(b.r) - familyScore(a.r) || (b.sc.soon.length - a.sc.soon.length) || (S.favs.has(b.r.id) - S.favs.has(a.r.id)) || b.sc.frac - a.sc.frac || (minsOf(a.r) || 999) - (minsOf(b.r) || 999));
     const now = scored.filter((x) => !x.sc.miss.length);
     const near = scored.filter((x) => x.sc.miss.length && x.sc.miss.length <= 2);
@@ -718,6 +711,13 @@
           if (!confirm("Go back to the original built-in version? Your changes will be lost.")) return;
           await removeMine(r.id); toast("Original recipe restored"); closeSheet(); render();
         } }, "Restore original"));
+        const noSuggest = () => S.hiddenRecipes.has(r.id);
+        const hideBtn = h("button", { class: "btn quiet", type: "button", onclick: () => {
+          if (noSuggest()) { S.hiddenRecipes.delete(r.id); toast("Suggesting this again"); }
+          else { S.hiddenRecipes.add(r.id); toast("Won't suggest this again. Undo in Settings → Hidden dishes"); }
+          saveState(); hideBtn.textContent = noSuggest() ? "↩ Suggest this again" : "🚫 Don't suggest this again"; render();
+        } }, noSuggest() ? "↩ Suggest this again" : "🚫 Don't suggest this again");
+        acts.append(hideBtn);
         acts.append(h("button", { class: "btn danger", type: "button", onclick: async () => {
           if (isBuiltin(r.id)) {
             if (!confirm(`Hide "${r.name}"? You can bring it back from My recipes.`)) return;
@@ -1628,6 +1628,11 @@
           h("button", { class: "btn quiet small", type: "button", "aria-label": "Remove " + n, onclick: () => { S.family = S.family.filter((x) => x !== n); saveState(); renderSettings(); } }, "✕")),
         tastes.length ? h("div", { class: "chips", style: "padding:0;gap:4px" }, tastes) : h("span", { class: "hint", style: "font-size:.75rem", text: "Learns after 2 ratings" }));
     }));
+    const hid = [...S.hiddenRecipes].map((id) => byId(id)).filter(Boolean);
+    $("#hiddenList").replaceChildren(...(hid.length ? hid.map((r) => h("div", { class: "row", style: "gap:8px;margin-bottom:8px" },
+      h("span", { class: "grow", text: r.name }),
+      h("button", { class: "btn small", type: "button", onclick: () => { S.hiddenRecipes.delete(r.id); saveState(); renderSettings(); render(); toast("Suggesting " + r.name + " again"); } }, "Suggest again")))
+      : [h("p", { class: "hint", text: "Dishes you hide show here." })]));
     const stockKeys = Object.keys(S.stock);
     $("#stockList").replaceChildren(...(stockKeys.length ? stockKeys.map((k) => {
       const field = amountField(k, S.stock[k], (b) => { S.stock[k] = b; saveState(); }, () => renderSettings());
@@ -1645,7 +1650,7 @@
       if (b) photos[r.id] = await new Promise((res) => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.readAsDataURL(b); });
     }
     const data = { app: "my-kitchen", version: 1, saved: new Date().toISOString(), recipes: S.mine, photos,
-      state: { have: [...S.have], equip: [...S.equip], basics: [...S.basics], favs: [...S.favs], hidden: [...S.hidden], shop: S.shop, helper: S.helper,
+      state: { have: [...S.have], equip: [...S.equip], basics: [...S.basics], favs: [...S.favs], hidden: [...S.hidden], hiddenRecipes: [...S.hiddenRecipes], shop: S.shop, helper: S.helper,
         plan: S.plan, notes: S.notes, family: S.family, cookLog: S.cookLog, tasteIgnore: S.tasteIgnore, useSoon: [...S.useSoon], lastCooked: S.lastCooked, stock: S.stock, units: S.units, show: S.show } };
     const backedUp = () => { LS.set("lastBackup", Date.now()); $("#backupNote").hidden = true; };
     const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
@@ -1683,6 +1688,7 @@
       if (st.basics) S.basics = new Set(st.basics);
       if (st.favs) S.favs = new Set(st.favs);
       if (st.hidden) S.hidden = new Set(st.hidden);
+      if (st.hiddenRecipes) S.hiddenRecipes = new Set(st.hiddenRecipes);
       if (st.shop) S.shop = st.shop;
       if (st.helper && !/keytouae\.workers\.dev/.test(st.helper)) { S.helper = st.helper; LS.set("helper", S.helper); }
       if (st.plan) S.plan = st.plan.filter((p) => p.day >= todayKey());

@@ -825,7 +825,25 @@
     return out.sort((a, b) => a.before - b.before);
   }
 
-  const api = { KITCHEN_OF, kitchenOf, cleanLine, estimateMinutes, COUNTS_AS, GROUPS, CATALOG, BASICS_DEFAULT, EQUIPMENT, EQUIP_DEFAULT, matchLine, matchOne, cleanName, scaleLine, swapText, swapRecipe, fromMealDB, fromSchema, fromPaste, splitSteps, stepMinutes, inferDiet, inferEquipment, slug, finish, ISSUES, ISSUE_IDS, perIssues, adjustNotes, tasteProfile, splitPoints };
+  // How much the family liked a dish: -1 (all thumbs-down) to +1 (all thumbs-up), newest cooks weigh most.
+  // `log` is newest first; `eating` is the names eating today (null = everyone).
+  function familyScore(log, eating) {
+    const entries = (Array.isArray(log) ? log : []).slice(0, 3);
+    const eat = Array.isArray(eating) ? new Set(eating) : null;
+    const W = [1, 0.6, 0.35];
+    let sum = 0, wsum = 0;
+    entries.forEach((e, i) => {
+      const vals = Object.entries((e && e.who) || {})
+        .filter(([n]) => !eat || eat.has(n))
+        .map(([, v]) => (v === "up" ? 1 : v === "down" ? -1 : 0));
+      if (!vals.length) return;
+      sum += (vals.reduce((a, b) => a + b, 0) / vals.length) * W[i];
+      wsum += W[i];
+    });
+    return wsum ? Math.round((sum / wsum) * 100) / 100 : 0;
+  }
+
+  const api = { KITCHEN_OF, kitchenOf, cleanLine, estimateMinutes, COUNTS_AS, GROUPS, CATALOG, BASICS_DEFAULT, EQUIPMENT, EQUIP_DEFAULT, matchLine, matchOne, cleanName, scaleLine, swapText, swapRecipe, fromMealDB, fromSchema, fromPaste, splitSteps, stepMinutes, inferDiet, inferEquipment, slug, finish, ISSUES, ISSUE_IDS, perIssues, adjustNotes, tasteProfile, splitPoints, familyScore };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.MK = api;
 })(typeof window !== "undefined" ? window : globalThis);
