@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 24; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 25; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -420,7 +420,7 @@
       h("span", { class: "body" },
         h("span", { class: "name", text: r.name }),
         h("span", { class: "meta", text: meta }),
-        (() => { const ln = lastNote(r.id); const downs = ln ? Object.entries(ln.who || {}).filter(([, v]) => v === "down") : []; return downs.length ? h("span", { class: "pill bad small", text: "👎 " + downs.length, title: downs.map(([n]) => n).join(", ") }) : null; })(),
+        (() => { const ln = lastNote(r.id); const downs = ln ? Object.entries(ln.who || {}).filter(([, v]) => v === "down") : []; const nm = downs.map(([n]) => n); return downs.length ? h("span", { class: "pill bad small", text: "👎 " + (nm.length > 2 ? nm.slice(0, 2).join(", ") + " +" + (nm.length - 2) : nm.join(", ")), title: nm.join(", ") }) : null; })(),
         sc ? h("span", { class: "meter", "aria-hidden": "true" }, h("span", { style: "width:" + Math.round(sc.frac * 100) + "%" })) : null,
         sc && sc.soon && sc.soon.length ? h("span", { class: "soon-line", text: "⏰ Uses " + sc.soon.map((k) => label(k, ex).toLowerCase()).join(", ") }) : null,
         sc ? (sc.miss.length
@@ -687,7 +687,7 @@
     openSheet((panel) => {
       const draw = () => {
         panel.replaceChildren(bar(r.name));
-        if (i === 0) { const ln = lastNote(r.id); if (ln && (noteChange(ln) || ln.text)) panel.append(h("p", { class: "hint", text: "📝 Last time: " + (noteChange(ln) || ln.text) })); }
+        if (i === 0) { const ln = lastNote(r.id); if (ln && (noteWho(ln) || noteChange(ln) || ln.text)) panel.append(h("p", { class: "hint", text: "📝 Last time: " + [noteWho(ln), noteChange(ln) || ln.text].filter(Boolean).join(" · ") })); }
         if (i >= steps.length) {
           panel.append(h("h2", { id: "sheetTitle", class: "cook-step", text: "All done. Enjoy your meal!" }),
             h("div", { class: "actions" },
@@ -799,7 +799,7 @@
   // "How did it go?" after cooking: the family's reactions and what to change next time
   const CHANGE_CHOICES = ["Less sweet", "Sweeter", "Less spicy", "Spicier", "Less salt", "More salt", "More sauce", "Less oil", "Softer", "Crispier", "Bigger portion", "Smaller portion"];
   const REACTIONS = [["up", "👍"], ["mid", "😐"], ["down", "👎"]];
-  function openFeedback(r) {
+  function openFeedback(r, addingNames) {
     S.sheet = "feedback";
     openSheet((panel) => {
       const names = S.family.length ? S.family : ["Family"];
@@ -808,6 +808,20 @@
       panel.append(bar("How did it go?"),
         h("h2", { id: "sheetTitle", text: "How did it go?" }),
         h("p", { class: "meta-line", text: r.name }));
+      if (!S.family.length || addingNames) {
+        // no names yet: add them right here, so each person can be rated
+        const nameIn = h("input", { class: "input", id: "feedbackName", type: "text", maxlength: "20", placeholder: "Add a name, e.g. Dad", style: "flex:1;min-width:140px" });
+        const addName = () => {
+          const v = nameIn.value.trim();
+          if (!v) return;
+          if (S.family.length >= 8) { toast("Up to 8 names"); return; }
+          if (S.family.some((n) => n.toLowerCase() === v.toLowerCase())) { nameIn.value = ""; return; }
+          S.family = [...S.family, v.slice(0, 20)]; saveState(); openFeedback(r, true); const again = document.querySelector("#feedbackName"); if (again) again.focus();
+        };
+        nameIn.addEventListener("keydown", (e) => { if (e.key === "Enter") addName(); });
+        panel.append(h("p", { class: "hint", style: "margin-top:10px", text: "Add your family's names to rate each person (you can change them later in Settings → Family)." }),
+          h("div", { class: "row", style: "gap:8px;margin-top:6px" }, nameIn, h("button", { class: "btn small", type: "button", id: "feedbackAddName", onclick: addName }, "Add")));
+      }
       for (const n of names) {
         const row = h("div", { class: "row", style: "gap:8px;align-items:center;margin-top:10px" }, h("span", { class: "grow", text: n }));
         for (const [v, emo] of REACTIONS) {
