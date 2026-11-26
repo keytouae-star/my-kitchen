@@ -1,6 +1,6 @@
 {
-  "version": 10,
-  "updated": "2026-11-26",
+  "version": 11,
+  "updated": "2026-11-27",
   "recipes": [
     {
       "id": "shakshuka",
@@ -5284,7 +5284,13 @@
         "Squeeze the bags gently and take them out.",
         "Pour over ice with a slice of lemon or a mint leaf. Sweeten a glass with honey only if you want it."
       ],
-      "tip": "No sugar and no kettle. Cold-brewed camomile is smooth and never bitter. Keeps 4 days in the fridge, so it's a ready drink all week."
+      "tip": "No sugar and no kettle. Cold-brewed camomile is smooth and never bitter. Keeps 4 days in the fridge, so it's a ready drink all week.",
+      "image": "photos/cam_cold_brew_jug.jpg",
+      "imageCredit": {
+        "artist": "Evan Swigart from Chicago, USA",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Glass_of_iced_tea_-_Evan_Swigart.jpg"
+      }
     },
     {
       "id": "cam_iced_honey_lemon",
@@ -5358,7 +5364,13 @@
         "Strain and cool.",
         "Pour over ice with lemon slices and mint."
       ],
-      "tip": "Tinned peaches work too: use them with a little of their syrup and skip the sugar."
+      "tip": "Tinned peaches work too: use them with a little of their syrup and skip the sugar.",
+      "image": "photos/cam_peach_iced.jpg",
+      "imageCredit": {
+        "artist": "Geoffreyrabbit",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Peach_soda_soft_drink.jpg"
+      }
     },
     {
       "id": "cam_cucumber_mint",
@@ -5396,7 +5408,13 @@
         "Add the cucumber, the cooled tea and the ice.",
         "Stir and leave 5 minutes so the cucumber flavours it."
       ],
-      "tip": "No sugar needed. Very refreshing on a hot day."
+      "tip": "No sugar needed. Very refreshing on a hot day.",
+      "image": "photos/cam_cucumber_mint.jpg",
+      "imageCredit": {
+        "artist": "FASTILY",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Cucumber_Lemonade_1_2017-07-20.jpg"
+      }
     },
     {
       "id": "cam_strawberry_iced",
@@ -5433,7 +5451,13 @@
         "Pour the tea over the strawberries, stir and cool.",
         "Serve over ice, with or without straining."
       ],
-      "tip": "Frozen strawberries are fine and cheaper. Tip: freeze some of the camomile tea in an ice tray, so the drink doesn't go watery as the ice melts."
+      "tip": "Frozen strawberries are fine and cheaper. Tip: freeze some of the camomile tea in an ice tray, so the drink doesn't go watery as the ice melts.",
+      "image": "photos/cam_strawberry_iced.jpg",
+      "imageCredit": {
+        "artist": "쿄쿄",
+        "license": "CC BY-SA 2.0 kr",
+        "page": "https://commons.wikimedia.org/wiki/File:%EB%85%B8%ED%8B%B0%EB%93%9C_%EB%B6%80%EC%82%B0%ED%95%B4%EC%9A%B4%EB%8C%80%EC%A0%90_%ED%94%BC%EC%B9%98_%EB%A0%88%EB%AA%AC_%EB%B8%94%EB%9E%99_%ED%8B%B0,_%EC%8A%A4%ED%8A%B8%EB%A1%9C%EB%B2%A0%EB%A6%AC_%EC%9E%90%EC%8A%A4%EB%AF%BC_%ED%8B%B0_%EC%8A%A4%ED%8C%8C%ED%81%B4%EB%A7%81.jpg"
+      }
     },
     {
       "id": "cam_vanilla_latte",
@@ -5470,7 +5494,13 @@
         "Fill 2 glasses with ice, pour in the milk, then the camomile.",
         "Dust with cinnamon."
       ],
-      "tip": "Caffeine-free, so it's good for kids and for the evening."
+      "tip": "Caffeine-free, so it's good for kids and for the evening.",
+      "image": "photos/cam_vanilla_latte.jpg",
+      "imageCredit": {
+        "artist": "Scudsvlad",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Green_tea_latte_3.jpg"
+      }
     },
     {
       "id": "cam_apple_lollies",
@@ -5505,7 +5535,13 @@
         "Drop some fruit into lolly moulds or small paper cups and pour in the mix.",
         "Freeze 1 hour, push in the sticks, then freeze 4 more hours."
       ],
-      "tip": "Kids love them and won't notice it's tea. No moulds? Use an ice tray for mini ones."
+      "tip": "Kids love them and won't notice it's tea. No moulds? Use an ice tray for mini ones.",
+      "image": "photos/cam_apple_lollies.jpg",
+      "imageCredit": {
+        "artist": "Lablascovegmenu from London",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Fruit_ice_lollies_(8588758339).jpg"
+      }
     },
     {
       "id": "cam_orange_ginger",
@@ -5543,7 +5579,13 @@
         "Stir in the honey and the juice of 1½ oranges, then cool.",
         "Serve over ice with slices of the last half orange."
       ],
-      "tip": "Good when you feel a cold coming on: drink it warm instead of iced."
+      "tip": "Good when you feel a cold coming on: drink it warm instead of iced.",
+      "image": "photos/cam_orange_ginger.jpg",
+      "imageCredit": {
+        "artist": "Baoothersks",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Peach_iced_tea_with_orange_slices.jpg"
+      }
     },
     {
       "id": "cam_sparkling_lemonade",
@@ -5580,7 +5622,13 @@
         "Just before serving, pour into a jug with the ice and top up with the sparkling water.",
         "Add lemon slices and mint."
       ],
-      "tip": "Add the sparkling water last so it stays fizzy. Nice for guests."
+      "tip": "Add the sparkling water last so it stays fizzy. Nice for guests.",
+      "image": "photos/cam_sparkling_lemonade.jpg",
+      "imageCredit": {
+        "artist": "dana robinson from los angeles, ca, usa",
+        "license": "CC BY-SA 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Basil_lemonade_(3609257528).jpg"
+      }
     },
     {
       "id": "cam_mango_smoothie",
@@ -5617,7 +5665,13 @@
         "Blend 1 minute until smooth.",
         "Taste and add honey only if it needs it."
       ],
-      "tip": "Frozen mango makes it thick and cold without ice."
+      "tip": "Frozen mango makes it thick and cold without ice.",
+      "image": "photos/cam_mango_smoothie.jpg",
+      "imageCredit": {
+        "artist": "Vivekpat30",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Fresh-mango-smoothie_01.jpg"
+      }
     },
     {
       "id": "cam_watermelon_cooler",
@@ -5653,7 +5707,13 @@
         "Strain if you like it smooth, then stir in the camomile.",
         "Serve over ice with mint."
       ],
-      "tip": "No sugar needed if the watermelon is ripe."
+      "tip": "No sugar needed if the watermelon is ripe.",
+      "image": "photos/cam_watermelon_cooler.jpg",
+      "imageCredit": {
+        "artist": "Silar",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:02023_1189_Fruit_of_Poland,_watermelon_drink.jpg"
+      }
     },
     {
       "id": "cam_bedtime_milk",
@@ -5690,7 +5750,13 @@
         "Take out the bags and strain out the cardamom.",
         "Stir in the honey and serve warm."
       ],
-      "tip": "A calm, caffeine-free drink before bed, for kids too."
+      "tip": "A calm, caffeine-free drink before bed, for kids too.",
+      "image": "photos/cam_bedtime_milk.jpg",
+      "imageCredit": {
+        "artist": "Shixart1985",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:A_person_is_pouring_white_milk_into_a_glass_cup.jpg"
+      }
     },
     {
       "id": "cam_apple_cinnamon",
@@ -5725,7 +5791,13 @@
         "Take off the heat, add the tea bags and leave 5 minutes.",
         "Take out the bags, pour into mugs and add honey if you like."
       ],
-      "tip": "The apple makes it sweet enough without sugar. Also good chilled."
+      "tip": "The apple makes it sweet enough without sugar. Also good chilled.",
+      "image": "photos/cam_apple_cinnamon.jpg",
+      "imageCredit": {
+        "artist": "Coffeevore",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Yuja_chamomile_tea.jpg"
+      }
     },
     {
       "id": "iced_lemon_tea",
@@ -5760,7 +5832,13 @@
         "Cool in the fridge.",
         "Serve over ice with lemon slices and mint."
       ],
-      "tip": "Don't leave the bags in longer than 4-5 minutes, or it turns bitter. Freeze some of the tea in an ice tray, so the drink doesn't go watery."
+      "tip": "Don't leave the bags in longer than 4-5 minutes, or it turns bitter. Freeze some of the tea in an ice tray, so the drink doesn't go watery.",
+      "image": "photos/iced_lemon_tea.jpg",
+      "imageCredit": {
+        "artist": "Pokemonprime",
+        "license": "CC BY 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Iced_Tea_with_Lemon,_First_Watch,_Melbourne,_Florida.jpg"
+      }
     },
     {
       "id": "cold_brew_tea_jug",
@@ -5793,7 +5871,13 @@
         "Take the bags out without squeezing them.",
         "Pour over ice with lemon or mint. Sweeten a glass only if you want it."
       ],
-      "tip": "No sugar and no kettle. Cold brewing makes it smooth, never bitter. Keeps 4 days in the fridge. Green tea bags work too."
+      "tip": "No sugar and no kettle. Cold brewing makes it smooth, never bitter. Keeps 4 days in the fridge. Green tea bags work too.",
+      "image": "photos/cold_brew_tea_jug.jpg",
+      "imageCredit": {
+        "artist": "Kotivalo",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Ice_tea_in_acrylic_pitcher_with_slice_of_lemon.jpg"
+      }
     },
     {
       "id": "iced_tea_lemonade",
@@ -5828,7 +5912,13 @@
         "Fill glasses with ice, pour lemonade halfway, then top up with the tea.",
         "Stir just before drinking."
       ],
-      "tip": "Pour the tea in slowly over the back of a spoon and it sits on top in two layers."
+      "tip": "Pour the tea in slowly over the back of a spoon and it sits on top in two layers.",
+      "image": "photos/iced_tea_lemonade.jpg",
+      "imageCredit": {
+        "artist": "irina slutsky from san francisco, USA",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:My_new_obsession_the_arnold_palmer!!!_(5184944881).jpg"
+      }
     },
     {
       "id": "iced_mint_green_tea",
@@ -5863,7 +5953,13 @@
         "Stir in the honey and cool.",
         "Serve over ice with a squeeze of lime."
       ],
-      "tip": "Green tea only needs 3 minutes. Leave the mint in for more flavour."
+      "tip": "Green tea only needs 3 minutes. Leave the mint in for more flavour.",
+      "image": "photos/iced_mint_green_tea.jpg",
+      "imageCredit": {
+        "artist": "Ceeseven",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Iced_Green_Tea.JPG"
+      }
     },
     {
       "id": "mango_iced_tea",
@@ -5899,7 +5995,13 @@
         "Stir the mango into the rest of the tea.",
         "Serve over ice with a squeeze of lime."
       ],
-      "tip": "Frozen mango or mango pulp from a tin works too; with pulp, skip the sugar."
+      "tip": "Frozen mango or mango pulp from a tin works too; with pulp, skip the sugar.",
+      "image": "photos/mango_iced_tea.jpg",
+      "imageCredit": {
+        "artist": "Vatsalkumar brahmbhatt",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Mango_Ice_Tea.jpg"
+      }
     },
     {
       "id": "berry_iced_tea",
@@ -5934,7 +6036,13 @@
         "Strain and cool.",
         "Serve over ice with a squeeze of lemon."
       ],
-      "tip": "Frozen berries are cheaper than fresh and just as good here."
+      "tip": "Frozen berries are cheaper than fresh and just as good here.",
+      "image": "photos/berry_iced_tea.jpg",
+      "imageCredit": {
+        "artist": "Andy Li",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Hibiscus_and_berry_iced_tea_-_Lost_in_the_Lanes_2025-07-08.jpg"
+      }
     },
     {
       "id": "pomegranate_green_tea",
@@ -5971,7 +6079,13 @@
         "Mix with the pomegranate juice.",
         "Serve over ice with pomegranate seeds and mint."
       ],
-      "tip": "No added sugar: the juice sweetens it."
+      "tip": "No added sugar: the juice sweetens it.",
+      "image": "photos/pomegranate_green_tea.jpg",
+      "imageCredit": {
+        "artist": "TAPAS KUMAR HALDER",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Cold_pomegranate_juice_with_ice_cubes_-kolkata.jpg"
+      }
     },
     {
       "id": "iced_karak",
@@ -6009,7 +6123,13 @@
         "Stir in the evaporated milk, bring just to the boil, then strain and cool.",
         "Pour over plenty of ice."
       ],
-      "tip": "Make it strong: the ice waters it down. Keeps 2 days in the fridge."
+      "tip": "Make it strong: the ice waters it down. Keeps 2 days in the fridge.",
+      "image": "photos/iced_karak.jpg",
+      "imageCredit": {
+        "artist": "Vee Satayamas",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Home-made_Thai_iced_milk_tea.jpg"
+      }
     },
     {
       "id": "thai_iced_tea",
@@ -6047,7 +6167,13 @@
         "Stir in the condensed milk and sugar, then cool.",
         "Fill glasses with ice, pour in the tea and float the milk on top."
       ],
-      "tip": "The real Thai tea is orange from food colouring; this one tastes the same without it."
+      "tip": "The real Thai tea is orange from food colouring; this one tastes the same without it.",
+      "image": "photos/thai_iced_tea.jpg",
+      "imageCredit": {
+        "artist": "Andy Li",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Thai_Red_Ice_Milk_Tea_-_Siam_Siam_2024-07-31.jpg"
+      }
     },
     {
       "id": "apple_cinnamon_iced_tea",
@@ -6082,7 +6208,13 @@
         "Stir in the apple juice and cool.",
         "Serve over ice with apple slices."
       ],
-      "tip": "No sugar needed: the apple juice sweetens it."
+      "tip": "No sugar needed: the apple juice sweetens it.",
+      "image": "photos/apple_cinnamon_iced_tea.jpg",
+      "imageCredit": {
+        "artist": "Julia D'Alkmin jdalkmin",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Iced_tea_(Unsplash).jpg"
+      }
     },
     {
       "id": "pineapple_ginger_iced_tea",
@@ -6119,7 +6251,13 @@
         "Strain, pressing the pineapple, and cool.",
         "Serve over ice with lime and mint."
       ],
-      "tip": "Tinned pineapple works: use the juice from the tin and skip the sugar."
+      "tip": "Tinned pineapple works: use the juice from the tin and skip the sugar.",
+      "image": "photos/pineapple_ginger_iced_tea.jpg",
+      "imageCredit": {
+        "artist": "Srini297",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Pineapple_Juice_in_Glass_Jar.jpg"
+      }
     }
   ]
 }
