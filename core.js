@@ -205,7 +205,7 @@
     sumac: ["Sumac", "spice", ""],
     fenugreek: ["Dried fenugreek leaves", "spice", "dried fenugreek, fenugreek leaves, kasuri methi, methi leaves, fenugreek"],
     hibiscus: ["Hibiscus (karkade)", "spice", "karkade, dried hibiscus, hibiscus flowers, hibiscus petals"],
-    chamomile: ["Chamomile", "spice", "chamomile tea, chamomile flowers, babounej"],
+    chamomile: ["Chamomile", "spice", "chamomile tea, chamomile flowers, babounej, camomile, camomile tea, camomile tea bags, chamomile tea bags, pure camomile"],
     sage: ["Sage (maramiya)", "spice", "maramiya, dried sage, fresh sage, sage leaves"],
     anise: ["Aniseed / fennel seeds", "spice", "aniseed, anise seeds, star anise, fennel seeds, yansoon"],
     baharat: ["Baharat / 7 spices", "spice", "seven spices, 7 spices, mixed spice, allspice, bzar, bezar, emirati spice mix"],

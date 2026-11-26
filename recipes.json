@@ -1,6 +1,6 @@
 {
-  "version": 8,
-  "updated": "2026-11-15",
+  "version": 10,
+  "updated": "2026-11-26",
   "recipes": [
     {
       "id": "shakshuka",
@@ -5251,6 +5251,875 @@
         "light",
         "savoury"
       ]
+    },
+    {
+      "id": "cam_cold_brew_jug",
+      "name": "Cold-brew camomile jug (for the week)",
+      "cuisine": "Drinks",
+      "minutes": 5,
+      "serves": 6,
+      "diet": "vegan",
+      "equipment": [],
+      "tags": [
+        "drink",
+        "cold",
+        "herbal",
+        "healthy"
+      ],
+      "taste": [
+        "light"
+      ],
+      "need": [
+        "8 chamomile tea bags (Twinings Pure Camomile)",
+        "1.5 litres cold water"
+      ],
+      "extra": [
+        "1 lemon, sliced",
+        "a few mint leaves",
+        "1 tbsp honey"
+      ],
+      "steps": [
+        "Put the tea bags in a big jug and pour in the cold water.",
+        "Cover and leave in the fridge overnight (8-12 hours).",
+        "Squeeze the bags gently and take them out.",
+        "Pour over ice with a slice of lemon or a mint leaf. Sweeten a glass with honey only if you want it."
+      ],
+      "tip": "No sugar and no kettle. Cold-brewed camomile is smooth and never bitter. Keeps 4 days in the fridge, so it's a ready drink all week."
+    },
+    {
+      "id": "cam_iced_honey_lemon",
+      "name": "Iced camomile with honey and lemon",
+      "cuisine": "Drinks",
+      "minutes": 10,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold",
+        "herbal"
+      ],
+      "taste": [
+        "sweet",
+        "tangy",
+        "light"
+      ],
+      "need": [
+        "3 chamomile tea bags (Twinings Pure Camomile)",
+        "1 tbsp honey",
+        "1 lemon",
+        "2 cups ice"
+      ],
+      "extra": [
+        "a few mint leaves"
+      ],
+      "steps": [
+        "Boil 2 cups water and pour it over the tea bags. Leave 5 minutes, then take the bags out.",
+        "Stir in the honey while it's warm, then squeeze in half the lemon.",
+        "Cool, then pour over plenty of ice.",
+        "Add lemon slices and mint."
+      ],
+      "tip": "Tip: freeze some of the camomile tea in an ice tray, so the drink doesn't go watery as the ice melts."
+    },
+    {
+      "id": "cam_peach_iced",
+      "name": "Camomile peach iced tea",
+      "cuisine": "Drinks",
+      "minutes": 20,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold",
+        "herbal"
+      ],
+      "taste": [
+        "sweet",
+        "light"
+      ],
+      "need": [
+        "4 chamomile tea bags (Twinings Pure Camomile)",
+        "2 peaches, sliced",
+        "2 tbsp sugar",
+        "2 cups ice"
+      ],
+      "extra": [
+        "1 lemon",
+        "a few mint leaves"
+      ],
+      "steps": [
+        "Simmer the peaches and sugar in 1 cup water for 10 minutes, mashing a little.",
+        "Add 3 cups boiling water and the tea bags and leave 5 minutes.",
+        "Strain and cool.",
+        "Pour over ice with lemon slices and mint."
+      ],
+      "tip": "Tinned peaches work too: use them with a little of their syrup and skip the sugar."
+    },
+    {
+      "id": "cam_cucumber_mint",
+      "name": "Camomile cucumber mint cooler",
+      "cuisine": "Drinks",
+      "minutes": 10,
+      "serves": 2,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold",
+        "herbal",
+        "healthy"
+      ],
+      "taste": [
+        "light",
+        "tangy"
+      ],
+      "need": [
+        "3 chamomile tea bags (Twinings Pure Camomile)",
+        "½ cucumber, thinly sliced",
+        "a handful of mint",
+        "1 lime",
+        "2 cups ice"
+      ],
+      "extra": [
+        "1 tbsp honey"
+      ],
+      "steps": [
+        "Pour 2 cups boiling water over the tea bags, leave 5 minutes, then take them out and cool.",
+        "In a jug, lightly crush the mint with the juice of the lime.",
+        "Add the cucumber, the cooled tea and the ice.",
+        "Stir and leave 5 minutes so the cucumber flavours it."
+      ],
+      "tip": "No sugar needed. Very refreshing on a hot day."
+    },
+    {
+      "id": "cam_strawberry_iced",
+      "name": "Camomile strawberry iced tea",
+      "cuisine": "Drinks",
+      "minutes": 15,
+      "serves": 3,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold",
+        "herbal"
+      ],
+      "taste": [
+        "sweet",
+        "tangy"
+      ],
+      "need": [
+        "4 chamomile tea bags (Twinings Pure Camomile)",
+        "1 cup strawberries",
+        "2 tbsp sugar",
+        "2 cups ice"
+      ],
+      "extra": [
+        "1 lemon",
+        "a few basil or mint leaves"
+      ],
+      "steps": [
+        "Pour 3 cups boiling water over the tea bags, leave 5 minutes, then take them out.",
+        "Mash the strawberries with the sugar in a jug.",
+        "Pour the tea over the strawberries, stir and cool.",
+        "Serve over ice, with or without straining."
+      ],
+      "tip": "Frozen strawberries are fine and cheaper. Tip: freeze some of the camomile tea in an ice tray, so the drink doesn't go watery as the ice melts."
+    },
+    {
+      "id": "cam_vanilla_latte",
+      "name": "Iced camomile vanilla latte",
+      "cuisine": "Drinks",
+      "minutes": 10,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold",
+        "herbal"
+      ],
+      "taste": [
+        "sweet",
+        "rich"
+      ],
+      "need": [
+        "4 chamomile tea bags (Twinings Pure Camomile)",
+        "1½ cups milk",
+        "1 tbsp honey",
+        "½ tsp alcohol-free vanilla flavouring",
+        "2 cups ice"
+      ],
+      "extra": [
+        "a pinch of cinnamon"
+      ],
+      "steps": [
+        "Pour 1 cup boiling water over the tea bags and leave 6 minutes for a strong tea. Squeeze and take them out.",
+        "Stir in the honey and vanilla, then cool.",
+        "Fill 2 glasses with ice, pour in the milk, then the camomile.",
+        "Dust with cinnamon."
+      ],
+      "tip": "Caffeine-free, so it's good for kids and for the evening."
+    },
+    {
+      "id": "cam_apple_lollies",
+      "name": "Camomile apple ice lollies",
+      "cuisine": "Drinks",
+      "minutes": 10,
+      "serves": 6,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold",
+        "sweet"
+      ],
+      "taste": [
+        "sweet",
+        "light"
+      ],
+      "need": [
+        "3 chamomile tea bags (Twinings Pure Camomile)",
+        "1 cup apple juice"
+      ],
+      "extra": [
+        "1 tbsp honey",
+        "½ cup chopped strawberries or blueberries"
+      ],
+      "steps": [
+        "Pour 1 cup boiling water over the tea bags, leave 5 minutes, then take them out.",
+        "Mix with the apple juice (and honey) and cool.",
+        "Drop some fruit into lolly moulds or small paper cups and pour in the mix.",
+        "Freeze 1 hour, push in the sticks, then freeze 4 more hours."
+      ],
+      "tip": "Kids love them and won't notice it's tea. No moulds? Use an ice tray for mini ones."
+    },
+    {
+      "id": "cam_orange_ginger",
+      "name": "Camomile orange and ginger iced tea",
+      "cuisine": "Drinks",
+      "minutes": 15,
+      "serves": 3,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold",
+        "herbal"
+      ],
+      "taste": [
+        "tangy",
+        "spicy",
+        "light"
+      ],
+      "need": [
+        "4 chamomile tea bags (Twinings Pure Camomile)",
+        "2 oranges",
+        "a thumb-size piece of ginger, sliced",
+        "1 tbsp honey",
+        "2 cups ice"
+      ],
+      "extra": [
+        "a few mint leaves"
+      ],
+      "steps": [
+        "Simmer the ginger in 3 cups water for 5 minutes.",
+        "Take off the heat, add the tea bags and leave 5 minutes. Strain.",
+        "Stir in the honey and the juice of 1½ oranges, then cool.",
+        "Serve over ice with slices of the last half orange."
+      ],
+      "tip": "Good when you feel a cold coming on: drink it warm instead of iced."
+    },
+    {
+      "id": "cam_sparkling_lemonade",
+      "name": "Sparkling camomile lemonade",
+      "cuisine": "Drinks",
+      "minutes": 10,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold",
+        "herbal"
+      ],
+      "taste": [
+        "tangy",
+        "sweet"
+      ],
+      "need": [
+        "4 chamomile tea bags (Twinings Pure Camomile)",
+        "2 lemons",
+        "3 tbsp sugar",
+        "2 cups sparkling water",
+        "2 cups ice"
+      ],
+      "extra": [
+        "a few mint leaves"
+      ],
+      "steps": [
+        "Pour 1½ cups boiling water over the tea bags and sugar. Leave 5 minutes, take the bags out and stir.",
+        "Add the juice of the lemons and cool in the fridge.",
+        "Just before serving, pour into a jug with the ice and top up with the sparkling water.",
+        "Add lemon slices and mint."
+      ],
+      "tip": "Add the sparkling water last so it stays fizzy. Nice for guests."
+    },
+    {
+      "id": "cam_mango_smoothie",
+      "name": "Camomile mango smoothie",
+      "cuisine": "Drinks",
+      "minutes": 10,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "blender"
+      ],
+      "tags": [
+        "drink",
+        "cold",
+        "breakfast"
+      ],
+      "taste": [
+        "sweet",
+        "rich"
+      ],
+      "need": [
+        "2 chamomile tea bags (Twinings Pure Camomile)",
+        "1 cup frozen mango",
+        "½ cup yogurt",
+        "1 banana"
+      ],
+      "extra": [
+        "1 tbsp honey",
+        "1 tbsp chia seeds"
+      ],
+      "steps": [
+        "Pour ¾ cup boiling water over the tea bags, leave 5 minutes, take them out and cool (or use cold-brew camomile from the fridge).",
+        "Put the tea, mango, yogurt and banana in the blender.",
+        "Blend 1 minute until smooth.",
+        "Taste and add honey only if it needs it."
+      ],
+      "tip": "Frozen mango makes it thick and cold without ice."
+    },
+    {
+      "id": "cam_watermelon_cooler",
+      "name": "Camomile watermelon cooler",
+      "cuisine": "Drinks",
+      "minutes": 10,
+      "serves": 3,
+      "diet": "vegan",
+      "equipment": [
+        "blender"
+      ],
+      "tags": [
+        "drink",
+        "cold",
+        "healthy"
+      ],
+      "taste": [
+        "sweet",
+        "light"
+      ],
+      "need": [
+        "2 chamomile tea bags (Twinings Pure Camomile)",
+        "3 cups watermelon, cubed",
+        "1 lime",
+        "1 cup ice"
+      ],
+      "extra": [
+        "a few mint leaves"
+      ],
+      "steps": [
+        "Pour 1 cup boiling water over the tea bags, leave 5 minutes, take them out and cool.",
+        "Blend the watermelon with the juice of the lime.",
+        "Strain if you like it smooth, then stir in the camomile.",
+        "Serve over ice with mint."
+      ],
+      "tip": "No sugar needed if the watermelon is ripe."
+    },
+    {
+      "id": "cam_bedtime_milk",
+      "name": "Camomile cardamom bedtime milk",
+      "cuisine": "Drinks",
+      "minutes": 10,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "hot",
+        "herbal"
+      ],
+      "taste": [
+        "sweet",
+        "rich"
+      ],
+      "need": [
+        "2 chamomile tea bags (Twinings Pure Camomile)",
+        "2 cups milk",
+        "1 tbsp honey",
+        "3 cardamom pods, cracked"
+      ],
+      "extra": [
+        "a pinch of cinnamon",
+        "a pinch of turmeric"
+      ],
+      "steps": [
+        "Heat the milk and cardamom until steaming, not boiling.",
+        "Take off the heat, add the tea bags, cover and leave 5 minutes.",
+        "Take out the bags and strain out the cardamom.",
+        "Stir in the honey and serve warm."
+      ],
+      "tip": "A calm, caffeine-free drink before bed, for kids too."
+    },
+    {
+      "id": "cam_apple_cinnamon",
+      "name": "Hot camomile apple cinnamon tea",
+      "cuisine": "Drinks",
+      "minutes": 15,
+      "serves": 2,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "hot",
+        "herbal"
+      ],
+      "taste": [
+        "sweet",
+        "light"
+      ],
+      "need": [
+        "2 chamomile tea bags (Twinings Pure Camomile)",
+        "1 apple, sliced",
+        "1 cinnamon stick"
+      ],
+      "extra": [
+        "1 tbsp honey",
+        "a slice of lemon"
+      ],
+      "steps": [
+        "Simmer the apple and cinnamon in 2½ cups water for 10 minutes.",
+        "Take off the heat, add the tea bags and leave 5 minutes.",
+        "Take out the bags, pour into mugs and add honey if you like."
+      ],
+      "tip": "The apple makes it sweet enough without sugar. Also good chilled."
+    },
+    {
+      "id": "iced_lemon_tea",
+      "name": "Classic lemon iced tea",
+      "cuisine": "Drinks",
+      "minutes": 15,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "taste": [
+        "tangy",
+        "sweet"
+      ],
+      "need": [
+        "4 black tea bags",
+        "2 lemons",
+        "4 tbsp sugar",
+        "2 cups ice"
+      ],
+      "extra": [
+        "a few mint leaves"
+      ],
+      "steps": [
+        "Pour 2 cups boiling water over the tea bags and sugar. Leave 4 minutes, then take the bags out.",
+        "Stir, add 2 cups cold water and the juice of 1½ lemons.",
+        "Cool in the fridge.",
+        "Serve over ice with lemon slices and mint."
+      ],
+      "tip": "Don't leave the bags in longer than 4-5 minutes, or it turns bitter. Freeze some of the tea in an ice tray, so the drink doesn't go watery."
+    },
+    {
+      "id": "cold_brew_tea_jug",
+      "name": "Cold-brew iced tea jug (for the week)",
+      "cuisine": "Drinks",
+      "minutes": 5,
+      "serves": 6,
+      "diet": "vegan",
+      "equipment": [],
+      "tags": [
+        "drink",
+        "cold",
+        "healthy"
+      ],
+      "taste": [
+        "light"
+      ],
+      "need": [
+        "6 black tea bags",
+        "1.5 litres cold water"
+      ],
+      "extra": [
+        "1 lemon, sliced",
+        "a few mint leaves",
+        "1 tbsp honey"
+      ],
+      "steps": [
+        "Put the tea bags in a big jug and pour in the cold water.",
+        "Cover and leave in the fridge overnight (8-12 hours).",
+        "Take the bags out without squeezing them.",
+        "Pour over ice with lemon or mint. Sweeten a glass only if you want it."
+      ],
+      "tip": "No sugar and no kettle. Cold brewing makes it smooth, never bitter. Keeps 4 days in the fridge. Green tea bags work too."
+    },
+    {
+      "id": "iced_tea_lemonade",
+      "name": "Half and half iced tea lemonade",
+      "cuisine": "Drinks",
+      "minutes": 15,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "taste": [
+        "tangy",
+        "sweet"
+      ],
+      "need": [
+        "4 black tea bags",
+        "3 lemons",
+        "5 tbsp sugar",
+        "2 cups ice"
+      ],
+      "extra": [
+        "a few mint leaves"
+      ],
+      "steps": [
+        "Pour 2 cups boiling water over the tea bags, leave 4 minutes, take them out and cool.",
+        "For the lemonade, stir the sugar into 2 cups cold water until it dissolves, then add the juice of the lemons.",
+        "Fill glasses with ice, pour lemonade halfway, then top up with the tea.",
+        "Stir just before drinking."
+      ],
+      "tip": "Pour the tea in slowly over the back of a spoon and it sits on top in two layers."
+    },
+    {
+      "id": "iced_mint_green_tea",
+      "name": "Iced mint green tea",
+      "cuisine": "Drinks",
+      "minutes": 10,
+      "serves": 3,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold",
+        "healthy"
+      ],
+      "taste": [
+        "light"
+      ],
+      "need": [
+        "3 green tea bags",
+        "a big handful of mint",
+        "1 tbsp honey",
+        "2 cups ice"
+      ],
+      "extra": [
+        "1 lime"
+      ],
+      "steps": [
+        "Boil 3 cups water and let it stand 2 minutes (too hot makes green tea bitter).",
+        "Pour it over the tea bags and mint. Leave 3 minutes, then take the bags out.",
+        "Stir in the honey and cool.",
+        "Serve over ice with a squeeze of lime."
+      ],
+      "tip": "Green tea only needs 3 minutes. Leave the mint in for more flavour."
+    },
+    {
+      "id": "mango_iced_tea",
+      "name": "Mango iced tea",
+      "cuisine": "Drinks",
+      "minutes": 15,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove",
+        "blender"
+      ],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "taste": [
+        "sweet"
+      ],
+      "need": [
+        "4 black tea bags",
+        "1 ripe mango",
+        "2 tbsp sugar",
+        "2 cups ice"
+      ],
+      "extra": [
+        "1 lime",
+        "a few mint leaves"
+      ],
+      "steps": [
+        "Pour 3 cups boiling water over the tea bags and sugar, leave 4 minutes, take the bags out and cool.",
+        "Blend the mango with 1 cup of the tea until smooth.",
+        "Stir the mango into the rest of the tea.",
+        "Serve over ice with a squeeze of lime."
+      ],
+      "tip": "Frozen mango or mango pulp from a tin works too; with pulp, skip the sugar."
+    },
+    {
+      "id": "berry_iced_tea",
+      "name": "Mixed berry iced tea",
+      "cuisine": "Drinks",
+      "minutes": 15,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "taste": [
+        "sweet",
+        "tangy"
+      ],
+      "need": [
+        "4 black tea bags",
+        "1 cup frozen mixed berries",
+        "3 tbsp sugar",
+        "2 cups ice"
+      ],
+      "extra": [
+        "1 lemon"
+      ],
+      "steps": [
+        "Simmer the berries and sugar in 1 cup water for 5 minutes, mashing them.",
+        "Add 3 cups boiling water and the tea bags and leave 4 minutes.",
+        "Strain and cool.",
+        "Serve over ice with a squeeze of lemon."
+      ],
+      "tip": "Frozen berries are cheaper than fresh and just as good here."
+    },
+    {
+      "id": "pomegranate_green_tea",
+      "name": "Pomegranate iced green tea",
+      "cuisine": "Drinks",
+      "minutes": 10,
+      "serves": 3,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold",
+        "healthy"
+      ],
+      "taste": [
+        "tangy",
+        "light"
+      ],
+      "need": [
+        "3 green tea bags",
+        "1 cup pomegranate juice",
+        "2 cups ice"
+      ],
+      "extra": [
+        "½ cup pomegranate seeds",
+        "a few mint leaves",
+        "1 tbsp honey"
+      ],
+      "steps": [
+        "Boil 2 cups water and let it stand 2 minutes.",
+        "Pour over the tea bags, leave 3 minutes, take them out and cool.",
+        "Mix with the pomegranate juice.",
+        "Serve over ice with pomegranate seeds and mint."
+      ],
+      "tip": "No added sugar: the juice sweetens it."
+    },
+    {
+      "id": "iced_karak",
+      "name": "Iced karak",
+      "cuisine": "Drinks",
+      "minutes": 15,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "taste": [
+        "sweet",
+        "rich",
+        "spicy"
+      ],
+      "need": [
+        "3 black tea bags",
+        "½ cup evaporated milk",
+        "3 tbsp sugar",
+        "4 cardamom pods, cracked",
+        "2 cups ice"
+      ],
+      "extra": [
+        "a pinch of saffron",
+        "1 slice of ginger"
+      ],
+      "steps": [
+        "Boil 1½ cups water with the cardamom (and ginger, saffron) for 3 minutes.",
+        "Add the tea bags and sugar and boil 3 more minutes, until dark.",
+        "Stir in the evaporated milk, bring just to the boil, then strain and cool.",
+        "Pour over plenty of ice."
+      ],
+      "tip": "Make it strong: the ice waters it down. Keeps 2 days in the fridge."
+    },
+    {
+      "id": "thai_iced_tea",
+      "name": "Thai-style iced milk tea",
+      "cuisine": "Drinks",
+      "minutes": 15,
+      "serves": 2,
+      "diet": "veg",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "taste": [
+        "sweet",
+        "rich"
+      ],
+      "need": [
+        "4 black tea bags",
+        "3 tbsp condensed milk",
+        "2 tbsp sugar",
+        "½ cup milk",
+        "2 cups ice"
+      ],
+      "extra": [
+        "1 star anise",
+        "2 cardamom pods",
+        "1 cinnamon stick"
+      ],
+      "steps": [
+        "Simmer 2 cups water with the spices for 3 minutes.",
+        "Take off the heat, add the tea bags and leave 5 minutes for a strong tea. Strain.",
+        "Stir in the condensed milk and sugar, then cool.",
+        "Fill glasses with ice, pour in the tea and float the milk on top."
+      ],
+      "tip": "The real Thai tea is orange from food colouring; this one tastes the same without it."
+    },
+    {
+      "id": "apple_cinnamon_iced_tea",
+      "name": "Apple cinnamon iced tea",
+      "cuisine": "Drinks",
+      "minutes": 15,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "taste": [
+        "sweet",
+        "light"
+      ],
+      "need": [
+        "3 black tea bags",
+        "1 cup apple juice",
+        "1 cinnamon stick",
+        "2 cups ice"
+      ],
+      "extra": [
+        "1 apple, thinly sliced"
+      ],
+      "steps": [
+        "Simmer the cinnamon in 2 cups water for 5 minutes.",
+        "Take off the heat, add the tea bags and leave 4 minutes. Take them out.",
+        "Stir in the apple juice and cool.",
+        "Serve over ice with apple slices."
+      ],
+      "tip": "No sugar needed: the apple juice sweetens it."
+    },
+    {
+      "id": "pineapple_ginger_iced_tea",
+      "name": "Pineapple ginger iced tea",
+      "cuisine": "Drinks",
+      "minutes": 15,
+      "serves": 4,
+      "diet": "vegan",
+      "equipment": [
+        "stove"
+      ],
+      "tags": [
+        "drink",
+        "cold"
+      ],
+      "taste": [
+        "sweet",
+        "spicy"
+      ],
+      "need": [
+        "3 green tea bags",
+        "1 cup pineapple chunks",
+        "a thumb-size piece of ginger, sliced",
+        "2 tbsp sugar",
+        "2 cups ice"
+      ],
+      "extra": [
+        "1 lime",
+        "a few mint leaves"
+      ],
+      "steps": [
+        "Simmer the pineapple, ginger and sugar in 3 cups water for 8 minutes.",
+        "Take off the heat, let it stand 2 minutes, then add the tea bags for 3 minutes.",
+        "Strain, pressing the pineapple, and cool.",
+        "Serve over ice with lime and mint."
+      ],
+      "tip": "Tinned pineapple works: use the juice from the tin and skip the sugar."
     }
   ]
 }

@@ -5,7 +5,7 @@
   const MKStock = window.MKStock;
   const MEALDB = "https://www.themealdb.com/api/json/v1/1/";
   const QUICK_MIN = 20;
-  const APP_VERSION = 29; // shown in Settings so you can tell the tablet has updated
+  const APP_VERSION = 30; // shown in Settings so you can tell the tablet has updated
   const EXAMPLE = ["egg", "onion", "garlic", "tomato", "potato", "rice", "pasta", "cheese", "milk", "butter", "lemon", "bread", "cumin", "paprika", "soy_sauce", "chicken", "canned_tomato", "flour", "sugar", "baking_powder"];
   const BASIC_CHOICES = ["salt", "pepper", "oil", "water", "sugar", "flour", "vinegar", "butter", "ghee", "garlic", "onion", "rice", "cumin", "turmeric"];
 
@@ -199,6 +199,8 @@
   // special filters that aren't cuisines
   const SPECIAL = {
     "Drinks": isDrink,
+    "Cold drinks": (r) => isDrink(r) && (r.tags || []).includes("cold"),
+    "Hot drinks": (r) => isDrink(r) && (r.tags || []).includes("hot"),
     "Healthy sweets": (r) => isSweet(r) && isHealthy(r),
     "Regular sweets": (r) => isSweet(r) && !isHealthy(r),
     "Soups": (r) => (r.tags || []).includes("soup"),
@@ -211,7 +213,7 @@
     if (SPECIAL[S.cuisine] ? !SPECIAL[S.cuisine](r) : S.cuisine && MK.kitchenOf(r.cuisine) !== S.cuisine) return false;
     if (S.cookQ) {
       // whole-word start match, so "iced" doesn't find "sliced" or "diced"
-      const re = new RegExp("(^|[^a-z])" + S.cookQ.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+      const re = new RegExp("(^|[^a-z])" + S.cookQ.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/c(h)?amomile/g, "c(h)?amomile"), "i"); // camomile finds chamomile too
       if (!re.test(r.name + " " + r.cuisine + " " + (r.need || []).join(" ") + " " + (r.extra || []).join(" "))) return false;
     }
     if (f.vegan && r.diet !== "vegan") return false;
@@ -468,6 +470,8 @@
     const pickCuisine = (c) => { S.cuisine = c; S.showMore = false; LS.set("cuisine", c); renderResults(); };
     $("#cuisinePick").replaceChildren(chip("All", !S.cuisine, () => pickCuisine("")), ...cuisines.map((c) => chip((ICON[c] ? ICON[c] + " " : "") + c, S.cuisine === c, () => pickCuisine(c))),
       chip("🥤 Drinks", S.cuisine === "Drinks", () => pickCuisine("Drinks")),
+      chip("🧊 Cold drinks", S.cuisine === "Cold drinks", () => pickCuisine("Cold drinks")),
+      chip("☕ Hot drinks", S.cuisine === "Hot drinks", () => pickCuisine("Hot drinks")),
       chip("🥗 Healthy sweets", S.cuisine === "Healthy sweets", () => pickCuisine("Healthy sweets")),
       chip("🍰 Regular sweets", S.cuisine === "Regular sweets", () => pickCuisine("Regular sweets")),
       chip("🍲 Soups", S.cuisine === "Soups", () => pickCuisine("Soups")),
@@ -492,7 +496,7 @@
     if (!S.have.size) {
       out.append(h("div", { class: "empty panel" }, h("h3", { text: "Tick what's in your kitchen" }), h("p", { text: "Pick ingredients on the left (or type them), and dishes you can cook will show up here." })));
     } else {
-      const kind = S.cuisine === "Drinks" ? ["drink", "drinks"] : /sweets$/.test(S.cuisine) ? ["sweet", "sweets"] : ["dish", "dishes"];
+      const kind = /drinks$/i.test(S.cuisine) ? ["drink", "drinks"] : /sweets$/.test(S.cuisine) ? ["sweet", "sweets"] : ["dish", "dishes"];
       const make = kind[0] === "dish" ? " you can cook right now" : " you can make right now";
       sum.append(h("strong", { text: now.length ? plural(now.length, kind[0], kind[1]) : "No " + kind[1] }), make, near.length ? `, and ${near.length} more missing just 1 or 2 things.` : ".");
       const soonN = now.filter((x) => x.sc.soon.length).length;
