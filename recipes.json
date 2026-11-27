@@ -1,5 +1,5 @@
 {
-  "version": 11,
+  "version": 12,
   "updated": "2026-11-27",
   "recipes": [
     {
@@ -2376,7 +2376,7 @@
       "imageCredit": {
         "artist": "Baoothersks",
         "license": "CC BY-SA 4.0",
-        "page": "https://commons.wikimedia.org/wiki/File:Peach_iced_tea_with_orange_slices.jpg"
+        "page": "https://commons.wikimedia.org/wiki/File:Peach_iced_tea.jpg"
       },
       "taste": [
         "sweet",
@@ -5327,7 +5327,13 @@
         "Cool, then pour over plenty of ice.",
         "Add lemon slices and mint."
       ],
-      "tip": "Tip: freeze some of the camomile tea in an ice tray, so the drink doesn't go watery as the ice melts."
+      "tip": "Tip: freeze some of the camomile tea in an ice tray, so the drink doesn't go watery as the ice melts.",
+      "image": "photos/cam_iced_honey_lemon.jpg",
+      "imageCredit": {
+        "artist": "Fir0002 20D",
+        "license": "GFDL 1.2",
+        "page": "https://commons.wikimedia.org/wiki/File:Chamomile@original_size.jpg"
+      }
     },
     {
       "id": "cam_peach_iced",
@@ -5367,9 +5373,9 @@
       "tip": "Tinned peaches work too: use them with a little of their syrup and skip the sugar.",
       "image": "photos/cam_peach_iced.jpg",
       "imageCredit": {
-        "artist": "Geoffreyrabbit",
+        "artist": "Gatorfan252525",
         "license": "CC BY-SA 4.0",
-        "page": "https://commons.wikimedia.org/wiki/File:Peach_soda_soft_drink.jpg"
+        "page": "https://commons.wikimedia.org/wiki/File:White_peach_and_strawberry_versions_of_a_lemon_sour_made_in_Kyoto,_Japan.jpg"
       }
     },
     {
@@ -5454,9 +5460,9 @@
       "tip": "Frozen strawberries are fine and cheaper. Tip: freeze some of the camomile tea in an ice tray, so the drink doesn't go watery as the ice melts.",
       "image": "photos/cam_strawberry_iced.jpg",
       "imageCredit": {
-        "artist": "쿄쿄",
-        "license": "CC BY-SA 2.0 kr",
-        "page": "https://commons.wikimedia.org/wiki/File:%EB%85%B8%ED%8B%B0%EB%93%9C_%EB%B6%80%EC%82%B0%ED%95%B4%EC%9A%B4%EB%8C%80%EC%A0%90_%ED%94%BC%EC%B9%98_%EB%A0%88%EB%AA%AC_%EB%B8%94%EB%9E%99_%ED%8B%B0,_%EC%8A%A4%ED%8A%B8%EB%A1%9C%EB%B2%A0%EB%A6%AC_%EC%9E%90%EC%8A%A4%EB%AF%BC_%ED%8B%B0_%EC%8A%A4%ED%8C%8C%ED%81%B4%EB%A7%81.jpg"
+        "artist": "E4024",
+        "license": "CC BY-SA 4.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Strawberry_lemonade_in_Ankara.jpg"
       }
     },
     {
@@ -5497,9 +5503,9 @@
       "tip": "Caffeine-free, so it's good for kids and for the evening.",
       "image": "photos/cam_vanilla_latte.jpg",
       "imageCredit": {
-        "artist": "Scudsvlad",
+        "artist": "Dredre Lovee",
         "license": "CC BY-SA 4.0",
-        "page": "https://commons.wikimedia.org/wiki/File:Green_tea_latte_3.jpg"
+        "page": "https://commons.wikimedia.org/wiki/File:Iced_Latte.jpg"
       }
     },
     {
@@ -5998,9 +6004,9 @@
       "tip": "Frozen mango or mango pulp from a tin works too; with pulp, skip the sugar.",
       "image": "photos/mango_iced_tea.jpg",
       "imageCredit": {
-        "artist": "Vatsalkumar brahmbhatt",
-        "license": "CC BY-SA 4.0",
-        "page": "https://commons.wikimedia.org/wiki/File:Mango_Ice_Tea.jpg"
+        "artist": "Mx. Granger",
+        "license": "CC0",
+        "page": "https://commons.wikimedia.org/wiki/File:Rubicon_mango_drink.jpg"
       }
     },
     {
@@ -6039,9 +6045,9 @@
       "tip": "Frozen berries are cheaper than fresh and just as good here.",
       "image": "photos/berry_iced_tea.jpg",
       "imageCredit": {
-        "artist": "Andy Li",
-        "license": "CC0",
-        "page": "https://commons.wikimedia.org/wiki/File:Hibiscus_and_berry_iced_tea_-_Lost_in_the_Lanes_2025-07-08.jpg"
+        "artist": "Shixart1985",
+        "license": "CC BY 2.0",
+        "page": "https://commons.wikimedia.org/wiki/File:Colorful_berries_float_in_crystal-clear_ice_cubes_within_elegant_glasses.jpg"
       }
     },
     {
